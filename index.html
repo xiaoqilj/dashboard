@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小七仔 Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+        
+        /* 登录页面 */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .login-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .login-box h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .login-box .subtitle {
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .login-input {
+            width: 100%;
+            padding: 14px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .login-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .login-error {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        /* Dashboard 页面 */
+        .dashboard-container {
+            display: none;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 24px 30px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            color: white;
+        }
+        
+        .header .date {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        
+        .logout-btn {
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+        }
+        
+        .card h2 {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-done {
+            background: rgba(46, 125, 50, 0.2);
+            color: #4caf50;
+        }
+        
+        .status-pending {
+            background: rgba(255, 152, 0, 0.2);
+            color: #ffb74d;
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .task-item:last-child {
+            border-bottom: none;
+        }
+        
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            margin-right: 14px;
+            flex-shrink: 0;
+        }
+        
+        .task-checkbox.checked {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: transparent;
+            position: relative;
+        }
+        
+        .task-checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+        }
+        
+        .task-text {
+            flex: 1;
+            color: #ccc;
+            font-size: 14px;
+        }
+        
+        .project-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .project-item:last-child {
+            border-bottom: none;
+        }
+        
+        .project-name {
+            font-size: 15px;
+            color: #fff;
+        }
+        
+        .project-status {
+            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: rgba(102, 126, 234, 0.2);
+            color: #a78bfa;
+        }
+        
+        .project-status.complete {
+            background: rgba(46, 125, 50, 0.2);
+            color: #4caf50;
+        }
+        
+        .visit-item {
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .visit-item:last-child {
+            border-bottom: none;
+        }
+        
+        .visit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        
+        .visit-customer {
+            font-size: 15px;
+            font-weight: 500;
+            color: #fff;
+        }
+        
+        .visit-date {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .visit-product {
+            font-size: 13px;
+            color: #a78bfa;
+        }
+        
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+        
+        .schedule-time {
+            font-size: 13px;
+            color: #667eea;
+            width: 100px;
+            flex-shrink: 0;
+        }
+        
+        .schedule-name {
+            flex: 1;
+            font-size: 14px;
+            color: #ccc;
+        }
+        
+        .highlight-item {
+            background: rgba(255, 152, 0, 0.1);
+            border-left: 3px solid #ff9800;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .highlight-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .highlight-text {
+            font-size: 14px;
+            color: #ffb74d;
+        }
+        
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .knowledge-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .knowledge-name {
+            font-size: 13px;
+            color: #ccc;
+            margin-bottom: 4px;
+        }
+        
+        .knowledge-count {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .memory-item {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .memory-item:last-child {
+            border-bottom: none;
+        }
+        
+        .memory-date {
+            font-size: 12px;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+        
+        .memory-content {
+            font-size: 13px;
+            color: #aaa;
+            line-height: 1.5;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-size: 12px;
+        }
+        
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .knowledge-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 登录页面 -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <h1>🔧 小七仔 Dashboard</h1>
+            <div class="subtitle">请输入访问密码</div>
+            <input type="password" class="login-input" id="passwordInput" placeholder="密码" autocomplete="off">
+            <button class="login-btn" onclick="login()">进入 Dashboard</button>
+            <div class="login-error" id="loginError">密码错误，请重试</div>
+        </div>
+    </div>
+    
+    <!-- Dashboard 页面 -->
+    <div class="dashboard-container" id="dashboardPage">
+        <div class="header">
+            <div>
+                <h1>🔧 小七仔 Dashboard</h1>
+                <div class="date" id="currentDate">2026年4月20日 周一 | W16</div>
+            </div>
+            <button class="logout-btn" onclick="logout()">退出登录</button>
+        </div>
+        
+        <div class="grid">
+            <!-- 今日状态 -->
+            <div class="card">
+                <h2>📅 今日状态</h2>
+                <div class="schedule-item">
+                    <span class="schedule-time">08:00</span>
+                    <span class="schedule-name">AI 硬件新闻周推送</span>
+                    <span class="status-badge status-done">✓ 完成</span>
+                </div>
+                <div class="schedule-item">
+                    <span class="schedule-time">08:00</span>
+                    <span class="schedule-name">低空经济新闻周推送</span>
+                    <span class="status-badge status-done">✓ 完成</span>
+                </div>
+                <div class="schedule-item">
+                    <span class="schedule-time">08:00</span>
+                    <span class="schedule-name">具身机器人新闻周推送</span>
+                    <span class="status-badge status-done">✓ 完成</span>
+                </div>
+                <div class="schedule-item">
+                    <span class="schedule-time">09:00</span>
+                    <span class="schedule-name">MP5000 NPI 工作流更新</span>
+                    <span class="status-badge status-pending">待执行</span>
+                </div>
+                <div class="schedule-item">
+                    <span class="schedule-time">18:00</span>
+                    <span class="schedule-name">NPO/LPO/CPO 技术周追踪</span>
+                    <span class="status-badge status-pending">待执行</span>
+                </div>
+            </div>
+            
+            <!-- 本周待办 -->
+            <div class="card">
+                <h2>📋 本周待办</h2>
+                <div class="task-item">
+                    <div class="task-checkbox"></div>
+                    <span class="task-text">整理目标客户清单（10家以上）</span>
+                </div>
+                <div class="task-item">
+                    <div class="task-checkbox"></div>
+                    <span class="task-text">联系 3 个客户预约访谈</span>
+                </div>
+                <div class="task-item">
+                    <div class="task-checkbox"></div>
+                    <span class="task-text">准备访谈提纲</span>
+                </div>
+            </div>
+            
+            <!-- 进行中项目 -->
+            <div class="card">
+                <h2>🚀 进行中项目</h2>
+                <div class="project-item">
+                    <span class="project-name">MP5000 硅光测试 NPI</span>
+                    <span class="project-status">阶段1 - 0%</span>
+                </div>
+                <div class="project-item">
+                    <span class="project-name">AE 日常拜访管理</span>
+                    <span class="project-status complete">已配置</span>
+                </div>
+                <div class="project-item">
+                    <span class="project-name">USB PD 协议分析仪开发</span>
+                    <span class="project-status">开发中</span>
+                </div>
+                <div class="project-item">
+                    <span class="project-name">半导体参数测试专家知识库</span>
+                    <span class="project-status complete">✓ 完成</span>
+                </div>
+            </div>
+            
+            <!-- 最近拜访 -->
+            <div class="card">
+                <h2>🏢 最近拜访</h2>
+                <div class="visit-item">
+                    <div class="visit-header">
+                        <span class="visit-customer">中兴微电子</span>
+                        <span class="visit-date">04-17</span>
+                    </div>
+                    <div class="visit-product">MIPI D-PHY/C-PHY</div>
+                </div>
+                <div class="visit-item">
+                    <div class="visit-header">
+                        <span class="visit-customer">松下电机</span>
+                        <span class="visit-date">04-15</span>
+                    </div>
+                    <div class="visit-product">伺服电机硬件测试方案</div>
+                </div>
+                <div class="visit-item">
+                    <div class="visit-header">
+                        <span class="visit-customer">秋田微</span>
+                        <span class="visit-date">04-14</span>
+                    </div>
+                    <div class="visit-product">MIPI 车载显示测试</div>
+                </div>
+                <div class="visit-item">
+                    <div class="visit-header">
+                        <span class="visit-customer">安世半导体</span>
+                        <span class="visit-date">04-14</span>
+                    </div>
+                    <div class="visit-product">三代半测试方案</div>
+                </div>
+                <div class="visit-item">
+                    <div class="visit-header">
+                        <span class="visit-customer">德明利</span>
+                        <span class="visit-date">04-03</span>
+                    </div>
+                    <div class="visit-product">PCIe5/LPDDR4</div>
+                </div>
+            </div>
+            
+            <!-- IMA 知识库 -->
+            <div class="card">
+                <h2>📚 IMA 知识库</h2>
+                <div class="knowledge-grid">
+                    <div class="knowledge-item">
+                        <div class="knowledge-name">AI xPU芯片相关硬件产品及测试</div>
+                        <div class="knowledge-count">119+ 条</div>
+                    </div>
+                    <div class="knowledge-item">
+                        <div class="knowledge-name">泰克高速串行链路设计与测试</div>
+                        <div class="knowledge-count">32 条</div>
+                    </div>
+                    <div class="knowledge-item">
+                        <div class="knowledge-name">个人知识库</div>
+                        <div class="knowledge-count">45 条</div>
+                    </div>
+                    <div class="knowledge-item">
+                        <div class="knowledge-name">车载高速总线</div>
+                        <div class="knowledge-count">9 条</div>
+                    </div>
+                    <div class="knowledge-item">
+                        <div class="knowledge-name">泰克产品自动化控制</div>
+                        <div class="knowledge-count">8 条</div>
+                    </div>
+                    <div class="knowledge-item">
+                        <div class="knowledge-name">USB4</div>
+                        <div class="knowledge-count">8 条</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 最近记忆 -->
+            <div class="card">
+                <h2>🧠 最近记忆</h2>
+                <div class="memory-item">
+                    <div class="memory-date">2026-04-19</div>
+                    <div class="memory-content">USB PD 协议一致性测试规范完整版完成，上传 IMA 知识库</div>
+                </div>
+                <div class="memory-item">
+                    <div class="memory-date">2026-04-18</div>
+                    <div class="memory-content">Dashboard 刷新，周末休息</div>
+                </div>
+                <div class="memory-item">
+                    <div class="memory-date">2026-04-17</div>
+                    <div class="memory-content">AE 拜访周总结，深圳 Open Day</div>
+                </div>
+            </div>
+            
+            <!-- 本周亮点 -->
+            <div class="card" style="grid-column: span 2;">
+                <h2>🌟 本周亮点</h2>
+                <div class="highlight-item">
+                    <div class="highlight-text">✅ USB PD 协议栈完整技术文档（10份）</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-text">✅ USB PD 协议一致性测试规范完整版</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-text">✅ 半导体参数测试专家知识库学习完成</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            此 Dashboard 每天自动更新 | Powered by OpenClaw 🔧
+        </div>
+    </div>
+    
+    <script>
+        // 密码配置（可修改）
+        const CORRECT_PASSWORD = 'jiange2026';
+        
+        // 检查登录状态
+        function checkAuth() {
+            const isLoggedIn = sessionStorage.getItem('dashboardAuth') === 'true';
+            if (isLoggedIn) {
+                showDashboard();
+            }
+        }
+        
+        // 登录
+        function login() {
+            const password = document.getElementById('passwordInput').value;
+            if (password === CORRECT_PASSWORD) {
+                sessionStorage.setItem('dashboardAuth', 'true');
+                showDashboard();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+            }
+        }
+        
+        // 显示 Dashboard
+        function showDashboard() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('dashboardPage').style.display = 'block';
+        }
+        
+        // 退出登录
+        function logout() {
+            sessionStorage.removeItem('dashboardAuth');
+            document.getElementById('dashboardPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('passwordInput').value = '';
+            document.getElementById('loginError').style.display = 'none';
+        }
+        
+        // 回车登录
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                login();
+            }
+        });
+        
+        // 页面加载时检查登录状态
+        checkAuth();
+    </script>
+</body>
+</html>
