@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>小七仔 Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+        }
+        header h1 {
+            font-size: 2em;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .update-time { color: #888; font-size: 0.85em; margin-top: 8px; }
+        .card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .card h2 { font-size: 1.2em; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .task-list { display: flex; flex-direction: column; gap: 12px; }
+        .task-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px; background: rgba(0,0,0,0.2);
+            border-radius: 8px; border-left: 3px solid #00d4ff;
+        }
+        .task-item.weekly { border-left-color: #7b2cbf; }
+        .task-time { font-size: 0.85em; color: #00d4ff; min-width: 80px; }
+        .task-item.weekly .task-time { color: #7b2cbf; }
+        .task-name { flex: 1; }
+        .task-tag {
+            font-size: 0.7em; padding: 2px 8px; border-radius: 4px;
+            background: rgba(0,212,255,0.2); color: #00d4ff;
+        }
+        .task-item.weekly .task-tag { background: rgba(123,44,191,0.2); color: #7b2cbf; }
+        .project-item { margin-bottom: 16px; }
+        .project-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .project-status {
+            font-size: 0.75em; padding: 2px 8px; border-radius: 4px;
+            background: rgba(255,193,7,0.2); color: #ffc107;
+        }
+        .progress-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #00d4ff, #7b2cbf); border-radius: 3px; }
+        .todo-list { display: flex; flex-direction: column; gap: 8px; }
+        .todo-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px;
+        }
+        .todo-checkbox { width: 18px; height: 18px; border: 2px solid #00d4ff; border-radius: 4px; cursor: pointer; }
+        
+        /* AE 拜访记录样式 */
+        .visit-table { width: 100%; border-collapse: collapse; }
+        .visit-table th, .visit-table td { 
+            padding: 10px 12px; 
+            text-align: left; 
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .visit-table th { 
+            font-size: 0.75em; 
+            color: #888; 
+            font-weight: normal;
+            text-transform: uppercase;
+        }
+        .visit-table tr:hover { background: rgba(0,0,0,0.2); }
+        .visit-customer { color: #00d4ff; font-weight: 500; }
+        .visit-product { 
+            font-size: 0.85em; 
+            padding: 2px 8px; 
+            background: rgba(0,212,255,0.15); 
+            border-radius: 4px; 
+            display: inline-block;
+        }
+        .visit-type {
+            font-size: 0.75em;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(123,44,191,0.2);
+            color: #b794d4;
+        }
+        
+        .kb-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .kb-item { padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; }
+        .kb-name { color: #00d4ff; margin-bottom: 4px; }
+        .kb-count { font-size: 0.75em; color: #666; }
+        
+        .stat-card {
+            padding: 16px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label { font-size: 0.75em; color: #888; margin-top: 4px; }
+        
+        footer { text-align: center; padding: 20px; color: #666; font-size: 0.8em; }
+        
+        @media (max-width: 600px) {
+            .grid-2, .kb-grid { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.5em; }
+            .visit-table { font-size: 0.85em; }
+        }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <header>
+            <h1>🔧 小七仔 Dashboard</h1>
+            <div class='update-time'>最后更新：2026/4/21 21:47 | 第17周</div>
+        </header>
+        
+        <!-- 今日统计 -->
+        <div class='card'>
+            <h2><span>📊</span> 今日概览</h2>
+            <div class='grid-2'>
+                <div class='stat-card'>
+                    <div class='stat-number'>4</div>
+                    <div class='stat-label'>今日拜访客户</div>
+                </div>
+                <div class='stat-card'>
+                    <div class='stat-number'>3</div>
+                    <div class='stat-label'>进行中项目</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 今日 AE 拜访 -->
+        <div class='card'>
+            <h2><span>🏢</span> 今日 AE 拜访（2026-04-21）</h2>
+            <table class='visit-table'>
+                <thead>
+                    <tr>
+                        <th>客户</th>
+                        <th>类型</th>
+                        <th>产品</th>
+                        <th>目的</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class='visit-customer'>微步科技</td>
+                        <td><span class='visit-type'>技术支持</span></td>
+                        <td><span class='visit-product'>USB测试</span></td>
+                        <td>USB4 测试问题</td>
+                    </tr>
+                    <tr>
+                        <td class='visit-customer'>爱立信</td>
+                        <td><span class='visit-type'>技术支持</span></td>
+                        <td><span class='visit-product'>DDR测试</span></td>
+                        <td>DDR 测试技术支持</td>
+                    </tr>
+                    <tr>
+                        <td class='visit-customer'>CVTE</td>
+                        <td><span class='visit-type'>技术答疑</span></td>
+                        <td><span class='visit-product'>USB3 Type-B</span></td>
+                        <td>USB3 Type-B 测试答疑</td>
+                    </tr>
+                    <tr>
+                        <td class='visit-customer'>中兴微电子</td>
+                        <td><span class='visit-type'>技术支持</span></td>
+                        <td><span class='visit-product'>MIPI D-PHY</span></td>
+                        <td>ULPS 测试问题</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 定时任务 -->
+        <div class='card'>
+            <h2><span>⏰</span> 定时任务</h2>
+            <div class='task-list'>
+                <div class='task-item'>
+                    <div class='task-time'>周一 8:00</div>
+                    <div class='task-name'>AI 硬件新闻周推送</div>
+                    <div class='task-tag'>每周</div>
+                </div>
+                <div class='task-item'>
+                    <div class='task-time'>周一 8:00</div>
+                    <div class='task-name'>低空经济新闻周推送</div>
+                    <div class='task-tag'>每周</div>
+                </div>
+                <div class='task-item'>
+                    <div class='task-time'>周一 8:00</div>
+                    <div class='task-name'>具身机器人新闻周推送</div>
+                    <div class='task-tag'>每周</div>
+                </div>
+                <div class='task-item'>
+                    <div class='task-time'>周一 18:00</div>
+                    <div class='task-name'>NPO/LPO/CPO 技术周追踪</div>
+                    <div class='task-tag'>每周</div>
+                </div>
+                <div class='task-item weekly'>
+                    <div class='task-time'>周一 9:00</div>
+                    <div class='task-name'>MP5000 NPI 工作流更新</div>
+                    <div class='task-tag'>每周</div>
+                </div>
+                <div class='task-item weekly'>
+                    <div class='task-time'>周五 17:00</div>
+                    <div class='task-name'>AE 拜访周总结</div>
+                    <div class='task-tag'>每周</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 进行中的项目 -->
+        <div class='card'>
+            <h2><span>🚀</span> 进行中的项目</h2>
+            <div class='project-item'>
+                <div class='project-header'>
+                    <div>MP5000 硅光测试 NPI</div>
+                    <div class='project-status'>阶段1 - 客户价值锚定（0%）</div>
+                </div>
+                <div class='progress-bar'>
+                    <div class='progress-fill' style='width: 15%'></div>
+                </div>
+            </div>
+            <div class='project-item'>
+                <div class='project-header'>
+                    <div>AE 日常拜访管理</div>
+                    <div class='project-status'>已配置</div>
+                </div>
+                <div class='progress-bar'>
+                    <div class='progress-fill' style='width: 100%'></div>
+                </div>
+            </div>
+            <div class='project-item'>
+                <div class='project-header'>
+                    <div>USB PD 协议分析仪开发</div>
+                    <div class='project-status'>技术文档完成</div>
+                </div>
+                <div class='progress-bar'>
+                    <div class='progress-fill' style='width: 30%'></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 本周待办 -->
+        <div class='card'>
+            <h2><span>📋</span> 本周待办</h2>
+            <div class='todo-list'>
+                <div class='todo-item'>
+                    <div class='todo-checkbox'></div>
+                    <div>整理目标客户清单（10家以上）</div>
+                </div>
+                <div class='todo-item'>
+                    <div class='todo-checkbox'></div>
+                    <div>联系 3 个客户预约访谈</div>
+                </div>
+                <div class='todo-item'>
+                    <div class='todo-checkbox'></div>
+                    <div>准备访谈提纲</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- IMA 知识库 -->
+        <div class='card'>
+            <h2><span>📚</span> IMA 知识库</h2>
+            <div class='kb-grid'>
+                <div class='kb-item'>
+                    <div class='kb-name'>AI xPU芯片相关硬件产品及测试</div>
+                    <div class='kb-count'>119+ 条内容</div>
+                </div>
+                <div class='kb-item'>
+                    <div class='kb-name'>泰克高速串行链路设计与测试</div>
+                    <div class='kb-count'>32 条内容</div>
+                </div>
+                <div class='kb-item'>
+                    <div class='kb-name'>个人知识库</div>
+                    <div class='kb-count'>45 条内容</div>
+                </div>
+                <div class='kb-item'>
+                    <div class='kb-name'>车载高速总线</div>
+                    <div class='kb-count'>9 条内容</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>小七仔 Dashboard · 每日自动刷新</p>
+            <p style='margin-top: 8px;'>Powered by OpenClaw</p>
+        </footer>
+    </div>
+</body>
+</html>
