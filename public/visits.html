@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>AE 拜访记录 - 小七仔 Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+        }
+        header h1 {
+            font-size: 2em;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #00d4ff;
+            text-decoration: none;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            padding: 16px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label { font-size: 0.75em; color: #888; margin-top: 4px; }
+        
+        .week-section {
+            background: rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(0,212,255,0.3);
+        }
+        .week-title { font-size: 1.2em; color: #00d4ff; }
+        .week-count {
+            font-size: 0.85em;
+            padding: 4px 12px;
+            background: rgba(0,212,255,0.2);
+            border-radius: 20px;
+            color: #00d4ff;
+        }
+        
+        .visit-table { width: 100%; border-collapse: collapse; }
+        .visit-table th, .visit-table td { 
+            padding: 12px; 
+            text-align: left; 
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .visit-table th { 
+            font-size: 0.75em; 
+            color: #888; 
+            font-weight: normal;
+            text-transform: uppercase;
+        }
+        .visit-table tr:hover { background: rgba(0,0,0,0.2); }
+        
+        .visit-date { color: #888; font-size: 0.9em; }
+        .visit-customer { color: #00d4ff; font-weight: 500; }
+        .visit-product { 
+            font-size: 0.85em; 
+            padding: 2px 8px; 
+            background: rgba(0,212,255,0.15); 
+            border-radius: 4px; 
+            display: inline-block;
+        }
+        .visit-type {
+            font-size: 0.75em;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(123,44,191,0.2);
+            color: #b794d4;
+        }
+        .visit-purpose { font-size: 0.9em; color: #ccc; }
+        .visit-opportunity { 
+            font-size: 0.8em; 
+            color: #4CAF50; 
+            margin-top: 4px;
+        }
+        
+        .customer-detail {
+            margin-top: 8px;
+            padding: 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            font-size: 0.85em;
+        }
+        .customer-detail strong { color: #b794d4; }
+        
+        footer { text-align: center; padding: 20px; color: #666; font-size: 0.8em; }
+        
+        @media (max-width: 768px) {
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .visit-table { font-size: 0.85em; }
+            .visit-table th:nth-child(5),
+            .visit-table td:nth-child(5) { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <header>
+            <h1>🏢 AE 拜访记录</h1>
+            <a href='index.html' class='back-link'>← 返回 Dashboard</a>
+        </header>
+        
+        <!-- 统计概览 -->
+        <div class='stats'>
+            <div class='stat-card'>
+                <div class='stat-number'>15+</div>
+                <div class='stat-label'>总拜访次数</div>
+            </div>
+            <div class='stat-card'>
+                <div class='stat-number'>12</div>
+                <div class='stat-label'>客户数量</div>
+            </div>
+            <div class='stat-card'>
+                <div class='stat-number'>3</div>
+                <div class='stat-label'>周次覆盖</div>
+            </div>
+            <div class='stat-card'>
+                <div class='stat-number'>8</div>
+                <div class='stat-label'>产品领域</div>
+            </div>
+        </div>
+        
+        <!-- 第17周 -->
+        <div class='week-section'>
+            <div class='week-header'>
+                <span class='week-title'>📅 2026年第17周（4/20 - 4/26）</span>
+                <span class='week-count'>5 次拜访</span>
+            </div>
+            <table class='visit-table'>
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>客户</th>
+                        <th>类型</th>
+                        <th>产品</th>
+                        <th>目的/机会</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class='visit-date'>04-20</td>
+                        <td class='visit-customer'>中兴微电子</td>
+                        <td><span class='visit-type'>技术支持</span></td>
+                        <td><span class='visit-product'>MIPI D-PHY</span></td>
+                        <td>
+                            <div class='visit-purpose'>MIPI D-PHY 时钟的 ULPS 测试问题</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='visit-date'>04-21</td>
+                        <td class='visit-customer'>微步科技</td>
+                        <td><span class='visit-type'>技术支持</span></td>
+                        <td><span class='visit-product'>USB测试</span></td>
+                        <td>
+                            <div class='visit-purpose'>USB4 测试问题</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='visit-date'>04-21</td>
+                        <td class='visit-customer'>爱立信</td>
+                        <td><span class='visit-type'>技术支持</span></td>
+                        <td><span class='visit-product'>DDR测试</span></td>
+                        <td>
+                            <div class='visit-purpose'>DDR 测试技术支持</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='visit-date'>04-21</td>
+                        <td class='visit-customer'>CVTE（视源股份）</td>
+                        <td><span class='visit-type'>技术答疑</span></td>
+                        <td><span class='visit-product'>USB3 Type-B</span></td>
+                        <td>
+                            <div class='visit-purpose'>USB3 Type-B 测试答疑</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='visit-date'>04-21</td>
+                        <td class='visit-customer'>中兴微电子</td>
+                        <td><span class='visit-type'>技术支持</span></td>
+                        <td><span class='visit-product'>MIPI D-PHY</span></td>
+                        <td>
+                            <div class='visit-purpose'>ULPS 测试问题跟进</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 第16周 -->
+        <div class='week-section'>
+            <div class='week-header'>
+                <span class='week-title'>📅 2026年第16周（4/13 - 4/19）</span>
+                <span class='week-count'>4 次拜访</span>
+            </div>
+            <table class='visit-table'>
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>客户</th>
+                        <th>类型</th>
+                        <th>产品</th>
+                        <th>目的/机会</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class='visit-date'>04-13</td>
+                        <td class='visit-customer'>秋田微</td>
+                        <td><span class='visit-type'>技术支持</span></td>
+                        <td><span class='visit-product'>MIPI 测试</span></td>
+                        <td>
+                            <div class='visit-purpose'>MIPI 测试技术交流</div>
+                            <div class='customer-detail'>
+                                <strong>公司背景：</strong>液晶显示及触控产品（股票代码：300939）<br>
+                                <strong>机会点：</strong>MIPI D-PHY/C-PHY 测试方案、车载显示测试、示波器采购
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='visit-date'>04-14</td>
+                        <td class='visit-customer'>安世半导体</td>
+                        <td><span class='visit-type'>技术交流</span></td>
+                        <td><span class='visit-product'>CMTI/THD</span></td>
+                        <td>
+                            <div class='visit-purpose'>三代半功率器件测试</div>
+                            <div class='customer-detail'>
+                                <strong>关注领域：</strong>第三代半导体（SiC/GaN）测试<br>
+                                <strong>机会点：</strong>CMTI 测试方案、THD 测试、频谱分析/EMI 预扫描
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='visit-date'>04-14</td>
+                        <td class='visit-customer'>待确认</td>
+                        <td><span class='visit-type'>售前支持</span></td>
+                        <td><span class='visit-product'>光隔离探头</span></td>
+                        <td>
+                            <div class='visit-purpose'>实测演示/售前支持（同行：胡敏）</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='visit-date'>04-17</td>
+                        <td class='visit-customer'>信必通</td>
+                        <td><span class='visit-type'>活动支持</span></td>
+                        <td><span class='visit-product'>综合</span></td>
+                        <td>
+                            <div class='visit-purpose'>深圳 Open Day 活动搭建</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 第15周 -->
+        <div class='week-section'>
+            <div class='week-header'>
+                <span class='week-title'>📅 2026年第15周（4/6 - 4/12）</span>
+                <span class='week-count'>6 次拜访</span>
+            </div>
+            <table class='visit-table'>
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>客户</th>
+                        <th>类型</th>
+                        <th>产品</th>
+                        <th>目的/机会</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class='visit-date'>04-07</td>
+                        <td class='visit-customer'>车载白皮书工作组</td>
+                        <td><span class='visit-type'>技术贡献</span></td>
+                        <td><span class='visit-product'>高速总线</span></td>
+                        <td>
+                            <div class='visit-purpose'>高速总线测试章节编写</div>
+                            <div class='visit-opportunity'>机会：车载测试方案推广、培训机会</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='visit-date'>04-07</td>
+                        <td class='visit-customer'>产线高速论坛团队</td>
+                        <td><span class='visit-type'>内部协调</span></td>
+                        <td><span class='visit-product'>openGMSL</span></td>
+                        <td>
+                            <div class='visit-purpose'>第57期高速论坛主题确认</div>
+                            <div class='visit-opportunity'>机会：openGMSL 测试方案推广</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='visit-date'>04-07</td>
+                        <td class='visit-customer'>联想</td>
+                        <td><span class='visit-type'>客户拜访</span></td>
+                        <td><span class='visit-product'>LPDDR5X</span></td>
+                        <td>
+                            <div class='visit-purpose'>LPDDR5X @ 9600 Mbps 技术确认</div>
+                            <div class='visit-opportunity'>机会：高速测试方案、设备采购需求</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='visit-date'>04-08</td>
+                        <td class='visit-customer'>超聚变</td>
+                        <td><span class='visit-type'>技术支持</span></td>
+                        <td><span class='visit-product'>PCIe 6</span></td>
+                        <td>
+                            <div class='visit-purpose'>PCIe 6 更新和安装</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='visit-date'>04-09</td>
+                        <td class='visit-customer'>华阳</td>
+                        <td><span class='visit-type'>售前支持</span></td>
+                        <td><span class='visit-product'>DPO714AX</span></td>
+                        <td>
+                            <div class='visit-purpose'>售前演示/技术交流</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='visit-date'>04-03</td>
+                        <td class='visit-customer'>德明利</td>
+                        <td><span class='visit-type'>技术支持</span></td>
+                        <td><span class='visit-product'>PCIe5/LPDDR4</span></td>
+                        <td>
+                            <div class='visit-purpose'>存储厂家测试支持</div>
+                            <div class='visit-opportunity'>机会：PCIe5/LPDDR4（年底/明年初）</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 客户汇总 -->
+        <div class='week-section'>
+            <div class='week-header'>
+                <span class='week-title'>🎯 客户汇总（按领域）</span>
+            </div>
+            <table class='visit-table'>
+                <thead>
+                    <tr>
+                        <th>领域</th>
+                        <th>客户</th>
+                        <th>产品方向</th>
+                        <th>机会状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class='visit-product'>半导体</span></td>
+                        <td class='visit-customer'>安世半导体</td>
+                        <td>三代半测试、CMTI、THD</td>
+                        <td style='color: #4CAF50;'>🔥 高潜力</td>
+                    </tr>
+                    <tr>
+                        <td><span class='visit-product'>存储</span></td>
+                        <td class='visit-customer'>德明利</td>
+                        <td>PCIe5、LPDDR4</td>
+                        <td style='color: #FFC107;'>⏳ 跟进中</td>
+                    </tr>
+                    <tr>
+                        <td><span class='visit-product'>服务器</span></td>
+                        <td class='visit-customer'>联想、超聚变</td>
+                        <td>LPDDR5X、PCIe 6</td>
+                        <td style='color: #4CAF50;'>🔥 高潜力</td>
+                    </tr>
+                    <tr>
+                        <td><span class='visit-product'>通信</span></td>
+                        <td class='visit-customer'>中兴微电子、爱立信</td>
+                        <td>MIPI、DDR</td>
+                        <td style='color: #00d4ff;'>📞 活跃</td>
+                    </tr>
+                    <tr>
+                        <td><span class='visit-product'>显示</span></td>
+                        <td class='visit-customer'>秋田微、CVTE</td>
+                        <td>MIPI、USB</td>
+                        <td style='color: #00d4ff;'>📞 活跃</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <footer>
+            <p>小七仔 Dashboard · AE 拜访记录</p>
+            <p style='margin-top: 8px;'>Powered by OpenClaw</p>
+        </footer>
+    </div>
+</body>
+</html>
