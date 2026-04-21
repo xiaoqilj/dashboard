@@ -13,7 +13,7 @@
             min-height: 100vh;
             padding: 20px;
         }
-        .container { max-width: 900px; margin: 0 auto; }
+        .container { max-width: 1000px; margin: 0 auto; }
         header {
             text-align: center;
             margin-bottom: 30px;
@@ -35,39 +35,67 @@
             margin-bottom: 20px;
             border: 1px solid rgba(255,255,255,0.1);
         }
-        .card h2 { font-size: 1.2em; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .card h2 { 
+            font-size: 1.2em; 
+            margin-bottom: 16px; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
         .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .task-list { display: flex; flex-direction: column; gap: 12px; }
-        .task-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 12px; background: rgba(0,0,0,0.2);
-            border-radius: 8px; border-left: 3px solid #00d4ff;
-        }
-        .task-item.weekly { border-left-color: #7b2cbf; }
-        .task-time { font-size: 0.85em; color: #00d4ff; min-width: 80px; }
-        .task-item.weekly .task-time { color: #7b2cbf; }
-        .task-name { flex: 1; }
-        .task-tag {
-            font-size: 0.7em; padding: 2px 8px; border-radius: 4px;
-            background: rgba(0,212,255,0.2); color: #00d4ff;
-        }
-        .task-item.weekly .task-tag { background: rgba(123,44,191,0.2); color: #7b2cbf; }
-        .project-item { margin-bottom: 16px; }
-        .project-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
-        .project-status {
-            font-size: 0.75em; padding: 2px 8px; border-radius: 4px;
-            background: rgba(255,193,7,0.2); color: #ffc107;
-        }
-        .progress-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #00d4ff, #7b2cbf); border-radius: 3px; }
-        .todo-list { display: flex; flex-direction: column; gap: 8px; }
-        .todo-item {
-            display: flex; align-items: center; gap: 10px;
-            padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px;
-        }
-        .todo-checkbox { width: 18px; height: 18px; border: 2px solid #00d4ff; border-radius: 4px; cursor: pointer; }
         
-        /* AE 拜访记录样式 */
+        /* 新闻卡片样式 */
+        .news-section { margin-bottom: 24px; }
+        .news-title { 
+            font-size: 1.1em; 
+            color: #00d4ff; 
+            margin-bottom: 12px; 
+            padding-bottom: 8px;
+            border-bottom: 2px solid rgba(0,212,255,0.3);
+        }
+        .news-item {
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid #00d4ff;
+        }
+        .news-item:nth-child(even) { border-left-color: #7b2cbf; }
+        .news-number {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .news-content { margin-top: 8px; line-height: 1.6; }
+        
+        .test-needs {
+            margin-top: 12px;
+            padding: 10px;
+            background: rgba(123,44,191,0.1);
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+        .test-needs-title { color: #b794d4; font-weight: 500; margin-bottom: 6px; }
+        .test-needs ul { margin-left: 20px; color: #ccc; }
+        .test-needs li { margin-bottom: 4px; }
+        
+        .target-customers {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: rgba(0,212,255,0.1);
+            border-radius: 8px;
+            font-size: 0.85em;
+        }
+        .target-customers span { color: #00d4ff; }
+        
+        /* AE 拜访表格 */
         .visit-table { width: 100%; border-collapse: collapse; }
         .visit-table th, .visit-table td { 
             padding: 10px 12px; 
@@ -80,7 +108,6 @@
             font-weight: normal;
             text-transform: uppercase;
         }
-        .visit-table tr:hover { background: rgba(0,0,0,0.2); }
         .visit-customer { color: #00d4ff; font-weight: 500; }
         .visit-product { 
             font-size: 0.85em; 
@@ -97,10 +124,30 @@
             color: #b794d4;
         }
         
-        .kb-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .kb-item { padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; }
-        .kb-name { color: #00d4ff; margin-bottom: 4px; }
-        .kb-count { font-size: 0.75em; color: #666; }
+        .task-list { display: flex; flex-direction: column; gap: 10px; }
+        .task-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px; background: rgba(0,0,0,0.2);
+            border-radius: 8px; border-left: 3px solid #00d4ff;
+        }
+        .task-item.weekly { border-left-color: #7b2cbf; }
+        .task-time { font-size: 0.85em; color: #00d4ff; min-width: 80px; }
+        .task-item.weekly .task-time { color: #7b2cbf; }
+        .task-name { flex: 1; }
+        .task-tag {
+            font-size: 0.7em; padding: 2px 8px; border-radius: 4px;
+            background: rgba(0,212,255,0.2); color: #00d4ff;
+        }
+        .task-item.weekly .task-tag { background: rgba(123,44,191,0.2); color: #7b2cbf; }
+        
+        .project-item { margin-bottom: 14px; }
+        .project-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .project-status {
+            font-size: 0.75em; padding: 2px 8px; border-radius: 4px;
+            background: rgba(255,193,7,0.2); color: #ffc107;
+        }
+        .progress-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #00d4ff, #7b2cbf); border-radius: 3px; }
         
         .stat-card {
             padding: 16px;
@@ -117,6 +164,11 @@
         }
         .stat-label { font-size: 0.75em; color: #888; margin-top: 4px; }
         
+        .kb-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .kb-item { padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; }
+        .kb-name { color: #00d4ff; margin-bottom: 4px; }
+        .kb-count { font-size: 0.75em; color: #666; }
+        
         footer { text-align: center; padding: 20px; color: #666; font-size: 0.8em; }
         
         @media (max-width: 600px) {
@@ -130,7 +182,7 @@
     <div class='container'>
         <header>
             <h1>🔧 小七仔 Dashboard</h1>
-            <div class='update-time'>最后更新：2026/4/21 21:47 | 第17周</div>
+            <div class='update-time'>最后更新：2026/4/21 23:37 | 第17周</div>
         </header>
         
         <!-- 今日统计 -->
@@ -143,7 +195,137 @@
                 </div>
                 <div class='stat-card'>
                     <div class='stat-number'>3</div>
-                    <div class='stat-label'>进行中项目</div>
+                    <div class='stat-label'>本周新闻推送</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 本周新闻推送 -->
+        <div class='card'>
+            <h2><span>📰</span> 本周新闻推送（2026-04-20）</h2>
+            
+            <!-- AI 硬件新闻 -->
+            <div class='news-section'>
+                <div class='news-title'>🤖 AI 硬件</div>
+                <div class='news-item'>
+                    <span class='news-number'>1</span>
+                    <strong>英伟达发布 LPU 芯片</strong>
+                    <div class='news-content'>AI 推理专用加速器，斥资 200 亿美元收购 Groq</div>
+                </div>
+                <div class='news-item'>
+                    <span class='news-number'>2</span>
+                    <strong>AMD 计划推出独立 NPU 加速卡</strong>
+                    <div class='news-content'>利用赛灵思技术</div>
+                </div>
+                <div class='news-item'>
+                    <span class='news-number'>3</span>
+                    <strong>Arm GPU 2026 年加装神经加速器</strong>
+                    <div class='news-content'>NSS 技术节省 50% GPU 负载</div>
+                </div>
+                <div class='news-item'>
+                    <span class='news-number'>4</span>
+                    <strong>谷歌 TPU 产量目标下调至 300 万颗</strong>
+                    <div class='news-content'>CoWoS 产能成瓶颈</div>
+                </div>
+                <div class='news-item'>
+                    <span class='news-number'>5</span>
+                    <strong>华为 CloudMatrix 384 算力集群发布</strong>
+                    <div class='news-content'>性能接近 GB200 两倍</div>
+                </div>
+                <div class='test-needs'>
+                    <div class='test-needs-title'>🔬 测试测量需求</div>
+                    <ul>
+                        <li>LPU/NPU 芯片：高速 SerDes 信号完整性、电源完整性</li>
+                        <li>AI 加速器：DDR5/LPDDR5X 内存接口测试</li>
+                        <li>算力集群：高速互连（NVLink/以太网）测试</li>
+                    </ul>
+                </div>
+                <div class='target-customers'>
+                    🎯 目标客户：<span>英伟达、AMD、华为海思、寒武纪、浪潮、曙光、阿里云</span>
+                </div>
+            </div>
+            
+            <!-- 低空经济新闻 -->
+            <div class='news-section'>
+                <div class='news-title'>🚁 低空经济</div>
+                <div class='news-item'>
+                    <span class='news-number'>1</span>
+                    <strong>低空经济迈向"吨级"时代</strong>
+                    <div class='news-content'>铂影 T1400 载重 650kg，续航 8h+</div>
+                </div>
+                <div class='news-item'>
+                    <span class='news-number'>2</span>
+                    <strong>eVTOL 商业化"临门一脚"</strong>
+                    <div class='news-content'>广汽 GOVY 收获 2000 架订单，金额超 33 亿元</div>
+                </div>
+                <div class='news-item'>
+                    <span class='news-number'>3</span>
+                    <strong>中航光电新增低空经济概念</strong>
+                    <div class='news-content'>产品覆盖 eVTOL/无人机/飞行汽车</div>
+                </div>
+                <div class='news-item'>
+                    <span class='news-number'>4</span>
+                    <strong>RortiX 发布 AI+具身智能飞行器</strong>
+                    <div class='news-content'>2026 年成为"常态运营"元年</div>
+                </div>
+                <div class='news-item'>
+                    <span class='news-number'>5</span>
+                    <strong>市场规模预测</strong>
+                    <div class='news-content'>2023 年超 5000 亿元，2030 年有望达 2 万亿元</div>
+                </div>
+                <div class='test-needs'>
+                    <div class='test-needs-title'>🔬 测试测量需求</div>
+                    <ul>
+                        <li>eVTOL 电驱系统：电机控制器 PWM 分析、功率分析</li>
+                        <li>电池管理系统：BMS 信号测试、充放电特性</li>
+                        <li>飞控系统：传感器信号采集、通信总线测试</li>
+                        <li>无线通信：5G/卫星通信链路测试</li>
+                    </ul>
+                </div>
+                <div class='target-customers'>
+                    🎯 目标客户：<span>亿航智能、小鹏汇天、峰飞航空、广汽 GOVY、大疆、中航光电</span>
+                </div>
+            </div>
+            
+            <!-- 具身机器人新闻 -->
+            <div class='news-section'>
+                <div class='news-title'>🤖 具身机器人</div>
+                <div class='news-item'>
+                    <span class='news-number'>1</span>
+                    <strong>GEIA Asia 2026 定档上海</strong>
+                    <div class='news-content'>4.14-17，1500+ 产业精英齐聚</div>
+                </div>
+                <div class='news-item'>
+                    <span class='news-number'>2</span>
+                    <strong>2026 年具身智能"破壁之年"</strong>
+                    <div class='news-content'>从"会动"到"会想"，工业渗透率破 15%</div>
+                </div>
+                <div class='news-item'>
+                    <span class='news-number'>3</span>
+                    <strong>智元机器人全球率先量产</strong>
+                    <div class='news-content'>出货量超 5100 台，位居全球第一</div>
+                </div>
+                <div class='news-item'>
+                    <span class='news-number'>4</span>
+                    <strong>传感器市场高速增长</strong>
+                    <div class='news-content'>40.1% 年复合增长，2032 年达 54.9 亿美元</div>
+                </div>
+                <div class='news-item'>
+                    <span class='news-number'>5</span>
+                    <strong>具身智能纳入国家战略</strong>
+                    <div class='news-content'>2025 年中国市场规模超 50 亿元</div>
+                </div>
+                <div class='test-needs'>
+                    <div class='test-needs-title'>🔬 测试测量需求</div>
+                    <ul>
+                        <li>伺服驱动系统：电机控制 PWM 分析、扭矩传感器信号</li>
+                        <li>传感器融合：六维力传感器、触觉传感器信号采集</li>
+                        <li>电池管理系统：锂电池充放电特性、BMS 通信测试</li>
+                        <li>关节模组：编码器信号、CAN/EtherCAT 总线测试</li>
+                    </ul>
+                </div>
+                <div class='target-customers'>
+                    🎯 目标客户：<span>智元机器人、优必选、傅利叶智能、帕西尼感知、因时机器人</span>
                 </div>
             </div>
         </div>
@@ -195,20 +377,20 @@
             <div class='task-list'>
                 <div class='task-item'>
                     <div class='task-time'>周一 8:00</div>
-                    <div class='task-name'>AI 硬件新闻周推送</div>
+                    <div class='task-name'>AI 硬件新闻周推送 ✅</div>
                     <div class='task-tag'>每周</div>
                 </div>
                 <div class='task-item'>
                     <div class='task-time'>周一 8:00</div>
-                    <div class='task-name'>低空经济新闻周推送</div>
+                    <div class='task-name'>低空经济新闻周推送 ✅</div>
                     <div class='task-tag'>每周</div>
                 </div>
                 <div class='task-item'>
                     <div class='task-time'>周一 8:00</div>
-                    <div class='task-name'>具身机器人新闻周推送</div>
+                    <div class='task-name'>具身机器人新闻周推送 ✅</div>
                     <div class='task-tag'>每周</div>
                 </div>
-                <div class='task-item'>
+                <div class='task-item weekly'>
                     <div class='task-time'>周一 18:00</div>
                     <div class='task-name'>NPO/LPO/CPO 技术周追踪</div>
                     <div class='task-tag'>每周</div>
@@ -232,7 +414,7 @@
             <div class='project-item'>
                 <div class='project-header'>
                     <div>MP5000 硅光测试 NPI</div>
-                    <div class='project-status'>阶段1 - 客户价值锚定（0%）</div>
+                    <div class='project-status'>阶段1 - 客户价值锚定</div>
                 </div>
                 <div class='progress-bar'>
                     <div class='progress-fill' style='width: 15%'></div>
@@ -254,25 +436,6 @@
                 </div>
                 <div class='progress-bar'>
                     <div class='progress-fill' style='width: 30%'></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 本周待办 -->
-        <div class='card'>
-            <h2><span>📋</span> 本周待办</h2>
-            <div class='todo-list'>
-                <div class='todo-item'>
-                    <div class='todo-checkbox'></div>
-                    <div>整理目标客户清单（10家以上）</div>
-                </div>
-                <div class='todo-item'>
-                    <div class='todo-checkbox'></div>
-                    <div>联系 3 个客户预约访谈</div>
-                </div>
-                <div class='todo-item'>
-                    <div class='todo-checkbox'></div>
-                    <div>准备访谈提纲</div>
                 </div>
             </div>
         </div>
@@ -302,7 +465,7 @@
         
         <footer>
             <p>小七仔 Dashboard · 每日自动刷新</p>
-            <p style='margin-top: 8px;'>Powered by OpenClaw</p>
+            <p style='margin-top: 8px;'>Powered by OpenClaw | <a href='https://github.com/xiaoqilj/dashboard' style='color: #00d4ff;'>GitHub</a></p>
         </footer>
     </div>
 </body>
