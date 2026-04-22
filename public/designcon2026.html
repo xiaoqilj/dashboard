@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DesignCon 2026 专题 | 小七仔 Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #0d1b2a 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ec4899 100%);
+            border-radius: 16px;
+            padding: 24px 30px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .header .subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        
+        .back-btn {
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .stat-card.blue { border-color: rgba(59, 130, 246, 0.5); }
+        .stat-card.amber { border-color: rgba(245, 158, 11, 0.5); }
+        .stat-card.green { border-color: rgba(16, 185, 129, 0.5); }
+        .stat-card.purple { border-color: rgba(139, 92, 246, 0.5); }
+        .stat-card.pink { border-color: rgba(236, 72, 153, 0.5); }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .stat-card.blue .stat-number { color: #3b82f6; }
+        .stat-card.amber .stat-number { color: #f59e0b; }
+        .stat-card.green .stat-number { color: #10b981; }
+        .stat-card.purple .stat-number { color: #8b5cf6; }
+        .stat-card.pink .stat-number { color: #ec4899; }
+        
+        .stat-label {
+            font-size: 13px;
+            color: #888;
+        }
+        
+        /* Meme Gallery */
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .section h2 {
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .meme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .meme-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .meme-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .meme-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+        
+        .meme-info {
+            padding: 16px;
+        }
+        
+        .meme-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        
+        .meme-desc {
+            font-size: 13px;
+            color: #888;
+        }
+        
+        /* Content Cards */
+        .content-grid {
+            display: grid;
+            gap: 16px;
+        }
+        
+        .content-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .content-card.amber { border-left-color: #f59e0b; }
+        .content-card.green { border-left-color: #10b981; }
+        .content-card.purple { border-left-color: #8b5cf6; }
+        .content-card.cyan { border-left-color: #06b6d4; }
+        .content-card.pink { border-left-color: #ec4899; }
+        
+        .content-card h3 {
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        
+        .content-card p {
+            font-size: 14px;
+            color: #aaa;
+            line-height: 1.6;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-right: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .tag.track { background: rgba(102, 126, 234, 0.2); color: #a78bfa; }
+        .tag.hot { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+        .tag.tek { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        
+        /* Hot Topics */
+        .hot-list {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .hot-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .hot-item:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .hot-rank {
+            font-size: 28px;
+            font-weight: 700;
+            width: 50px;
+            text-align: center;
+        }
+        
+        .hot-rank.r1 { color: #f59e0b; }
+        .hot-rank.r2 { color: #9ca3af; }
+        .hot-rank.r3 { color: #cd7f32; }
+        .hot-rank.r4 { color: #8b5cf6; }
+        .hot-rank.r5 { color: #06b6d4; }
+        
+        .hot-info {
+            flex: 1;
+        }
+        
+        .hot-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        
+        .hot-desc {
+            font-size: 13px;
+            color: #888;
+        }
+        
+        .hot-count {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        
+        .data-table th {
+            background: rgba(102, 126, 234, 0.2);
+            color: #a78bfa;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #ccc;
+        }
+        
+        .data-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 13px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .meme-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <h1>🚀 DesignCon 2026 专题</h1>
+                <p class="subtitle">100+ 论文深度解析 · AI 时代数据中心基础设施系统级重构</p>
+            </div>
+            <a href="index.html" class="back-btn">← 返回主页</a>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card blue">
+                <div class="stat-number">100+</div>
+                <div class="stat-label">论文总数</div>
+            </div>
+            <div class="stat-card amber">
+                <div class="stat-number">14</div>
+                <div class="stat-label">448G 论文</div>
+            </div>
+            <div class="stat-card green">
+                <div class="stat-number">20</div>
+                <div class="stat-label">AI 相关论文</div>
+            </div>
+            <div class="stat-card purple">
+                <div class="stat-number">15</div>
+                <div class="stat-label">技术轨道</div>
+            </div>
+            <div class="stat-card pink">
+                <div class="stat-number">39</div>
+                <div class="stat-label">核心论文</div>
+            </div>
+        </div>
+        
+        <!-- Meme Gallery -->
+        <div class="section">
+            <h2>🎨 DesignCon 2026 梗图集</h2>
+            <div class="meme-grid">
+                <div class="meme-card">
+                    <img src="images/meme1.jpg" alt="梗图1">
+                    <div class="meme-info">
+                        <div class="meme-title">当你的信号速率比工资涨得还快</div>
+                        <div class="meme-desc">DesignCon 2026 五大热点一览</div>
+                    </div>
+                </div>
+                <div class="meme-card">
+                    <img src="images/meme2.jpg" alt="梗图2">
+                    <div class="meme-info">
+                        <div class="meme-title">猫比你更懂信号完整性</div>
+                        <div class="meme-desc">眼图调试的真实写照</div>
+                    </div>
+                </div>
+                <div class="meme-card">
+                    <img src="images/meme3.jpg" alt="梗图3">
+                    <div class="meme-info">
+                        <div class="meme-title">理论与现实的距离</div>
+                        <div class="meme-desc">448G 设计的理想与现实</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Hot Topics -->
+        <div class="section">
+            <h2>🔥 十大技术热点</h2>
+            <div class="hot-list">
+                <div class="hot-item">
+                    <div class="hot-rank r1">#1</div>
+                    <div class="hot-info">
+                        <div class="hot-title">SI (Signal Integrity)</div>
+                        <div class="hot-desc">信号完整性是永恒的核心主题</div>
+                    </div>
+                    <div class="hot-count">57篇</div>
+                </div>
+                <div class="hot-item">
+                    <div class="hot-rank r2">#2</div>
+                    <div class="hot-info">
+                        <div class="hot-title">AI 驱动设计</div>
+                        <div class="hot-desc">AI 正在重塑 EDA 工具链和测试方法</div>
+                    </div>
+                    <div class="hot-count">20篇</div>
+                </div>
+                <div class="hot-item">
+                    <div class="hot-rank r3">#3</div>
+                    <div class="hot-info">
+                        <div class="hot-title">448Gbps 高速互连</div>
+                        <div class="hot-desc">突破带宽、ESD、线性度三大瓶颈</div>
+                    </div>
+                    <div class="hot-count">14篇</div>
+                </div>
+                <div class="hot-item">
+                    <div class="hot-rank r4">#4</div>
+                    <div class="hot-info">
+                        <div class="hot-title">224Gbps 主流技术</div>
+                        <div class="hot-desc">224G PAM4 已成为 AI 集群标配</div>
+                    </div>
+                    <div class="hot-count">10篇</div>
+                </div>
+                <div class="hot-item">
+                    <div class="hot-rank r5">#5</div>
+                    <div class="hot-info">
+                        <div class="hot-title">Optical 光互连</div>
+                        <div class="hot-desc">CPO vs OIO：演进还是革命？</div>
+                    </div>
+                    <div class="hot-count">9篇</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Key Papers -->
+        <div class="section">
+            <h2>📚 泰克科技 Top 5 必读论文</h2>
+            <div class="content-grid">
+                <div class="content-card green">
+                    <div>
+                        <span class="tag track">Track 10</span>
+                        <span class="tag hot">⭐⭐⭐ 必读</span>
+                    </div>
+                    <h3>Bridging the Time-Frequency Chasm in PDN Design</h3>
+                    <p>解决 PDN 设计中时域分析与频域设计的脱节问题，提出时域-频域联合分析方法。这是 AI 数据中心电源完整性的核心挑战。</p>
+                    <p style="color: #60a5fa; margin-top: 8px;">泰克相关：4/5/6 系列 MSO + 电源完整性选项</p>
+                </div>
+                
+                <div class="content-card amber">
+                    <div>
+                        <span class="tag track">Track 07</span>
+                        <span class="tag hot">⭐⭐ 必读</span>
+                    </div>
+                    <h3>Breaking Barriers in 448Gbps Serial Links</h3>
+                    <p>突破 448Gbps 三大瓶颈：带宽、ESD、线性度。高阶 PAM 系统设计的关键突破，明确了下一代测试设备需求。</p>
+                    <p style="color: #60a5fa; margin-top: 8px;">泰克相关：DPO70000 系列 + DPOJET</p>
+                </div>
+                
+                <div class="content-card">
+                    <div>
+                        <span class="tag track">Track 12</span>
+                        <span class="tag hot">⭐⭐ 必读</span>
+                    </div>
+                    <h3>PCIe TX Equalization Preset for 64/128 GT/s</h3>
+                    <p>PCIe 7.0 预设测量方法的实验研究，64 GT/s 和 128 GT/s 的预设测量对比，直接关联泰克 PCIe 测试产品。</p>
+                    <p style="color: #60a5fa; margin-top: 8px;">泰克相关：PCIe 7.0 自动化测试平台</p>
+                </div>
+                
+                <div class="content-card purple">
+                    <div>
+                        <span class="tag track">Track 12</span>
+                        <span class="tag hot">⭐⭐ 必读</span>
+                    </div>
+                    <h3>AI-Driven Emulation of Power Supply Ripple</h3>
+                    <p>AI 驱动电源纹波仿真，TIE-Based 噪声源隔离方法，代表了 PI 调试的未来趋势。</p>
+                    <p style="color: #60a5fa; margin-top: 8px;">泰克相关：AI 辅助测试平台（规划中）</p>
+                </div>
+                
+                <div class="content-card cyan">
+                    <div>
+                        <span class="tag track">Track 13</span>
+                        <span class="tag hot">⭐⭐ 必读</span>
+                    </div>
+                    <h3>Breaking the Bandwidth Barrier for 448Gbps</h3>
+                    <p>448Gbps 测试夹具突破，新型测试夹具设计方法论，解决超高速信号测试的物理挑战。</p>
+                    <p style="color: #60a5fa; margin-top: 8px;">泰克相关：测试夹具解决方案</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Track Distribution -->
+        <div class="section">
+            <h2>📊 技术轨道(Track)分布</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Track</th>
+                        <th>主题</th>
+                        <th>论文数</th>
+                        <th>泰克相关度</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Track 12</td>
+                        <td>Test & Measurement</td>
+                        <td>15</td>
+                        <td>⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td>Track 07</td>
+                        <td>PCIe & Backplane</td>
+                        <td>12</td>
+                        <td>⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td>Track 13</td>
+                        <td>Packaging</td>
+                        <td>10</td>
+                        <td>⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td>Track 03</td>
+                        <td>Optical Interconnects</td>
+                        <td>9</td>
+                        <td>⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td>Track 06</td>
+                        <td>High-Speed I/O</td>
+                        <td>9</td>
+                        <td>⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td>Track 09</td>
+                        <td>PAM6/PAM8</td>
+                        <td>7</td>
+                        <td>⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td>Track 10</td>
+                        <td>PDN Design</td>
+                        <td>6</td>
+                        <td>⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td>Track 01</td>
+                        <td>Power Integrity</td>
+                        <td>6</td>
+                        <td>⭐⭐</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Tek Strategy -->
+        <div class="section">
+            <h2>🎯 泰克科技战略建议</h2>
+            <div class="content-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                <div class="content-card">
+                    <h3>📦 产品策略</h3>
+                    <p>• 加速 110+ GHz 带宽示波器研发<br>
+                       • 开发 448G 专用测试探头<br>
+                       • 强化 PDN 阻抗测量方案<br>
+                       • 构建 AI 驱动自动化测试平台</p>
+                </div>
+                <div class="content-card green">
+                    <h3>🌐 市场策略</h3>
+                    <p>• 聚焦 AI 数据中心测试市场<br>
+                       • 与 NVIDIA、Intel 建立 PCIe 7.0 联合验证<br>
+                       • 参与 OIF 448G 标准制定<br>
+                       • 提供 CPO/LPO 测试方案</p>
+                </div>
+                <div class="content-card purple">
+                    <h3>🔬 技术策略</h3>
+                    <p>• 发展时域-频域联合分析能力<br>
+                       • 构建系统级测试解决方案<br>
+                       • 加强与 EDA 工具的集成<br>
+                       • 开发 AI 辅助调试工具</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>由小七仔 🔧 自动维护 · 数据来源：IMA 知识库 · 泰克科技市场洞察</p>
+            <p style="margin-top: 8px;">DesignCon 2026 · 100+ 论文深度解析</p>
+        </div>
+    </div>
+</body>
+</html>
