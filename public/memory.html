@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>小七仔 Memory</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+        }
+        header h1 {
+            font-size: 2em;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .update-time { color: #888; font-size: 0.85em; margin-top: 8px; }
+        .nav {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .nav a {
+            color: #00d4ff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 0.9em;
+        }
+        .nav a:hover { text-decoration: underline; }
+        .card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .card h2 { 
+            font-size: 1.3em; 
+            margin-bottom: 16px; 
+            color: #00d4ff;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+        .card h3 { 
+            font-size: 1.1em; 
+            margin: 16px 0 10px 0;
+            color: #ffc107;
+        }
+        .card h4 {
+            font-size: 1em;
+            margin: 12px 0 8px 0;
+            color: #7b2cbf;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .info-item {
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+        .info-label { font-size: 0.75em; color: #888; }
+        .info-value { color: #00d4ff; margin-top: 4px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th { color: #00d4ff; font-weight: 500; }
+        td { font-size: 0.9em; }
+        ul { margin-left: 20px; margin-bottom: 12px; }
+        li { margin-bottom: 6px; }
+        .tag {
+            display: inline-block;
+            font-size: 0.7em;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(0,212,255,0.2);
+            color: #00d4ff;
+            margin-right: 6px;
+        }
+        .tag.purple { background: rgba(123,44,191,0.2); color: #7b2cbf; }
+        .tag.yellow { background: rgba(255,193,7,0.2); color: #ffc107; }
+        .highlight {
+            background: rgba(255,193,7,0.1);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #ffc107;
+            margin: 12px 0;
+        }
+        code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: #7b2cbf;
+        }
+        footer { 
+            text-align: center; 
+            padding: 20px; 
+            color: #666; 
+            font-size: 0.8em;
+            margin-top: 20px;
+        }
+        @media (max-width: 600px) {
+            .info-grid { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.5em; }
+        }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <header>
+            <h1>🧠 小七仔 Memory</h1>
+            <div class='update-time'>最后更新：2026-04-20</div>
+        </header>
+        
+        <div class='nav'>
+            <a href='index.html'>📊 Dashboard</a>
+            <a href='memory.html'>🧠 Memory</a>
+        </div>
+        
+        <div class='card'>
+            <h2>👤 用户档案</h2>
+            <div class='info-grid'>
+                <div class='info-item'>
+                    <div class='info-label'>姓名</div>
+                    <div class='info-value'>剑哥</div>
+                </div>
+                <div class='info-item'>
+                    <div class='info-label'>角色</div>
+                    <div class='info-value'>泰克科技 高级TSP及BD经理</div>
+                </div>
+                <div class='info-item'>
+                    <div class='info-label'>语言</div>
+                    <div class='info-value'>中文</div>
+                </div>
+                <div class='info-item'>
+                    <div class='info-label'>沟通风格</div>
+                    <div class='info-value'>结论先行、不绕弯子、有话直说</div>
+                </div>
+            </div>
+            <h3>技术背景</h3>
+            <ul>
+                <li><strong>技术栈：</strong>Python 编程、自动化开发</li>
+                <li><strong>专业领域：</strong>测试测量、泰克产品应用</li>
+            </ul>
+            <h3>核心需求</h3>
+            <ul>
+                <li>泰克科技相关的科研与工业最新技术发展与方案总结推广</li>
+                <li>各类知识库的总结与方案生成</li>
+                <li>自动化程序开发</li>
+                <li>针对销售、代理商、客户的培训与指导</li>
+            </ul>
+            <h3>交互偏好</h3>
+            <ul>
+                <li><strong>输出格式：</strong>简洁清晰、重点分点、信息来源可追溯</li>
+                <li><strong>沟通基调：</strong>直接、不客套</li>
+                <li><strong>总结报告必须标明出处</strong></li>
+            </ul>
+        </div>
+        
+        <div class='card'>
+            <h2>📁 IMA 知识库配置</h2>
+            <h3>API 凭证</h3>
+            <div class='info-grid'>
+                <div class='info-item'>
+                    <div class='info-label'>Client ID</div>
+                    <div class='info-value'>c3e7126ce8755da1b317470f5aff3e87</div>
+                </div>
+                <div class='info-item'>
+                    <div class='info-label'>配置位置</div>
+                    <div class='info-value'>~/.config/ima/</div>
+                </div>
+            </div>
+            <h3>知识库列表</h3>
+            <table>
+                <tr><th>知识库名称</th><th>ID</th><th>主要内容</th></tr>
+                <tr><td>个人知识库</td><td>-N7cnchj...</td><td>DeepSeek、AI数据中心电源</td></tr>
+                <tr><td>USB4</td><td>M2_sebrr...</td><td>USB4 相关</td></tr>
+                <tr><td>车载高速总线</td><td>szTmVaGV...</td><td>车载总线技术</td></tr>
+                <tr><td>泰克产品自动化控制</td><td>-IKidcCm...</td><td>tm_devices、Python自动化</td></tr>
+                <tr><td>AI xPU芯片相关硬件产品及测试</td><td>hvxHGiXz...</td><td>AI/数据中心技术文档（50+份）</td></tr>
+                <tr><td>AI数据中心电源系统及电源完整性</td><td>ZFyJUjDn...</td><td>电源系统</td></tr>
+                <tr><td>泰克高速串行链路设计与测试</td><td>C_TcX92Q...</td><td>高速串行测试</td></tr>
+            </table>
+        </div>
+        
+        <div class='card'>
+            <h2>📅 定时任务配置</h2>
+            <h3>每周任务（推送到微信）</h3>
+            <table>
+                <tr><th>任务</th><th>时间</th><th>内容</th></tr>
+                <tr><td>AI硬件新闻周推送</td><td>每周一 8:00</td><td>GPU/TPU/NPU、AI加速器等</td></tr>
+                <tr><td>低空经济新闻周推送</td><td>每周一 8:00</td><td>eVTOL、无人机、UAM等</td></tr>
+                <tr><td>具身机器人新闻周推送</td><td>每周一 8:00</td><td>人形机器人、传感器融合等</td></tr>
+                <tr><td>NPO/LPO/CPO技术周追踪</td><td>每周一 18:00</td><td>光互连技术论文与产业动态</td></tr>
+                <tr><td>MP5000工作流周更新</td><td>每周一 9:00</td><td>NPI进度追踪提醒</td></tr>
+                <tr><td>AE拜访周总结</td><td>每周五 17:00</td><td>拜访记录总结提醒</td></tr>
+            </table>
+            <h3>每日任务</h3>
+            <table>
+                <tr><th>任务</th><th>时间</th><th>内容</th></tr>
+                <tr><td>Dashboard刷新</td><td>每天 8:00</td><td>更新备忘录中的Dashboard</td></tr>
+            </table>
+        </div>
+        
+        <div class='card'>
+            <h2>🚀 进行中的项目</h2>
+            <h3>MP5000 硅光测试 NPI</h3>
+            <ul>
+                <li><strong>状态：</strong>阶段1 - 客户价值锚定（0%）</li>
+                <li><strong>目标市场：</strong>数据中心光模块/硅光芯片</li>
+                <li><strong>知识库位置：</strong>AI xPU芯片相关硬件产品及测试</li>
+            </ul>
+            <h4>产出物</h4>
+            <ul>
+                <li>✅ NPI 工作流分析</li>
+                <li>✅ 销售工具包</li>
+                <li>✅ TSP 测试脚本</li>
+                <li>✅ 工作流追踪器</li>
+            </ul>
+            <h3>AE 日常拜访管理</h3>
+            <ul>
+                <li><strong>状态：</strong>已配置</li>
+                <li><strong>功能：</strong>每日记录归档 + 周五总结</li>
+            </ul>
+            <h4>已记录拜访</h4>
+            <table>
+                <tr><th>日期</th><th>客户</th><th>类型</th><th>产品</th><th>机会</th></tr>
+                <tr><td>2026-04-03</td><td>德明利</td><td>存储厂家</td><td>DPO714AX</td><td>PCIe5/LPDDR4（年底/明年初）</td></tr>
+                <tr><td>2026-04-14</td><td>安世半导体</td><td>功率器件</td><td>CMTI/THD/脉冲源</td><td>三代半测试方案、多通道脉冲源</td></tr>
+            </table>
+        </div>
+        
+        <div class='card'>
+            <h2>📚 重要资源链接</h2>
+            <h3>泰克官方资源</h3>
+            <ul>
+                <li><strong>DPOJET V10.8.0：</strong><a href='https://www.tek.com.cn/support/software/application/tektronix-dpojet-pci-express-analysis-tool-dpsdpomso70000-win10-v1080' style='color:#00d4ff'>下载链接</a></li>
+                <li><strong>ONFI 测试方案：</strong><a href='https://www.tek.com.cn/application/onfi-electrical-timing-solution' style='color:#00d4ff'>应用指南</a></li>
+                <li><strong>tm_devices 文档：</strong><a href='https://www.tek.com.cn/documents/how-guide/simplifying-test-automation-with-tm_devices-and-python' style='color:#00d4ff'>Python自动化</a></li>
+            </ul>
+            <h3>示例程序</h3>
+            <ul>
+                <li><strong>波形获取示例：</strong><code>output/tek_waveform_acquisition.py</code></li>
+                <li><strong>MP5000 TSP 脚本：</strong><code>output/MP5000_TSP_Scripts.lua</code></li>
+            </ul>
+        </div>
+        
+        <div class='card'>
+            <h2>📝 工作习惯</h2>
+            <h3>每日</h3>
+            <ul>
+                <li>接收三个领域的新闻推送（8:00）</li>
+                <li>发送 AE 拜访记录（如有）</li>
+            </ul>
+            <h3>每周一</h3>
+            <ul>
+                <li>更新 MP5000 NPI 工作流追踪器</li>
+            </ul>
+            <h3>每周五</h3>
+            <ul>
+                <li>发送 AE 拜访周总结</li>
+            </ul>
+        </div>
+        
+        <div class='card'>
+            <h2>🎯 待办事项</h2>
+            <h3>本周（W1）</h3>
+            <ul>
+                <li>☐ 整理目标客户清单（10家以上）</li>
+                <li>☐ 联系 3 个客户预约访谈</li>
+                <li>☐ 准备访谈提纲</li>
+            </ul>
+            <h3>下周（W2）</h3>
+            <ul>
+                <li>☐ 完成 3 个客户访谈</li>
+                <li>☐ 整理访谈结果</li>
+                <li>☐ 确认 Top 3 痛点</li>
+            </ul>
+        </div>
+        
+        <div class='card'>
+            <h2>📊 关键数据</h2>
+            <h3>MP5000 ROI</h3>
+            <ul>
+                <li>测试效率提升：<strong>3.75x</strong></li>
+                <li>设备占地减少：<strong>90%</strong></li>
+                <li>年度成本节省：<strong>72%</strong></li>
+                <li>投资回收期：<strong>&lt;4个月</strong></li>
+            </ul>
+            <h3>目标客户</h3>
+            <ol>
+                <li><strong>光模块厂商：</strong>中际旭创、新易盛、光迅科技</li>
+                <li><strong>硅光芯片厂：</strong>源杰半导体、长光华芯</li>
+                <li><strong>CPO 厂商：</strong>华为、阿里、字节</li>
+                <li><strong>科研院所：</strong>清华、中科院</li>
+            </ol>
+        </div>
+        
+        <div class='card'>
+            <h2>📡 NPO/LPO/CPO 技术追踪</h2>
+            <h3>技术定义</h3>
+            <ul>
+                <li><strong>NPO (Near-Packaged Optics)：</strong>近封装光学，CPO技术成熟前的过渡方案</li>
+                <li><strong>LPO (Linear Pluggable Optics)：</strong>线性驱动可插拔光模块，去除DSP芯片</li>
+                <li><strong>CPO (Co-Packaged Optics)：</strong>共封装光学，光引擎与交换ASIC共封装</li>
+            </ul>
+            <h3>技术演进路线</h3>
+            <div class='highlight'>
+                <code>2024-2025:</code> 800G/1.6T可插拔光模块主流<br>
+                <code>2026-2027:</code> LPO在短距机架内大规模替代<br>
+                <code>2028+:</code> CPO成为3.2T+速率交换机唯一选择<br>
+                <code>未来:</code> OIO (Optical I/O)，光引擎集成在GPU封装内
+            </div>
+            <h3>市场预测</h3>
+            <ul>
+                <li>2024年AI集群光互连市场：50亿美元</li>
+                <li>2026年：100+亿美元（两年翻倍）</li>
+                <li>2027年CPO市场：54亿美元</li>
+                <li>LPO/CPO端口占比：2026-2028年达30%+</li>
+            </ul>
+            <h3>核心厂商</h3>
+            <ul>
+                <li><strong>全球：</strong>Broadcom、NVIDIA、Lumentum、台积电</li>
+                <li><strong>中国：</strong>中际旭创、新易盛、华工科技、光迅科技</li>
+            </ul>
+            <h3>追踪记录</h3>
+            <ul>
+                <li>2026-04-08: 首次追踪，35条重要信息</li>
+                <li>2026-04-10: 谷歌1200万只NPO订单、光迅3.2T NPO发布</li>
+                <li>2026-04-13: CPO量产元年确立、Lumentum产能预警</li>
+                <li>2026-04-20: 台积电COUPE量产细节、英伟达Spectrum-X全面投产</li>
+            </ul>
+        </div>
+        
+        <div class='card'>
+            <h2>📱 鸿蒙开发能力</h2>
+            <h3>核心知识</h3>
+            <ul>
+                <li><strong>语言：</strong>ArkTS（基于 TypeScript 的声明式 UI）</li>
+                <li><strong>开发工具：</strong>DevEco Studio 5.0+</li>
+                <li><strong>发布平台：</strong>AppGallery Connect</li>
+                <li><strong>包大小限制：</strong>元服务 ≤ 10MB</li>
+            </ul>
+            <h3>我能做的</h3>
+            <ul>
+                <li>✅ 生成 ArkTS 代码（组件、UI、状态管理）</li>
+                <li>✅ 设计应用架构</li>
+                <li>✅ 指导发布上架流程</li>
+                <li>✅ 协助调试问题</li>
+            </ul>
+            <h3>工作流程</h3>
+            <div class='highlight'>
+                用户描述需求 → 我生成代码 → 用户本地打包 → 我指导上架
+            </div>
+        </div>
+        
+        <div class='card'>
+            <h2>📄 产出文件</h2>
+            <h3>论证报告</h3>
+            <ul>
+                <li><strong>DPO714AX 示波器采购论证报告：</strong><code>output/DPO714AX_论证报告_XR8对比版.docx</code></li>
+                <li>包含泰克 DPO714AX 与是德 XR8/UXR/V 系列的详细技术对比</li>
+                <li>噪声对比已修正为相同量程条件</li>
+                <li>选型建议：首选 XR8，备选 DPO714AX</li>
+            </ul>
+        </div>
+        
+        <div class='card'>
+            <h2>📚 半导体参数测试专家知识库</h2>
+            <h3>位置</h3>
+            <p><code>knowledge/semiconductor-test-expert/</code></p>
+            <h3>结构</h3>
+            <ul>
+                <li><strong>L1-fundamentals/：</strong>基础层（低电平测量、器件物理、误差分析、接地屏蔽）</li>
+                <li><strong>L2-equipment/：</strong>设备层（SMU、LCR表、示波器、脉冲源）</li>
+                <li><strong>L3-practice/：</strong>实战层（夹具探针、寄生控制、数据分析、自动化）</li>
+                <li><strong>L4-advanced/：</strong>进阶层（极限测量、可靠性、标准、失效分析）</li>
+                <li><strong>L5-innovation/：</strong>创新层（新方法、系统架构、技术路线）</li>
+                <li><strong>resources/：</strong>核心资源（书籍笔记、应用笔记、标准文档）</li>
+            </ul>
+            <h3>学习计划</h3>
+            <ul>
+                <li>周期：12 个月</li>
+                <li>每周投入：8 小时</li>
+                <li>详细计划：<code>LEARNING-PLAN.md</code></li>
+            </ul>
+            <h3>当前进度</h3>
+            <ul>
+                <li>Q1 基础层：5%（低电平测量理论进行中）</li>
+                <li>Q2-Q4：待开始</li>
+            </ul>
+            <h3>IMA 知识库资料</h3>
+            <ul>
+                <li><strong>知识库名称：</strong>Keithly半导体参数分析</li>
+                <li><strong>知识库ID：</strong>VUANVIuSRFLwaFw6ntHS9r-4Rlw85nU31fEJjDcAKsc=</li>
+                <li><strong>文件数量：</strong>12个（11个PDF + 1个PPT）</li>
+                <li><strong>核心资料：</strong>LowLevelHandbook_7Ed.pdf（低电平测量手册第7版）</li>
+            </ul>
+        </div>
+        
+        <div class='card'>
+            <h2>🏗️ 核心架构：终极星空鸽子王</h2>
+            <h3>六层主架构</h3>
+            <table>
+                <tr><th>层级</th><th>名称</th><th>职责</th></tr>
+                <tr><td>L1</td><td>core</td><td>核心认知层 - 身份、性格、用户、规则</td></tr>
+                <tr><td>L2</td><td>memory_context</td><td>记忆与上下文层 - 长期记忆、数据管理</td></tr>
+                <tr><td>L3</td><td>orchestration</td><td>任务编排层 - 调度、路由、策略</td></tr>
+                <tr><td>L4</td><td>execution</td><td>能力执行层 - 技能执行、智能体协作</td></tr>
+                <tr><td>L5</td><td>governance</td><td>稳定性与治理层 - 安全、审计、灾备</td></tr>
+                <tr><td>L6</td><td>infrastructure</td><td>基础设施与运维层 - 资产、运维、监控</td></tr>
+            </table>
+            <h3>架构特性</h3>
+            <ul>
+                <li>✅ AVX-512 全系统优化（10-15x 加速）</li>
+                <li>✅ 并行任务自动汇报</li>
+                <li>✅ 密钥安全加密存储（AES-256-GCM + RSA-4096）</li>
+                <li>✅ VMP 代码保护</li>
+                <li>✅ 15大技能类别覆盖</li>
+            </ul>
+            <h3>架构位置</h3>
+            <p><code>~/.openclaw/workspace/skills/xiaoyi-claw-ultimate-pigeon-king/</code></p>
+        </div>
+        
+        <footer>
+            <p>小七仔 Memory · 长期记忆存储</p>
+            <p style='margin-top: 8px;'>Powered by OpenClaw</p>
+        </footer>
+    </div>
+</body>
+</html>
