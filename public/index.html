@@ -13,7 +13,7 @@
             min-height: 100vh;
             padding: 20px;
         }
-        .container { max-width: 1000px; margin: 0 auto; }
+        .container { max-width: 800px; margin: 0 auto; }
         header {
             text-align: center;
             margin-bottom: 30px;
@@ -35,185 +35,11 @@
             margin-bottom: 20px;
             border: 1px solid rgba(255,255,255,0.1);
         }
-        .card h2 { 
-            font-size: 1.2em; 
-            margin-bottom: 16px; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-        }
-        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        
-        /* 新闻卡片样式 */
-        .news-section { margin-bottom: 24px; }
-        .news-title { 
-            font-size: 1.1em; 
-            color: #00d4ff; 
-            margin-bottom: 12px; 
-            padding-bottom: 8px;
-            border-bottom: 2px solid rgba(0,212,255,0.3);
-        }
-        .news-item {
-            padding: 14px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            margin-bottom: 12px;
-            border-left: 3px solid #00d4ff;
-        }
-        .news-item:nth-child(even) { border-left-color: #7b2cbf; }
-        .news-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 8px;
-        }
-        .news-number {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
-            border-radius: 50%;
-            text-align: center;
-            line-height: 24px;
-            font-size: 0.8em;
-            font-weight: bold;
-            margin-right: 10px;
-            flex-shrink: 0;
-        }
-        .news-headline {
-            flex: 1;
-            font-weight: 500;
-            line-height: 1.4;
-        }
-        .news-content { 
-            margin-top: 10px; 
-            line-height: 1.6; 
-            font-size: 0.9em;
-            color: #ccc;
-        }
-        .news-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
-            padding-top: 8px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .news-source { 
-            font-size: 0.75em; 
-            color: #00d4ff; 
-            background: rgba(0,212,255,0.1);
-            padding: 3px 10px;
-            border-radius: 12px;
-        }
-        .news-source.arxiv { 
-            color: #FF6B6B; 
-            background: rgba(255,107,107,0.1);
-        }
-        .news-date {
-            font-size: 0.75em;
-            color: #666;
-        }
-        .news-link {
-            font-size: 0.7em;
-            color: #888;
-            text-decoration: none;
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .news-link:hover { color: #00d4ff; }
-        
-        /* 论文卡片样式 */
-        .paper-item {
-            padding: 14px;
-            background: rgba(255,107,107,0.05);
-            border-radius: 8px;
-            margin-bottom: 12px;
-            border-left: 3px solid #FF6B6B;
-        }
-        .paper-title {
-            font-weight: 500;
-            line-height: 1.4;
-            color: #FFB4B4;
-        }
-        .paper-authors {
-            font-size: 0.85em;
-            color: #888;
-            margin-top: 6px;
-        }
-        .paper-abstract {
-            margin-top: 10px;
-            line-height: 1.5;
-            font-size: 0.85em;
-            color: #aaa;
-        }
-        .paper-categories {
-            display: inline-block;
-            font-size: 0.7em;
-            padding: 2px 8px;
-            background: rgba(255,107,107,0.15);
-            border-radius: 4px;
-            color: #FF6B6B;
-            margin-right: 6px;
-        }
-        
-        .test-needs {
-            margin-top: 12px;
-            padding: 10px;
-            background: rgba(123,44,191,0.1);
-            border-radius: 8px;
-            font-size: 0.9em;
-        }
-        .test-needs-title { color: #b794d4; font-weight: 500; margin-bottom: 6px; }
-        .test-needs ul { margin-left: 20px; color: #ccc; }
-        .test-needs li { margin-bottom: 4px; }
-        
-        .target-customers {
-            margin-top: 10px;
-            padding: 8px 12px;
-            background: rgba(0,212,255,0.1);
-            border-radius: 8px;
-            font-size: 0.85em;
-        }
-        .target-customers span { color: #00d4ff; }
-        
-        /* AE 拜访表格 */
-        .visit-table { width: 100%; border-collapse: collapse; }
-        .visit-table th, .visit-table td { 
-            padding: 10px 12px; 
-            text-align: left; 
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .visit-table th { 
-            font-size: 0.75em; 
-            color: #888; 
-            font-weight: normal;
-            text-transform: uppercase;
-        }
-        .visit-customer { color: #00d4ff; font-weight: 500; }
-        .visit-product { 
-            font-size: 0.85em; 
-            padding: 2px 8px; 
-            background: rgba(0,212,255,0.15); 
-            border-radius: 4px; 
-            display: inline-block;
-        }
-        .visit-type {
-            font-size: 0.75em;
-            padding: 2px 6px;
-            border-radius: 4px;
-            background: rgba(123,44,191,0.2);
-            color: #b794d4;
-        }
-        
-        .task-list { display: flex; flex-direction: column; gap: 10px; }
+        .card h2 { font-size: 1.2em; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .task-list { display: flex; flex-direction: column; gap: 12px; }
         .task-item {
             display: flex; align-items: center; gap: 12px;
-            padding: 10px; background: rgba(0,0,0,0.2);
+            padding: 12px; background: rgba(0,0,0,0.2);
             border-radius: 8px; border-left: 3px solid #00d4ff;
         }
         .task-item.weekly { border-left-color: #7b2cbf; }
@@ -225,42 +51,42 @@
             background: rgba(0,212,255,0.2); color: #00d4ff;
         }
         .task-item.weekly .task-tag { background: rgba(123,44,191,0.2); color: #7b2cbf; }
-        
-        .project-item { margin-bottom: 14px; }
-        .project-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .project-item { margin-bottom: 16px; }
+        .project-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
         .project-status {
             font-size: 0.75em; padding: 2px 8px; border-radius: 4px;
             background: rgba(255,193,7,0.2); color: #ffc107;
         }
         .progress-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, #00d4ff, #7b2cbf); border-radius: 3px; }
-        
-        .stat-card {
-            padding: 16px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 12px;
-            text-align: center;
+        .todo-list { display: flex; flex-direction: column; gap: 8px; }
+        .todo-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px;
         }
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .todo-checkbox { width: 18px; height: 18px; border: 2px solid #00d4ff; border-radius: 4px; cursor: pointer; }
+        .timeline { position: relative; padding-left: 20px; }
+        .timeline::before {
+            content: ''; position: absolute; left: 6px; top: 0; bottom: 0;
+            width: 2px; background: linear-gradient(180deg, #00d4ff, #7b2cbf);
         }
-        .stat-label { font-size: 0.75em; color: #888; margin-top: 4px; }
-        
+        .timeline-item {
+            position: relative; padding: 12px; margin-bottom: 12px;
+            background: rgba(0,0,0,0.2); border-radius: 8px;
+        }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -17px; top: 16px;
+            width: 10px; height: 10px; background: #00d4ff; border-radius: 50%;
+        }
+        .timeline-date { font-size: 0.75em; color: #888; margin-bottom: 4px; }
         .kb-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
         .kb-item { padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; }
         .kb-name { color: #00d4ff; margin-bottom: 4px; }
         .kb-count { font-size: 0.75em; color: #666; }
-        
         footer { text-align: center; padding: 20px; color: #666; font-size: 0.8em; }
-        
         @media (max-width: 600px) {
-            .grid-2, .kb-grid { grid-template-columns: 1fr; }
+            .kb-grid { grid-template-columns: 1fr; }
             header h1 { font-size: 1.5em; }
-            .visit-table { font-size: 0.85em; }
         }
     </style>
 </head>
@@ -268,217 +94,194 @@
     <div class='container'>
         <header>
             <h1>🔧 小七仔 Dashboard</h1>
-            <div class='update-time'>最后更新：2026/4/22 00:55 | 第17周</div>
-            <div style='margin-top: 12px;'>
-                <a href='archive.html' style='color: #00d4ff; text-decoration: none; padding: 8px 16px; background: rgba(0,212,255,0.1); border-radius: 20px; font-size: 0.9em; margin-right: 8px;'>📚 新闻存档</a>
-                <a href='visits.html' style='color: #7b2cbf; text-decoration: none; padding: 8px 16px; background: rgba(123,44,191,0.1); border-radius: 20px; font-size: 0.9em;'>🏢 AE拜访记录</a>
-            </div>
+            <div class='update-time'>最后更新：2026/4/22 08:36</div>
         </header>
         
-        <!-- 今日统计 -->
         <div class='card'>
-            <h2><span>📊</span> 今日概览</h2>
-            <div class='grid-2'>
-                <div class='stat-card'>
-                    <div class='stat-number'>4</div>
-                    <div class='stat-label'>今日拜访客户</div>
+            <h2><span>👤</span> 用户档案</h2>
+            <div style='display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;'>
+                <div style='padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px;'>
+                    <div style='font-size: 0.75em; color: #888;'>姓名</div>
+                    <div style='color: #00d4ff;'>剑哥</div>
                 </div>
-                <div class='stat-card'>
-                    <div class='stat-number'>17</div>
-                    <div class='stat-label'>今日追踪信息</div>
+                <div style='padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px;'>
+                    <div style='font-size: 0.75em; color: #888;'>角色</div>
+                    <div style='color: #00d4ff;'>泰克科技 高级TSP及BD经理</div>
                 </div>
             </div>
         </div>
         
-        <!-- 学术论文追踪 -->
-        <div class='card'>
-            <h2><span>📄</span> 学术论文追踪（arXiv 2026-04-20）</h2>
-            
-            <div class='news-section'>
-                <div class='news-title'>🔬 最新论文（含来源链接）</div>
-                
-                <div class='paper-item'>
-                    <div class='paper-title'>Tensor Processing with Homodyne Photonic Integrated Circuits exceeds 1,000 TOPS</div>
-                    <div class='paper-authors'>👥 Lian Zhou, Kaiwen Xue, Yun-Jhu Lee</div>
-                    <div class='paper-abstract'>高性能计算支撑现代人工智能，光子计算以其超高吞吐量和能效优势成为突破方向。本文展示了基于零差探测的光子集成电路张量处理器，性能超过 1,000 TOPS，为 AI 加速器提供了新的技术路径。</div>
-                    <div class='news-meta'>
-                        <span class='news-source arxiv'>📚 arXiv:cs.ET</span>
-                        <span class='news-date'>2026-04-20</span>
-                        <a href='http://arxiv.org/abs/2604.18496v1' class='news-link' target='_blank'>查看论文 →</a>
-                    </div>
-                </div>
-                
-                <div class='paper-item'>
-                    <div class='paper-title'>Continuous Wave Second Harmonic Generation from an Etchless Lithium Niobate Resonant Metasurface</div>
-                    <div class='paper-authors'>👥 Zetian Chen, Noa Mazurski, Uriel Levy</div>
-                    <div class='paper-abstract'>非线性超表面通过亚波长结构中的共振增强光物质相互作用，为紧凑频率转换提供了新途径。本文展示了无刻蚀铌酸锂谐振超表面的连续波二次谐波产生，对窄线宽、稳定频率应用具有重要意义。</div>
-                    <div class='news-meta'>
-                        <span class='news-source arxiv'>📚 arXiv:physics.optics</span>
-                        <span class='news-date'>2026-04-20</span>
-                        <a href='http://arxiv.org/abs/2604.18501v1' class='news-link' target='_blank'>查看论文 →</a>
-                    </div>
-                </div>
-                
-                <div class='paper-item'>
-                    <div class='paper-title'>High precision micro-optical elements on fiber facets via focused-ion beam machining</div>
-                    <div class='paper-authors'>👥 Raman Kumar, Sebastian Will</div>
-                    <div class='paper-abstract'>光纤集成微光学元件为量子信息处理中的光子收集和光束整形提供了可扩展方案。本文展示了使用聚焦离子束加工在单模光纤纤芯上直接制造微球、微螺旋和微轴锥结构，精度达纳米级。</div>
-                    <div class='news-meta'>
-                        <span class='news-source arxiv'>📚 arXiv:physics.optics</span>
-                        <span class='news-date'>2026-04-20</span>
-                        <a href='http://arxiv.org/abs/2604.18426v1' class='news-link' target='_blank'>查看论文 →</a>
-                    </div>
-                </div>
-                
-                <div class='paper-item'>
-                    <div class='paper-title'>Multiscale phase dynamics and 2π phase kinks in injection-locked optoelectronic oscillators</div>
-                    <div class='paper-authors'>👥 Abhijit Banerjee, Trevor J. Hall</div>
-                    <div class='paper-abstract'>大延迟光电振荡器的注入锁定产生了超越经典单模锁定理论的相位动力学，包括自发形成持续的 2π 相位扭结。本文建立了多尺度理论框架来分析这一现象，对光互连系统设计有重要意义。</div>
-                    <div class='news-meta'>
-                        <span class='news-source arxiv'>📚 arXiv:physics.optics</span>
-                        <span class='news-date'>2026-04-20</span>
-                        <a href='http://arxiv.org/abs/2604.18499v1' class='news-link' target='_blank'>查看论文 →</a>
-                    </div>
-                </div>
-                
-                <div class='test-needs'>
-                    <div class='test-needs-title'>🔬 测试测量需求</div>
-                    <ul>
-                        <li>光子芯片：高速光电信号测试、调制器特性分析</li>
-                        <li>铌酸锂器件：频率响应、非线性特性测试</li>
-                        <li>光纤器件：插入损耗、回波损耗、偏振特性</li>
-                        <li>光电振荡器：相位噪声、锁定特性测试</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        
-        <!-- CPO/NPO/LPO 新闻推送 -->
-        <div class='card'>
-            <h2><span>💡</span> CPO/NPO/LPO 技术追踪（2026-04-22）</h2>
-            
-            <div class='news-section'>
-                <div class='news-title'>🔥 今日热点（含信息来源）</div>
-                
-                <div class='news-item'>
-                    <div class='news-header'>
-                        <span class='news-number'>1</span>
-                        <span class='news-headline'>CPO量产引爆AI算力底层革命，英伟达与博通双双落地商业产品</span>
-                    </div>
-                    <div class='news-content'>天风证券报告指出，CPO交换机已正式进入量产阶段。台积电COUPE硅光平台成为底层核心架构，插入损耗从22dB降至4dB，信号完整性提升63倍，系统光功率效率最高提升5倍。</div>
-                    <div class='news-meta'>
-                        <span class='news-source'>📰 新浪财经</span>
-                        <span class='news-date'>2026-04-18</span>
-                        <a href='https://finance.sina.com.cn/stock/t/2026-04-18/doc-inhuxche2439607.shtml' class='news-link' target='_blank'>查看原文 →</a>
-                    </div>
-                </div>
-                
-                <div class='news-item'>
-                    <div class='news-header'>
-                        <span class='news-number'>2</span>
-                        <span class='news-headline'>谷歌下达1200万只NPO光模块订单，中际旭创揽下60%份额</span>
-                    </div>
-                    <div class='news-content'>谷歌正式下达1200万只NPO光模块订单，明确NPO技术成为下一代TPUv7/v8集群的标准配置。中际旭创揽下约60%份额，新易盛拿下40%份额。</div>
-                    <div class='news-meta'>
-                        <span class='news-source'>📰 同花顺财经</span>
-                        <span class='news-date'>2026-04-09</span>
-                        <a href='https://stock.10jqka.com.cn/20260409/c675848164.shtml' class='news-link' target='_blank'>查看原文 →</a>
-                    </div>
-                </div>
-                
-                <div class='news-item'>
-                    <div class='news-header'>
-                        <span class='news-number'>3</span>
-                        <span class='news-headline'>台积电COUPE平台今年量产，成为CPO落地关键里程碑</span>
-                    </div>
-                    <div class='news-content'>台积电旗下硅光整合平台COUPE预计今年进入量产，标志着AI光通信正式进入产业化倒数阶段。COUPE通过SoIC技术将EIC与PIC进行3D堆叠。</div>
-                    <div class='news-meta'>
-                        <span class='news-source'>📰 财联社</span>
-                        <span class='news-date'>2026-04-01</span>
-                        <a href='https://www.cls.cn/detail/xk/2331513' class='news-link' target='_blank'>查看原文 →</a>
-                    </div>
-                </div>
-                
-                <div class='news-item'>
-                    <div class='news-header'>
-                        <span class='news-number'>4</span>
-                        <span class='news-headline'>CPO板块年内涨幅超50%，"把电换成光"成关键路径</span>
-                    </div>
-                    <div class='news-content'>随着摩尔定律逼近物理极限，AI算力需求指数级攀升，"把电换成光"正成为突破技术瓶颈的关键路径。曦智科技光跃超节点已部署数千卡，平均提升MFU超过50%。</div>
-                    <div class='news-meta'>
-                        <span class='news-source'>📰 ZAKER新闻</span>
-                        <span class='news-date'>2026-04-21</span>
-                        <a href='https://www.myzaker.com/article/69e6edf48e9f093724739b0b' class='news-link' target='_blank'>查看原文 →</a>
-                    </div>
-                </div>
-                
-                <div class='test-needs'>
-                    <div class='test-needs-title'>🔬 测试测量需求</div>
-                    <ul>
-                        <li>硅光芯片：高速SerDes信号完整性、眼图分析</li>
-                        <li>CPO交换机：光功率效率、热特性测试</li>
-                        <li>NPO模块：功耗测试、信号损耗测量</li>
-                    </ul>
-                </div>
-                <div class='target-customers'>
-                    🎯 目标客户：<span>英伟达、博通、台积电、中际旭创、新易盛、光迅科技、华工科技、曦智科技</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 定时任务 -->
         <div class='card'>
             <h2><span>⏰</span> 定时任务</h2>
             <div class='task-list'>
-                <div class='task-item'>
-                    <div class='task-time'>每日 8:00</div>
-                    <div class='task-name'>CPO/NPO/LPO 技术追踪 ✅</div>
-                    <div class='task-tag'>每日</div>
-                </div>
-                <div class='task-item'>
-                    <div class='task-time'>每日 8:00</div>
-                    <div class='task-name'>学术论文追踪（arXiv）🆕</div>
-                    <div class='task-tag'>每日</div>
-                </div>
-                <div class='task-item'>
-                    <div class='task-time'>周一 8:00</div>
-                    <div class='task-name'>AI 硬件新闻周推送 ✅</div>
-                    <div class='task-tag'>每周</div>
-                </div>
+                
                 <div class='task-item weekly'>
-                    <div class='task-time'>周五 17:00</div>
-                    <div class='task-name'>AE 拜访周总结</div>
+                    <div class='task-time'>待定</div>
+                    <div class='task-name'>具身机器人新闻周推送</div>
                     <div class='task-tag'>每周</div>
                 </div>
+                
             </div>
         </div>
         
-        <!-- 进行中的项目 -->
         <div class='card'>
             <h2><span>🚀</span> 进行中的项目</h2>
-            <div class='project-item'>
-                <div class='project-header'>
-                    <div>MP5000 硅光测试 NPI</div>
-                    <div class='project-status'>阶段1 - 客户价值锚定</div>
+            
+                <div class='project-item'>
+                    <div class='project-header'>
+                        <div>MP5000 硅光测试 NPI</div>
+                        <div class='project-status'>阶段1 - 客户价值锚定（0%）</div>
+                    </div>
+                    <div class='progress-bar'>
+                        <div class='progress-fill' style='width: 15%'></div>
+                    </div>
                 </div>
-                <div class='progress-bar'>
-                    <div class='progress-fill' style='width: 15%'></div>
+                
+                <div class='project-item'>
+                    <div class='project-header'>
+                        <div>AE 日常拜访管理</div>
+                        <div class='project-status'>已配置</div>
+                    </div>
+                    <div class='progress-bar'>
+                        <div class='progress-fill' style='width: 100%'></div>
+                    </div>
+                </div>
+                
+        </div>
+        
+        <div class='card'>
+            <h2><span>📋</span> 本周待办</h2>
+            <div class='todo-list'>
+                
+                <div class='todo-item'>
+                    <div class='todo-checkbox'></div>
+                    <div>整理目标客户清单（10家以上）</div>
+                </div>
+                
+                <div class='todo-item'>
+                    <div class='todo-checkbox'></div>
+                    <div>联系 3 个客户预约访谈</div>
+                </div>
+                
+                <div class='todo-item'>
+                    <div class='todo-checkbox'></div>
+                    <div>准备访谈提纲</div>
+                </div>
+                
+                <div class='todo-item'>
+                    <div class='todo-checkbox'></div>
+                    <div>完成 3 个客户访谈</div>
+                </div>
+                
+                <div class='todo-item'>
+                    <div class='todo-checkbox'></div>
+                    <div>整理访谈结果</div>
+                </div>
+                
+                <div class='todo-item'>
+                    <div class='todo-checkbox'></div>
+                    <div>确认 Top 3 痛点</div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class='card'>
+            <h2><span>📚</span> IMA 知识库</h2>
+            <div class='kb-grid'>
+                <div class='kb-item'><div class='kb-name'>AI xPU芯片相关硬件产品及测试</div><div class='kb-count'>116 条内容</div></div>
+                <div class='kb-item'><div class='kb-name'>泰克高速串行链路设计与测试</div><div class='kb-count'>32 条内容</div></div>
+                <div class='kb-item'><div class='kb-name'>个人知识库</div><div class='kb-count'>45 条内容</div></div>
+                <div class='kb-item'><div class='kb-name'>车载高速总线</div><div class='kb-count'>9 条内容</div></div>
+            </div>
+        </div>
+        
+        <div class='card'>
+            <h2><span>🧠</span> 最近记忆</h2>
+            <div class='timeline'>
+                
+            </div>
+        </div>
+        
+        <div class='card'>
+            <h2><span>📰</span> CPO/NPO/LPO 技术追踪日报</h2>
+            <div style='font-size: 0.75em; color: #888; margin-bottom: 16px;'>2026年4月22日（周三）</div>
+            
+            <div style='margin-bottom: 20px;'>
+                <h3 style='font-size: 1em; color: #00d4ff; margin-bottom: 12px;'>🔥 今日头条</h3>
+                
+                <div style='padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 10px; border-left: 3px solid #ffc107;'>
+                    <div style='font-weight: 500; margin-bottom: 6px;'>中际旭创Q1单季盈利超2024全年</div>
+                    <div style='font-size: 0.85em; color: #aaa;'>
+                        • Q1营收194.96亿元（同比+192.12%），归母净利润57.35亿元（同比+262.28%）<br>
+                        • 毛利率46.06%，环比提升2.86个百分点<br>
+                        • 预付款暴增至14.87亿元，锁定上游产能<br>
+                        <span style='color: #666;'>来源：每日经济新闻</span>
+                    </div>
+                </div>
+                
+                <div style='padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 10px; border-left: 3px solid #7b2cbf;'>
+                    <div style='font-weight: 500; margin-bottom: 6px;'>CPO量产引爆AI算力底层革命</div>
+                    <div style='font-size: 0.85em; color: #aaa;'>
+                        • 英伟达Spectrum-X CPO交换机全面量产，集成至Vera Rubin平台<br>
+                        • 博通从51.2T Bailly向102.4T Davisson持续迭代<br>
+                        • 台积电COUPE硅光平台成为底层核心架构<br>
+                        • 插入损耗从22dB降至4dB，信号完整性提升63倍<br>
+                        <span style='color: #666;'>来源：天风证券、腾讯新闻</span>
+                    </div>
+                </div>
+                
+                <div style='padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; border-left: 3px solid #00d4ff;'>
+                    <div style='font-weight: 500; margin-bottom: 6px;'>TrendForce预测：2026年AI光模块市场增长57.6%</div>
+                    <div style='font-size: 0.85em; color: #aaa;'>
+                        • 市场规模达260亿美元（约1776亿元人民币）<br>
+                        • 技术路线加速向LPO、SiPh方案演进<br>
+                        <span style='color: #666;'>来源：TrendForce、网易</span>
+                    </div>
                 </div>
             </div>
-            <div class='project-item'>
-                <div class='project-header'>
-                    <div>AE 日常拜访管理</div>
-                    <div class='project-status'>已配置</div>
+            
+            <div style='margin-bottom: 20px;'>
+                <h3 style='font-size: 1em; color: #00d4ff; margin-bottom: 12px;'>📊 技术进展</h3>
+                <div style='display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;'>
+                    <div style='padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; text-align: center;'>
+                        <div style='font-size: 0.9em; color: #ffc107; margin-bottom: 4px;'>CPO</div>
+                        <div style='font-size: 0.75em; color: #aaa;'>英伟达/博通全面量产<br>中际旭创产线建设</div>
+                    </div>
+                    <div style='padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; text-align: center;'>
+                        <div style='font-size: 0.9em; color: #7b2cbf; margin-bottom: 4px;'>NPO</div>
+                        <div style='font-size: 0.75em; color: #aaa;'>光迅3.2T全球首发<br>新易盛6.4T发布</div>
+                    </div>
+                    <div style='padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; text-align: center;'>
+                        <div style='font-size: 0.9em; color: #00d4ff; margin-bottom: 4px;'>LPO</div>
+                        <div style='font-size: 0.75em; color: #aaa;'>新易盛领域领先<br>功耗降低40-50%</div>
+                    </div>
                 </div>
-                <div class='progress-bar'>
-                    <div class='progress-fill' style='width: 100%'></div>
+            </div>
+            
+            <div style='margin-bottom: 16px;'>
+                <h3 style='font-size: 1em; color: #00d4ff; margin-bottom: 12px;'>🎯 关键结论</h3>
+                <div style='font-size: 0.85em; color: #aaa; line-height: 1.8;'>
+                    1. <strong style='color: #e0e0e0;'>CPO量产元年确立</strong>：英伟达、博通双双落地，台积电COUPE平台成为产业基石<br>
+                    2. <strong style='color: #e0e0e0;'>光模块龙头业绩爆发</strong>：中际旭创单季盈利超去年全年，验证行业高景气<br>
+                    3. <strong style='color: #e0e0e0;'>技术路线清晰</strong>：1.6T可插拔 → LPO过渡 → CPO终极方案<br>
+                    4. <strong style='color: #e0e0e0;'>产能瓶颈显现</strong>：上游光芯片供应紧张，龙头提前锁定产能<br>
+                    5. <strong style='color: #e0e0e0;'>国产替代加速</strong>：中际旭创、新易盛、光迅科技等在全球产业链地位提升
+                </div>
+            </div>
+            
+            <div style='padding: 10px; background: rgba(123,44,191,0.1); border-radius: 8px; border: 1px solid rgba(123,44,191,0.3);'>
+                <div style='font-size: 0.85em; color: #7b2cbf; margin-bottom: 6px;'>📌 关注标的</div>
+                <div style='font-size: 0.8em; color: #aaa;'>
+                    <strong>全球龙头：</strong>英伟达(NVDA)、博通(AVGO)、Lumentum(LITE)<br>
+                    <strong>中国核心：</strong>中际旭创(300308)、新易盛(300502)、光迅科技(002281)、华工科技(000988)
                 </div>
             </div>
         </div>
         
         <footer>
             <p>小七仔 Dashboard · 每日自动刷新</p>
-            <p style='margin-top: 8px;'>Powered by OpenClaw | <a href='https://github.com/xiaoqilj/dashboard' style='color: #00d4ff;'>GitHub</a></p>
+            <p style='margin-top: 8px;'>Powered by OpenClaw</p>
         </footer>
     </div>
 </body>
