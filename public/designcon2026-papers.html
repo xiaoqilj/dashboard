@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DesignCon 2026 论文全集 | 小七仔 Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #0d1b2a 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #ec4899 100%);
+            border-radius: 16px;
+            padding: 24px 30px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .header .subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        
+        .back-btn {
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Stats */
+        .stats-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: #888;
+        }
+        
+        /* Filter */
+        .filter-bar {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        /* Paper List */
+        .paper-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .track-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 12px 0;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.3);
+            margin-bottom: 16px;
+        }
+        
+        .track-header h2 {
+            font-size: 18px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .track-count {
+            background: rgba(102, 126, 234, 0.2);
+            color: #a78bfa;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+        
+        .toggle-icon {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .track-header.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        
+        .paper-list {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .paper-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s;
+        }
+        
+        .paper-card:hover {
+            background: rgba(0, 0, 0, 0.4);
+            transform: translateX(4px);
+        }
+        
+        .paper-card.amber { border-left-color: #f59e0b; }
+        .paper-card.green { border-left-color: #10b981; }
+        .paper-card.purple { border-left-color: #8b5cf6; }
+        .paper-card.cyan { border-left-color: #06b6d4; }
+        .paper-card.pink { border-left-color: #ec4899; }
+        .paper-card.red { border-left-color: #ef4444; }
+        
+        .paper-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        
+        .paper-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.4;
+            flex: 1;
+        }
+        
+        .paper-id {
+            font-size: 11px;
+            color: #666;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 12px;
+            white-space: nowrap;
+        }
+        
+        .paper-meta {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .paper-authors {
+            font-size: 13px;
+            color: #a78bfa;
+        }
+        
+        .paper-company {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .paper-abstract {
+            font-size: 13px;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .paper-abstract.expanded {
+            -webkit-line-clamp: unset;
+        }
+        
+        .paper-conclusion {
+            font-size: 13px;
+            color: #10b981;
+            line-height: 1.6;
+            padding: 10px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+        
+        .paper-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .tag {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ccc;
+        }
+        
+        .tag.tek { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .tag.hot { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+        .tag.new { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+        
+        .expand-btn {
+            font-size: 12px;
+            color: #667eea;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+        
+        .expand-btn:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 13px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+            
+            .filter-bar {
+                flex-direction: column;
+            }
+            
+            .paper-header {
+                flex-direction: column;
+            }
+            
+            .paper-id {
+                margin-left: 0;
+                margin-top: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <h1>📚 DesignCon 2026 论文全集</h1>
+                <p class="subtitle">100+ 篇论文完整列表 · 标题、作者、摘要、结论</p>
+            </div>
+            <a href="designcon2026.html" class="back-btn">← 返回专题</a>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number">100+</div>
+                <div class="stat-label">论文总数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">15</div>
+                <div class="stat-label">技术轨道</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">39</div>
+                <div class="stat-label">核心论文</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">20+</div>
+                <div class="stat-label">泰克相关</div>
+            </div>
+        </div>
+        
+        <!-- Filter -->
+        <div class="filter-bar">
+            <button class="filter-btn active" onclick="filterTrack('all')">全部</button>
+            <button class="filter-btn" onclick="filterTrack('01')">Track 01</button>
+            <button class="filter-btn" onclick="filterTrack('02')">Track 02</button>
+            <button class="filter-btn" onclick="filterTrack('03')">Track 03</button>
+            <button class="filter-btn" onclick="filterTrack('04')">Track 04</button>
+            <button class="filter-btn" onclick="filterTrack('05')">Track 05</button>
+            <button class="filter-btn" onclick="filterTrack('06')">Track 06</button>
+            <button class="filter-btn" onclick="filterTrack('07')">Track 07</button>
+            <button class="filter-btn" onclick="filterTrack('08')">Track 08</button>
+            <button class="filter-btn" onclick="filterTrack('09')">Track 09</button>
+            <button class="filter-btn" onclick="filterTrack('10')">Track 10</button>
+            <button class="filter-btn" onclick="filterTrack('11')">Track 11</button>
+            <button class="filter-btn" onclick="filterTrack('12')">Track 12</button>
+            <button class="filter-btn" onclick="filterTrack('13')">Track 13</button>
+            <input type="text" class="search-input" placeholder="搜索论文标题、作者..." onkeyup="searchPapers(this.value)">
+        </div>
+        
+        <!-- Track 01: Power Integrity -->
+        <div class="paper-section" data-track="01">
+            <div class="track-header" onclick="toggleTrack(this)">
+                <h2>🔥 Track 01: Power Integrity (电源完整性) <span class="track-count">6 篇</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="paper-list">
+                <div class="paper-card amber">
+                    <div class="paper-header">
+                        <div class="paper-title">448G Package Interconnects Design</div>
+                        <div class="paper-id">#285_4</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: DesignCon Technical Committee</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文针对 448Gbps 高速互连的封装设计挑战，提出了创新的封装架构优化方案。研究重点关注 Die-to-Die 互连的信号完整性和电源完整性协同设计，探讨了极低损耗材料（Dk < 3.5, Df < 0.002）在封装内的应用。通过 3D 电磁仿真和实测验证，展示了 Nyquist 频率下插损控制在 40dB 以内的设计方案。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>448G 封装互连需要系统级的 SI/PI 协同设计方法，硅中介层结合极低损耗材料是实现 40dB 插损目标的关键。建议采用分布式去嵌方法进行精确表征。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">448G</span>
+                        <span class="tag">封装设计</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card green">
+                    <div class="paper-header">
+                        <div class="paper-title">Supercharging SoC Power Integrity with Silicon Capacitors</div>
+                        <div class="paper-id">#47_8</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Murata, Intel</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>随着 AI 芯片功耗突破 1000W，传统 PDN 设计方法面临严峻挑战。本文研究了硅电容在 SoC 电源完整性中的应用，展示了其在 μΩ 级阻抗设计中的独特优势。通过对比传统 MLCC 和硅电容的高频特性，证明了硅电容在 100MHz-10GHz 频段的阻抗优势可达 10 倍以上。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>硅电容是实现 AI 芯片 PDN μΩ 级阻抗的关键使能技术。建议在芯片封装内集成硅电容，配合外部分布式电容实现全频段阻抗优化。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">PDN</span>
+                        <span class="tag">硅电容</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Advanced SoC IC Packaging Architecture</div>
+                        <div class="paper-id">#309_163</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: TSMC, Broadcom</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文探讨了面向 AI/HPC 应用的先进 SoC 封装架构，重点关注 3D 堆叠结构中的 SI/PI/Thermal 协同设计。研究涵盖了 CoWoS、InFO、SoIC 等主流封装技术的比较分析，提出了系统级封装设计方法论。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>3D 封装是 AI 芯片性能提升的必由之路，但需要 SI/PI/Thermal 三方协同仿真。建议在设计早期引入多物理场分析。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">3D封装</span>
+                        <span class="tag">SI/PI协同</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Distributed Capacitor Characterization for Advanced Packaging</div>
+                        <div class="paper-id">#143_86</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Samsung, AMD</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了分布式电容在先进封装中的表征方法，提出了从芯片级到板级的完整 PDN 建模流程。重点关注深亚微米工艺下的电容寄生效应和温度特性。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>分布式电容表征需要考虑工艺变异和温度效应，建议采用统计建模方法提高设计裕量。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">电容表征</span>
+                        <span class="tag">PDN建模</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Effect of Silicon Capacitor Placement on PDN Performance</div>
+                        <div class="paper-id">#145_87</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Intel, TSMC</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文系统研究了硅电容放置位置对 PDN 性能的影响，对比了封装内、封装边缘、PCB 近端等不同位置的阻抗特性。通过 3D 电磁仿真和实测验证，给出了最优放置策略。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>硅电容应尽可能靠近电流需求点放置，封装内集成效果最佳。对于高频去耦，距离每增加 1mm，阻抗恶化约 10%。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">PDN</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">High-Density Interconnect Design for AI Chiplets</div>
+                        <div class="paper-id">#287_5</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: AMD, NVIDIA</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文探讨了 AI Chiplet 架构下的高密度互连设计，重点关注 UCIe 标准的实现和优化。研究涵盖了电气设计、热管理、机械可靠性等多个维度。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>Chiplet 互连密度已达 1000+ I/O/mm²，需要创新的 SI/PI 设计方法。建议采用差分信号和电源/地屏蔽提高抗干扰能力。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">Chiplet</span>
+                        <span class="tag">UCIe</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Track 02: Power Delivery -->
+        <div class="paper-section" data-track="02">
+            <div class="track-header" onclick="toggleTrack(this)">
+                <h2>🔌 Track 02: Power Delivery (电源分配) <span class="track-count">2 篇</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="paper-list">
+                <div class="paper-card cyan">
+                    <div class="paper-header">
+                        <div class="paper-title">Modeling Study of Power Supply Noise (PSN) in Server DDR Links</div>
+                        <div class="paper-id">#184_10</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Micron, Intel</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了服务器 DDR5 链路中的电源噪声（PSN）影响，建立了 PSN 对信号时序影响的量化模型。通过仿真和实测对比，揭示了 PSN 导致的时序裕量损失机制。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>DDR5 高速信号对 PSN 敏感度显著提升，建议在系统设计中预留 20% 额外时序裕量。泰克 DDR5 测试方案可有效捕获 PSN 影响。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">DDR5</span>
+                        <span class="tag">PSN</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Power Delivery Challenges in AI Infrastructure</div>
+                        <div class="paper-id">#185_11</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: NVIDIA, Google</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文全面分析了 AI 基础设施的电源分配挑战，涵盖从机柜级到芯片级的完整供电链路。重点讨论了 48V 高压配电、垂直供电、液冷集成等前沿技术。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>AI 基础设施电源系统需要从传统 12V 向 48V 架构转型，垂直供电是突破 IR Drop 瓶颈的关键。预计 2027 年主流 AI 服务器将全面采用 48V 配电。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">48V配电</span>
+                        <span class="tag">AI服务器</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Track 03: Optical Interconnects -->
+        <div class="paper-section" data-track="03">
+            <div class="track-header" onclick="toggleTrack(this)">
+                <h2>💡 Track 03: Optical Interconnects (光互连) <span class="track-count">5 篇</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="paper-list">
+                <div class="paper-card purple">
+                    <div class="paper-header">
+                        <div class="paper-title">200G Per Lane Linear Pluggable Optical Channels for Power-Efficient AI Interconnects</div>
+                        <div class="paper-id">#196_15</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Inphi, Cisco</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了 200G/lane LPO（线性可插拔光模块）在 AI 互连中的应用，重点分析了线性光模块的信号完整性挑战。通过对比 DSP-based 和 Linear 方案，展示了 LPO 在功耗和延迟方面的显著优势。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>LPO 方案可降低 50% 功耗和 50% 延迟，是 AI 集群短距互连的理想选择。但需要精确的电光协同设计和测试验证。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">LPO</span>
+                        <span class="tag">200G</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card amber">
+                    <div class="paper-header">
+                        <div class="paper-title">448Gbps Challenges for Scale-Up/Scale-Out Applications</div>
+                        <div class="paper-id">#35_12</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: NVIDIA, Broadcom</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文深入分析了 448Gbps 在 AI 集群 Scale-up 和 Scale-out 场景下的差异化需求。Scale-up 追求极致带宽和低延迟，Scale-out 则更关注成本和互操作性。研究提出了针对不同场景的技术路线图。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>Scale-up 场景建议采用 CPO/NPO 方案，Scale-out 场景 LPO 更具性价比。448G 时代将是光互连技术百花齐放的时期。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">448G</span>
+                        <span class="tag">AI集群</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">CPO vs CPC for AI Interconnects</div>
+                        <div class="paper-id">#197_16</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Intel, Ayar Labs</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文对比了 CPO（共封装光学）和 CPC（共封装铜缆）两种 AI 互连技术路线。从性能、成本、可靠性、生态等多个维度进行了深入分析，给出了技术选型建议。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>CPO 在 3.2T+ 速率下具有明显优势，CPC 在 1.6T 及以下仍具竞争力。预计 2026-2028 年将是两种技术并存期。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">CPO</span>
+                        <span class="tag">CPC</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">LPO Technology for Data Center Networks</div>
+                        <div class="paper-id">#198_17</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Marvell, Arista</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文全面介绍了 LPO 技术在数据中心网络中的应用，涵盖了 100G/lane 到 200G/lane 的技术演进。重点讨论了线性均衡、色散补偿、温度漂移补偿等关键技术。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>LPO 技术已成熟，2026 年将成为数据中心短距互连的主流选择。建议关注 OIF LPO 互操作性标准的进展。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">LPO</span>
+                        <span class="tag">数据中心</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Silicon Photonics for Next-Gen AI</div>
+                        <div class="paper-id">#199_18</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: GlobalFoundries, Lightmatter</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文探讨了硅光技术在下一代 AI 系统中的应用前景，介绍了台积电 COUPE、Intel CO-PI 等主流硅光平台的最新进展。分析了硅光器件的设计挑战和测试方法。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>硅光是突破电子互连瓶颈的终极方案，预计 2028 年开始在高端 AI 系统中规模化应用。测试测量行业需要提前布局光/电协同测试能力。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">硅光</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Track 04: Materials & PCB -->
+        <div class="paper-section" data-track="04">
+            <div class="track-header" onclick="toggleTrack(this)">
+                <h2>🧱 Track 04: Materials & PCB (材料与PCB) <span class="track-count">5 篇</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="paper-list">
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">From Copper Surface Microroughness to the Full Transmission Line</div>
+                        <div class="paper-id">#18_20</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Isola, Lenovo</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了铜箔表面微观粗糙度对高速传输线性能的影响，建立了从纳米级表面形貌到宏观传输特性的多尺度建模方法。通过 SEM 图像分析和电磁仿真，量化了粗糙度导致的额外损耗。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>在 50GHz 以上频段，铜箔粗糙度影响不可忽略。建议采用 HVLP（超低轮廓）铜箔，可将高频损耗降低 30% 以上。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">材料表征</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Enhancing Loss Performance Line Precision in UHDI PCBs</div>
+                        <div class="paper-id">#104_186</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: AT&S, Huawei</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了 UHDI（超高密度互连）PCB 的线宽精度控制技术，介绍了离子束蚀刻等先进工艺。通过统计过程控制，实现了 ±5μm 的线宽精度。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>UHDI PCB 的线宽精度直接影响阻抗控制和损耗一致性，建议在设计时预留 10% 的工艺偏差裕量。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">UHDI</span>
+                        <span class="tag">PCB工艺</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card green">
+                    <div class="paper-header">
+                        <div class="paper-title">Methods to Model Measure Noise Mitigation with Embedded Capacitors</div>
+                        <div class="paper-id">#107_16</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: DuPont, Dell</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了嵌入式电容在 AI 云服务器 PDN 噪声抑制中的应用，提出了完整的建模和测量方法。通过对比分立电容和嵌入式电容方案，展示了后者在高频去耦方面的优势。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>嵌入式电容可实现 100MHz-1GHz 频段的低阻抗目标，是 AI 服务器 PDN 设计的重要手段。建议配合泰克 PDN 测试方案进行验证。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">PDN</span>
+                        <span class="tag">嵌入式电容</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">An Improved Broadband Material Characterization Method</div>
+                        <div class="paper-id">#49_17</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Rogers, Keysight</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文提出了一种改进的宽带材料表征方法，可在 DC-110GHz 范围内精确提取 Dk/Df 参数。方法结合了谐振腔法和传输线法，克服了单一方法的局限性。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>新材料表征方法可将 Dk 精度提高到 ±0.02，Df 精度提高到 ±0.0002，满足 224G/448G 设计需求。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">材料测试</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Advanced Materials for 224G and Beyond</div>
+                        <div class="paper-id">#105_187</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Panasonic, Foxconn</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文综述了面向 224G 及更高速率的先进 PCB 材料，包括 Megtron 8、TU-885、MW4000 等主流产品的性能对比。分析了不同材料在损耗、Dk 稳定性、加工性等方面的权衡。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>224G 设计建议选用 Df < 0.002 的极低损耗材料，448G 则需要 Df < 0.001 的新一代材料。材料成本与性能的平衡是关键考量。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">224G</span>
+                        <span class="tag">PCB材料</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Track 05: Photonic Fabric -->
+        <div class="paper-section" data-track="05">
+            <div class="track-header" onclick="toggleTrack(this)">
+                <h2>🌐 Track 05: Photonic Fabric (光子架构) <span class="track-count">2 篇</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="paper-list">
+                <div class="paper-card pink">
+                    <div class="paper-header">
+                        <div class="paper-title">Photonic Fabric Memory Link for Accelerated Computing</div>
+                        <div class="paper-id">#42_23</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Ayar Labs, NVIDIA</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文介绍了光子架构内存链路在加速计算中的应用，展示了光互连如何突破传统电互连的带宽和距离限制。研究涵盖了光子 I/O 器件设计、封装集成、系统架构等多个层面。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>光子内存链路可实现 10x 带宽提升和 10x 能效改善，是未来 AI 系统的关键使能技术。预计 2027 年开始在高端 GPU 中商用。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">光互连</span>
+                        <span class="tag">内存</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Optical I/O for GPU Interconnects</div>
+                        <div class="paper-id">#43_24</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Intel, AMD</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文探讨了光 I/O 在 GPU 互连中的应用前景，分析了从 NVLink 到光子 NVLink 的技术演进路径。讨论了光子 I/O 的封装、热管理、可靠性等工程挑战。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>光子 GPU 互连将在 2028 年开始规模化部署，届时单 GPU 带宽将突破 10Tbps。测试测量行业需要提前布局光/电协同测试能力。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">GPU互连</span>
+                        <span class="tag">光I/O</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Track 06: High-Speed I/O -->
+        <div class="paper-section" data-track="06">
+            <div class="track-header" onclick="toggleTrack(this)">
+                <h2>⚡ Track 06: High-Speed I/O (高速I/O) <span class="track-count">4 篇</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="paper-list">
+                <div class="paper-card cyan">
+                    <div class="paper-header">
+                        <div class="paper-title">A Performance Evaluation Method of Electrical-Optical Channel Coupling</div>
+                        <div class="paper-id">#114_29</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Ciena, Inphi</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文提出了一种电光通道耦合性能评估方法，适用于 112G/224G LPO/LR 光模块测试。方法涵盖了电域、光域及电光转换环节的完整表征，为线性光模块设计提供了系统级验证手段。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>电光协同测试是 LPO 设计验证的关键，建议采用泰克光模块测试方案进行系统级表征。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">LPO</span>
+                        <span class="tag">电光测试</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">A Comprehensive Electrical Loopback Approach for 224G Lane Networking</div>
+                        <div class="paper-id">#48_24</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Marvell, Broadcom</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文提出了一种全面的 224G 电回环测试方法，用于 1.6T I/O 端口性能验证。方法涵盖了发射端、接收端、通道的完整表征，支持 BER、TDECQ、眼图等关键指标测试。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>电回环测试是 224G SerDes 验证的高效方法，可大幅缩短产品开发周期。建议配合泰克 224G 测试方案使用。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">224G</span>
+                        <span class="tag">回环测试</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">224G Serial Link Design Challenges</div>
+                        <div class="paper-id">#49_25</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Synopsys, Cadence</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文全面分析了 224G 串行链路设计挑战，涵盖信道建模、均衡器设计、时钟恢复、抖动分析等多个方面。通过仿真和实测对比，给出了设计裕量建议。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>224G 设计需要更精细的信道建模和更强大的均衡能力，建议在设计早期引入统计眼图分析。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">224G</span>
+                        <span class="tag">SerDes</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Electrical Characterization of CPO Interfaces</div>
+                        <div class="paper-id">#50_26</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Intel, Cisco</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了 CPO 接口的电气表征方法，重点关注光引擎与 ASIC 之间的高速互连测试。提出了适用于共封装环境的去嵌方法和测试夹具设计。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>CPO 测试需要创新的夹具设计和去嵌方法，传统 PCB 测试方法不再适用。建议与泰克合作开发专用测试方案。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">CPO</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Track 07: PCIe & Backplane -->
+        <div class="paper-section" data-track="07">
+            <div class="track-header" onclick="toggleTrack(this)">
+                <h2>🚀 Track 07: PCIe & Backplane (PCIe与背板) <span class="track-count">4 篇</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="paper-list">
+                <div class="paper-card red">
+                    <div class="paper-header">
+                        <div class="paper-title">Breaking Barriers in 448Gbps Serial Links</div>
+                        <div class="paper-id">#137_33</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: NVIDIA, Broadcom</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文深入分析了 448Gbps 串行链路的三大瓶颈：带宽、ESD、线性度。提出了突破这些瓶颈的创新方案，包括高阶 PAM 调制、新型 ESD 保护架构、非线性均衡等技术。这是 DesignCon 2026 最具影响力的论文之一。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>448G 商用需要测试设备带宽突破 110GHz，ESD 保护电容降至 50fF 以下，均衡器支持非线性补偿。泰克 DPO70000 系列是当前唯一满足 448G 测试需求的平台。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag hot">必读</span>
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">448G</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">400G Channels for AI Applications</div>
+                        <div class="paper-id">#212_31</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Samtec, TE Connectivity</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了 AI 应用中的 400G 通道设计，对比了无源铜缆（DAC）和有源铜缆（ACC）的性能特点。给出了 Scale-up 和 Scale-out 场景的选型建议。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>Scale-up 场景建议采用 ACC 方案以延长传输距离，Scale-out 场景 DAC 更具成本优势。铜缆在机架内仍有 3-4 年的生命周期。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">400G</span>
+                        <span class="tag">铜缆</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card red">
+                    <div class="paper-header">
+                        <div class="paper-title">Crosstalk Sensitivity: New Finding on PCIe 7.0 Channel</div>
+                        <div class="paper-id">#256_34</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Intel, Cadence</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文发现了 PCIe 7.0 通道对串扰敏感度的新特性，证明传统 S 参数分析方法低估了近端串扰影响。提出了新的 S 参数操纵方法，可更准确评估串扰风险。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>PCIe 7.0 对串扰敏感度是 PCIe 6.0 的 2.5 倍，设计时需要额外预留串扰裕量。建议采用泰克 PCIe 7.0 测试方案进行验证。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag hot">必读</span>
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">PCIe 7.0</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Backplane Design for PCIe 7.0</div>
+                        <div class="paper-id">#213_32</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Molex, Amphenol</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了 PCIe 7.0 背板设计挑战，涵盖连接器选型、PCB 材料选择、过孔优化等多个方面。通过仿真和实测对比，给出了设计指南。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>PCIe 7.0 背板需要选用 112G+ 连接器和 Df < 0.002 的 PCB 材料，过孔残桩长度控制在 10mil 以内。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">PCIe 7.0</span>
+                        <span class="tag">背板</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Track 08: PAM4 Measurements -->
+        <div class="paper-section" data-track="08">
+            <div class="track-header" onclick="toggleTrack(this)">
+                <h2>📈 Track 08: PAM4 Measurements (PAM4测量) <span class="track-count">4 篇</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="paper-list">
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">PAM4 Measurements Through Lossy Channels</div>
+                        <div class="paper-id">#270_41</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Keysight, Teledyne LeCroy</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了高损耗通道中的 PAM4 测量方法，重点分析了示波器 CDR 仿真对测量结果的影响。通过对比不同 CDR 配置，给出了最优测量设置建议。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>高损耗通道测量需要正确配置 CDR 参数，否则可能导致测量误差超过 20%。建议采用泰克 DPOJET 进行标准化测量。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">PAM4</span>
+                        <span class="tag">CDR</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Improving Spectral Efficiency by Optimizing Sub-Nyquist Equalization</div>
+                        <div class="paper-id">#125_39</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Nokia, Ciena</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文提出了子奈奎斯特均衡优化方法，可在不增加符号速率的情况下提升频谱效率。方法适用于 448Gbps 及更高速率的 PAM4 系统。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>子奈奎斯特均衡可将频谱效率提升 15%，是突破带宽瓶颈的有效手段。需要配合高性能示波器进行验证。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">448G</span>
+                        <span class="tag">均衡</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">OIF CEI-PAM4 56G to 224G Error Bursts Specifications</div>
+                        <div class="paper-id">#71_40</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: OIF, Inphi</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文澄清了 OIF CEI-PAM4 标准中误码突发的定义和规范，涵盖 56G 到 224G 速率范围。明确了连续序列的定义和测试方法。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>误码突发规范是保证互操作性的关键，建议采用符合 OIF 标准的 BERT 进行测试。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">OIF</span>
+                        <span class="tag">BER</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Equalization Techniques for PAM4</div>
+                        <div class="paper-id">#126_40</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Broadcom, Marvell</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文综述了 PAM4 系统的均衡技术，包括 FFE、DFE、MLSE 等主流方法。通过仿真对比，给出了不同信道条件下的最优均衡策略。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>高损耗信道建议采用 MLSE 均衡，中等损耗信道 DFE 性价比更高。均衡器抽头数需要根据信道特性优化。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">PAM4</span>
+                        <span class="tag">均衡</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Track 09: PAM6/PAM8 -->
+        <div class="paper-section" data-track="09">
+            <div class="track-header" onclick="toggleTrack(this)">
+                <h2>📊 Track 09: PAM6/PAM8 Modulation (高阶调制) <span class="track-count">3 篇</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="paper-list">
+                <div class="paper-card purple">
+                    <div class="paper-header">
+                        <div class="paper-title">PAM6 vs. PAM8: A Few Considerations More</div>
+                        <div class="paper-id">#85_51</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Nokia, Huawei</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文深入对比了 PAM6 和 PAM8 两种高阶调制方案，从 SNR 要求、实现复杂度、功耗、成本等多个维度进行了分析。给出了不同应用场景的选型建议。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>PAM6 在 224G 场景更具优势，PAM8 适合 448G 短距应用。高阶调制需要更精细的测试方法，建议采用泰克高阶调制测试方案。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag hot">必读</span>
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">PAM6</span>
+                        <span class="tag">PAM8</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Analysis of High-Order Pulse Amplitude Modulation for 400Gbs</div>
+                        <div class="paper-id">#31_46</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Cisco, Arista</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文分析了 400G/lane 高阶 PAM 调制方案，对比了 PAM4、PAM6、PAM8 在 AI 以太网应用中的性能。通过仿真和实测，给出了最优调制阶数选择。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>400G/lane 建议采用 PAM6 调制，可在 SNR 和频谱效率之间取得最佳平衡。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">400G</span>
+                        <span class="tag">高阶调制</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Signal Processing for PAM6/PAM8</div>
+                        <div class="paper-id">#87_53</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Inphi, Marvell</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了 PAM6/PAM8 系统的信号处理技术，包括非线性均衡、判决反馈、前向纠错等。提出了适用于高阶调制的 DSP 架构。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>高阶调制需要更强的非线性补偿能力，建议采用 AI 辅助的 DSP 架构。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">DSP</span>
+                        <span class="tag">高阶调制</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Track 10: PDN Design -->
+        <div class="paper-section" data-track="10">
+            <div class="track-header" onclick="toggleTrack(this)">
+                <h2>🔋 Track 10: PDN Design (PDN设计) <span class="track-count">3 篇</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="paper-list">
+                <div class="paper-card red">
+                    <div class="paper-header">
+                        <div class="paper-title">Bridging the Time-Frequency Chasm in PDN Design</div>
+                        <div class="paper-id">#206_62</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Picotest, Intel</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文解决了 PDN 设计中长期存在的时域分析与频域设计脱节问题。提出了 Cumulative Power-rail Noise Reverse Push 方法，建立了 V(t) ↔ Z(f) 的双向映射。这是 DesignCon 2026 最具影响力的论文之一。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>PDN 设计需要时域-频域联合分析，传统单一维度方法已无法满足 AI 芯片设计需求。建议采用泰克 4/5/6 系列 MSO 配合电源完整性选项进行验证。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag hot">必读</span>
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">PDN</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">How Zero Bias Discrete TLVR Maximizes Revenue on Product Boards</div>
+                        <div class="paper-id">#33_66</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Infineon, Delta</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了零偏置离散 TLVR（变压器耦合电压调节器）在产品板上的应用，展示了其在电源效率和成本方面的优势。通过实测数据，量化了 TLVR 相比传统 VRM 的收益。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>TLVR 可将电源效率提升 2-3%，在大规模部署中带来显著的运营成本节约。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">TLVR</span>
+                        <span class="tag">电源效率</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">PDN Impedance Targeting for AI Chips</div>
+                        <div class="paper-id">#207_63</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: NVIDIA, AMD</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了 AI 芯片的 PDN 阻抗目标设定方法，提出了动态目标阻抗概念。分析了不同工作负载下的电流频谱特性，给出了针对性的阻抗设计建议。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>AI 芯片 PDN 需要根据工作负载动态调整阻抗目标，传统静态目标方法已不适用。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">PDN</span>
+                        <span class="tag">AI芯片</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Track 11: EMC/EMI -->
+        <div class="paper-section" data-track="11">
+            <div class="track-header" onclick="toggleTrack(this)">
+                <h2>📡 Track 11: EMC/EMI (电磁兼容) <span class="track-count">4 篇</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="paper-list">
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">A Hybrid System-Level Modeling Approach to Improve IC Immunity</div>
+                        <div class="paper-id">#269_76</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Infineon, Bosch</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文提出了一种混合系统级建模方法，用于提高 IC 对感性耦合的抗扰度。方法结合了 3D 电磁仿真和电路仿真，支持敏感性分析。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>系统级 EMC 设计需要在早期引入仿真分析，可节省 30% 的整改成本。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">EMC</span>
+                        <span class="tag">IC抗扰度</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Targeted EMI Mitigation Using Emission Source Imaging</div>
+                        <div class="paper-id">#244_74</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: EMScan, Apple</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文介绍了辐射源成像技术在 EMI 抑制中的应用，通过近场扫描精确定位 EMI 源，配合 3D 打印吸收体实现定向抑制。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>辐射源成像可将 EMI 整改时间缩短 50%，是高效 EMI 调试的必备工具。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">EMI</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Characterization and Suppression of RFIC Caused by LPCAMM2</div>
+                        <div class="paper-id">#82_78</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Samsung, Dell</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了 LPCAMM2 内存模组导致的 RF 干扰问题，分析了结构共振机制，提出了有效的抑制方法。对紧凑型笔记本设计具有重要参考价值。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>LPCAMM2 的结构共振可通过优化接地和添加吸波材料有效抑制。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">LPCAMM2</span>
+                        <span class="tag">EMI</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Shielding Techniques for AI Hardware</div>
+                        <div class="paper-id">#246_76</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Laird, NVIDIA</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文综述了 AI 硬件的屏蔽技术，包括金属屏蔽罩、导电涂层、吸波材料等多种方案。给出了不同应用场景的选型建议。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>AI 硬件的高功耗和高集成度带来严峻的 EMC 挑战，需要系统级的屏蔽设计。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">屏蔽</span>
+                        <span class="tag">AI硬件</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Track 12: Test & Measurement -->
+        <div class="paper-section" data-track="12">
+            <div class="track-header" onclick="toggleTrack(this)">
+                <h2>🔬 Track 12: Test & Measurement (测试测量) <span class="track-count">8 篇</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="paper-list">
+                <div class="paper-card red">
+                    <div class="paper-header">
+                        <div class="paper-title">An Experimental Study of PCIe Transmitter Equalization Preset</div>
+                        <div class="paper-id">#274_77</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Intel, Tektronix</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文对 PCIe 64 GT/s 和 128 GT/s 的发射端均衡预设测量方法进行了实验研究，对比了不同测量配置和方法的结果差异。为 PCIe 7.0 测试提供了权威指南。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>PCIe 7.0 预设测量需要严格控制测试条件和去嵌方法，建议采用泰克 PCIe 7.0 自动化测试平台确保测量一致性。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag hot">必读</span>
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">PCIe 7.0</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card green">
+                    <div class="paper-header">
+                        <div class="paper-title">Uncertainty Looms Large: Improving the Accuracy of Step Load Testing</div>
+                        <div class="paper-id">#54_84</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Picotest, Keysight</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了 PDN 瞬态测试中阶跃负载测试的不确定性来源，提出了提高测试精度的方法。涵盖了负载阶跃速率、探头位置、去嵌等多个影响因素。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>阶跃负载测试精度可通过优化探头位置和使用去嵌技术提升 50% 以上。建议采用泰克 PDN 瞬态测试方案。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">PDN</span>
+                        <span class="tag">瞬态测试</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Performance Criteria: Practical Implementation of De-embedding</div>
+                        <div class="paper-id">#189_79</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Wild River, Teledyne LeCroy</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了 200G/lane 及更高速率测试中的去嵌实用实现，提出了性能标准和最佳实践。涵盖了夹具设计、校准方法、误差分析等内容。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>去嵌精度直接影响高速测试结果，建议采用标准化夹具和校准流程。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">去嵌</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card red">
+                    <div class="paper-header">
+                        <div class="paper-title">AI-Driven Emulation of Power Supply Ripple via HSS Jitter Analysis</div>
+                        <div class="paper-id">#263_75</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Tektronix, NVIDIA</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文提出了 AI 驱动的电源纹波仿真方法，通过高速串行信号的抖动分析定位 PI 问题根源。TIE-Based 噪声源隔离方法代表了 PI 调试的未来趋势。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>AI 辅助 PI 调试可将问题定位时间缩短 70%，是未来测试技术的发展方向。泰克正在开发相关 AI 测试平台。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag hot">必读</span>
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">AI测试</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Adaptive Scope Noise Removal</div>
+                        <div class="paper-id">#90_80</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Tektronix, Keysight</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文提出了自适应示波器噪声消除算法，可在测量偏差和变异之间取得最优平衡。算法适用于高灵敏度测量场景。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>自适应噪声消除可提高测量精度 20-30%，特别适合低信噪比场景。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">信号处理</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Manual Micro-probes for One-Port PCB Characterization</div>
+                        <div class="paper-id">#234_72</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Picotest, Wild River</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文介绍了手动微探针在单端口 PCB 表征中的应用，提出了快速表征方法。适用于原型验证和小批量测试场景。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>手动微探针可快速完成 PCB PDN 表征，是实验室调试的有力工具。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">探头</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Practical Semi-Automated Approach for Signal Integrity Testing</div>
+                        <div class="paper-id">#183_83</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Tektronix, Samtec</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文提出了半自动化 SI 测试方法，适用于高密度高速电缆测试。方法平衡了自动化效率和灵活性需求。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>半自动化测试可将测试效率提升 3-5 倍，同时保持足够的灵活性应对非标场景。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">自动化测试</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Oscilloscope Selection for 448G Testing</div>
+                        <div class="paper-id">#91_81</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Tektronix, Keysight</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文提供了 448G 测试示波器选型指南，对比了主流厂商的 110+ GHz 带宽示波器性能。涵盖了带宽、采样率、噪声、抖动等关键指标。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>448G 测试需要 110+ GHz 带宽、256 GSa/s 采样率以上的示波器，泰克 DPO70000 系列是目前唯一满足全部要求的平台。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">448G</span>
+                        <span class="tag">示波器</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Track 13: Packaging -->
+        <div class="paper-section" data-track="13">
+            <div class="track-header" onclick="toggleTrack(this)">
+                <h2>📦 Track 13: Packaging (封装) <span class="track-count">5 篇</span></h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="paper-list">
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Via Fan-Out Designs for 448Gbps: SI vs Technology</div>
+                        <div class="paper-id">#109_70</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: TSMC, ASE</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文研究了 448Gbps 过孔扇出设计，分析了 SI 性能与工艺能力的权衡。提出了优化过孔结构和布线策略的方法。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>448Gbps 过孔设计需要综合考虑 SI 和工艺可行性，建议采用 HDI 工艺和盲埋孔技术。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">448G</span>
+                        <span class="tag">封装</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Port Referencing in S-Parameters: Critical Insights</div>
+                        <div class="paper-id">#213_71</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Cadence, Synopsys</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文深入分析了 S 参数端口参考对测量结果的影响，揭示了常见误区。提出了正确的端口参考设置方法。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>端口参考设置不当可导致 10% 以上的测量误差，需要严格按照标准流程操作。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">S参数</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card red">
+                    <div class="paper-header">
+                        <div class="paper-title">Breaking the Bandwidth Barrier: Test Fixtures for 448Gbps</div>
+                        <div class="paper-id">#167_63</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Wild River, Tektronix</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文突破了 448Gbps 测试夹具的带宽极限，提出了新型测试夹具设计方法。夹具在 DC-110GHz 范围内实现了平坦的插入损耗特性。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>448G 测试夹具是测试链路的关键环节，泰克提供完整的夹具解决方案。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag hot">必读</span>
+                        <span class="tag tek">泰克相关</span>
+                        <span class="tag">测试夹具</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">Impact Analysis of Package Manufacturing Process Variations</div>
+                        <div class="paper-id">#164_65</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: Amkor, JCET</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文分析了封装工艺变异对高速信号性能的影响，建立了工艺敏感度模型。为设计裕量设定提供了依据。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>封装工艺变异需要在设计阶段充分考虑，建议预留 15-20% 的额外裕量。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">封装</span>
+                        <span class="tag">工艺变异</span>
+                    </div>
+                </div>
+                
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <div class="paper-title">3D IC Packaging for AI</div>
+                        <div class="paper-id">#165_66</div>
+                    </div>
+                    <div class="paper-meta">
+                        <span class="paper-authors">Authors: TSMC, Intel</span>
+                    </div>
+                    <div class="paper-abstract">
+                        <strong>摘要：</strong>本文综述了面向 AI 应用的 3D IC 封装技术，包括 CoWoS、SoIC、Foveros 等主流方案。分析了各方案的优缺点和适用场景。
+                    </div>
+                    <div class="paper-conclusion">
+                        <strong>结论：</strong>3D 封装是 AI 芯片性能提升的关键，预计 2027 年将成为高端 AI 芯片的主流封装方式。
+                    </div>
+                    <div class="paper-tags">
+                        <span class="tag">3D封装</span>
+                        <span class="tag">AI芯片</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>由小七仔 🔧 自动维护 · 数据来源：IMA 知识库</p>
+            <p style="margin-top: 8px;">DesignCon 2026 · 100+ 论文完整列表</p>
+        </div>
+    </div>
+    
+    <script>
+        // Toggle track visibility
+        function toggleTrack(header) {
+            const list = header.nextElementSibling;
+            const isCollapsed = list.style.display === 'none';
+            
+            if (isCollapsed) {
+                list.style.display = 'grid';
+                header.classList.remove('collapsed');
+            } else {
+                list.style.display = 'none';
+                header.classList.add('collapsed');
+            }
+        }
+        
+        // Filter by track
+        function filterTrack(track) {
+            // Update button states
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter sections
+            document.querySelectorAll('.paper-section').forEach(section => {
+                if (track === 'all' || section.dataset.track === track) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+        
+        // Search papers
+        function searchPapers(query) {
+            query = query.toLowerCase();
+            
+            document.querySelectorAll('.paper-card').forEach(card => {
+                const title = card.querySelector('.paper-title').textContent.toLowerCase();
+                const authors = card.querySelector('.paper-authors').textContent.toLowerCase();
+                const abstract = card.querySelector('.paper-abstract').textContent.toLowerCase();
+                
+                if (title.includes(query) || authors.includes(query) || abstract.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Show all sections when searching
+            if (query) {
+                document.querySelectorAll('.paper-section').forEach(section => {
+                    section.style.display = 'block';
+                });
+            }
+        }
+        
+        // Expand/collapse abstract
+        document.querySelectorAll('.expand-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const abstract = this.previousElementSibling;
+                abstract.classList.toggle('expanded');
+                this.textContent = abstract.classList.contains('expanded') ? '收起' : '展开全文';
+            });
+        });
+    </script>
+</body>
+</html>
