@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>大湾区科研教育图谱 - 小七仔 Dashboard</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.9/vis-network.min.js'>
+    </script>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.9/dist/dist/vis-network.min.css' />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            position: relative;
+        }
+        header h1 {
+            font-size: 1.8em;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        header .subtitle { color: #888; font-size: 0.85em; margin-top: 6px; }
+        .back-link {
+            display: inline-block; margin-top: 10px; color: #00d4ff; text-decoration: none;
+            font-size: 0.85em;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .controls {
+            display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px;
+            align-items: center;
+        }
+        .controls input, .controls select {
+            padding: 10px 14px; border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(0,0,0,0.3); color: #e0e0e0; border-radius: 8px;
+            font-size: 0.9em;
+        }
+        .controls input { flex: 1; min-width: 200px; }
+        .controls input::placeholder { color: #666; }
+        .controls select { min-width: 140px; }
+        .controls button {
+            padding: 10px 18px; border: none; border-radius: 8px;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf); color: #fff;
+            cursor: pointer; font-size: 0.9em;
+        }
+        .controls button:hover { opacity: 0.9; }
+
+        #graph-container {
+            background: rgba(0,0,0,0.2); border-radius: 16px;
+            height: 700px; border: 1px solid rgba(255,255,255,0.08);
+            position: relative; overflow: hidden;
+        }
+        #graph-container .vis-network:focus { outline: none; }
+
+        .detail-panel {
+            display: none; background: rgba(255,255,255,0.05);
+            border-radius: 12px; padding: 20px; margin-top: 16px;
+            border-left: 3px solid #00d4ff;
+        }
+        .detail-panel.visible { display: block; }
+        .detail-panel h3 { color: #00d4ff; margin-bottom: 12px; font-size: 1.1em; }
+        .detail-panel .info-row {
+            display: flex; gap: 12px; margin-bottom: 8px; align-items: flex-start;
+        }
+        .detail-panel .info-label {
+            color: #888; min-width: 80px; font-size: 0.85em;
+        }
+        .detail-panel .info-value { color: #e0e0e0; flex: 1; }
+        .detail-panel .tag {
+            display: inline-block; padding: 2px 8px; border-radius: 4px;
+            font-size: 0.75em; margin-right: 4px;
+            background: rgba(0,212,255,0.2); color: #00d4ff;
+        }
+        .tek-stars { color: #ff4444; }
+
+        .stats-row {
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
+            margin-bottom: 16px;
+        }
+        .stat-card {
+            padding: 14px; background: rgba(255,255,255,0.06);
+            border-radius: 10px; text-align: center;
+        }
+        .stat-card .num { font-size: 1.6em; color: #00d4ff; font-weight: bold; }
+        .stat-card .label { font-size: 0.75em; color: #888; margin-top: 4px; }
+
+        .legend {
+            display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;
+            padding: 10px 14px; background: rgba(0,0,0,0.2);
+            border-radius: 8px; font-size: 0.8em;
+        }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-dot {
+            width: 12px; height: 12px; border-radius: 50%;
+            display: inline-block;
+        }
+
+        @media (max-width: 800px) {
+            .stats-row { grid-template-columns: repeat(3, 1fr); }
+            #graph-container { height: 500px; }
+        }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <header>
+            <h1>🧪 大湾区科研教育知识图谱</h1>
+            <div class='subtitle'>机构 · 研究者 · 项目 · 研究方向 · 测试测量机会</div>
+            <div><a href='index.html' class='back-link'>← 返回 Dashboard</a></div>
+        </header>
+
+        <div class='stats-row' id='stats'></div>
+
+        <div class='legend'>
+            <span class='legend-item'><span class='legend-dot' style='background:#4fc3f7'></span> 机构</span>
+            <span class='legend-item'><span class='legend-dot' style='background:#ffb74d'></span> 研究者</span>
+            <span class='legend-item'><span class='legend-dot' style='background:#81c784'></span> 项目</span>
+            <span class='legend-item'><span class='legend-dot' style='background:#ce93d8'></span> 研究方向</span>
+            <span class='legend-item'>🔴 机会评分 1-5</span>
+        </div>
+
+        <div class='controls'>
+            <input type='text' id='search-input' placeholder='搜索机构、研究者、项目...' />
+            <select id='filter-type'>
+                <option value='all'>全部类型</option>
+                <option value='institution'>机构</option>
+                <option value='researcher'>研究者</option>
+                <option value='project'>项目</option>
+                <option value='direction'>研究方向</option>
+            </select>
+            <select id='filter-tek'>
+                <option value='0'>泰克机会</option>
+                <option value='5'>⭐⭐⭐⭐⭐</option>
+                <option value='4'>⭐⭐⭐⭐</option>
+                <option value='3'>⭐⭐⭐</option>
+                <option value='2'>⭐⭐</option>
+                <option value='1'>⭐</option>
+            </select>
+            <button onclick='applyFilters()'>🔍 筛选</button>
+            <button onclick='resetGraph()'>🔄 重置</button>
+        </div>
+
+        <div id='graph-container'></div>
+
+        <div class='detail-panel' id='detail-panel'>
+            <h3 id='detail-title'></h3>
+            <div id='detail-body'></div>
+        </div>
+
+        <footer style='text-align:center; padding:20px; color:#666; font-size:0.8em; margin-top:20px;'>
+            <p>数据来源：大湾区科研教育跟踪体系 · 小七仔 Dashboard</p>
+            <p style='margin-top:6px;'>节点可拖拽 · 滚轮缩放 · 点击查看详情</p>
+        </footer>
+    </div>
+
+    <script>
+        // ==================== DATA ====================
+        const DATA = {
+            institutions: [
+                { id: 'pcl', name: '鹏城实验室', type: '国家级实验室', location: '深圳', tek: 5, desc: '2026年云脑Ⅲ通电调试，Nature论文一篇，10项成果国际领先' },
+                { id: 'hkust_gz', name: '港科大（广州）', type: '高校', location: '广州南沙', tek: 5, desc: '15个中央实验室、25个主题实验室、10个校企联合实验室' },
+                { id: 'sslab', name: '松山湖材料实验室', type: '省级实验室', location: '东莞松山湖', tek: 4, desc: '总投资120亿+，孵化企业70+家估值超300亿' },
+                { id: 'pku_shenzhen', name: '北大深圳研究生院', type: '高校分校区', location: '深圳大学城', tek: 3, desc: '与鹏城实验室深度合作，2026年Nature论文' },
+                { id: 'gba_university', name: '大湾区大学', type: '高校（新建）', location: '东莞', tek: 4, desc: '2025年首届招生，2030年达10000人，新校设备采购窗口期' },
+                { id: 'sustech', name: '南方科技大学', type: '高校', location: '深圳南山区', tek: 3, desc: '' },
+                { id: 'szu', name: '深圳大学', type: '高校', location: '深圳南山区', tek: 3, desc: '' },
+                { id: 'sysu', name: '中山大学', type: '高校', location: '广州', tek: 3, desc: '' },
+                { id: 'scut', name: '华南理工大学', type: '高校', location: '广州', tek: 3, desc: '' },
+                { id: 'cast', name: '中科院深圳先进院', type: '研究机构', location: '深圳', tek: 3, desc: '' },
+                { id: 'hku', name: '香港大学', type: '高校', location: '香港', tek: 3, desc: '' },
+                { id: 'cuhk', name: '香港中文大学', type: '高校', location: '香港', tek: 3, desc: '' },
+                { id: 'hkust', name: '香港科技大学', type: '高校', location: '香港清水湾', tek: 3, desc: '孵化大疆创新、云洲智能' },
+                { id: 'hitu_shenzhen', name: '哈工大（深圳）', type: '高校分校区', location: '深圳大学城', tek: 3, desc: '' },
+                { id: 'jnu', name: '暨南大学', type: '高校', location: '广州', tek: 1, desc: '' },
+                { id: 'gba_quantum', name: '粤港澳量子科学中心', type: '科研机构', location: '河套', tek: 2, desc: '薛其坤院士任理事长，6大研究方向' },
+                { id: 'huawei', name: '华为2012实验室', type: '企业研究院', location: '深圳', tek: 5, desc: '待详细调研' }
+            ],
+            researchers: [
+                { id: 'yu_shaohua', name: '余少华', title: '院士', inst: 'pcl', research: ['光通信', '集成光子学'], paper: 'Nature 2026' },
+                { id: 'wang_lijun', name: '王立军', title: '院士', inst: 'pcl', research: ['光电', '半导体激光'] },
+                { id: 'lu_jun', name: '陆军', title: '院士', inst: 'pcl', research: ['光电', '光通信'] },
+                { id: 'wang_xingjun', name: '王兴军（北大）', title: '教授', inst: 'pku_shenzhen', research: ['集成光子学', '光通信'], paper: 'Nature 2026' },
+                { id: 'shu_haowen', name: '舒浩文', title: '研究员', inst: 'pku_shenzhen', research: ['集成光子学', '超宽带通信'], paper: 'Nature 2026' },
+                { id: 'ni_mingxuan', name: '倪明选', title: '校长/教授', inst: 'hkust_gz', research: ['计算机科学'] },
+                { id: 'wang_enbo', name: '王恩哥', title: '院士/理事长', inst: 'sslab', research: ['材料科学', '凝聚态物理'] },
+                { id: 'wang_weihua', name: '汪卫华', title: '院士/主任', inst: 'sslab', research: ['金属玻璃', '材料科学'] },
+                { id: 'zhao_zhongxian', name: '赵忠贤', title: '院士/学术委员会主任', inst: 'sslab', research: ['超导物理'] },
+                { id: 'wang_yingjun', name: '王迎军', title: '院士', inst: 'scut', research: ['生物材料', '医疗器械'] },
+                { id: 'xue_qikun', name: '薛其坤', title: '院士/理事长', inst: 'gba_quantum', research: ['量子物理', '拓扑绝缘体'] },
+                { id: 'huang_xuejie', name: '黄学杰', title: '研究员', inst: 'sslab', research: ['锂离子电池', '新能源材料'] }
+            ],
+            projects: [
+                { id: 'pcl-cloud3', name: '鹏城云脑Ⅲ', inst: 'pcl', status: '建设中', desc: '首期4500P通电调试', equip: ['算力基础设施测试', '高速互连测试'] },
+                { id: 'pcl-photonics', name: '集成光子学超宽带通信', inst: 'pcl', status: 'Nature 2026', desc: '512Gbps光纤+400Gbps太赫兹无线', equip: ['超宽带EO调制器>250GHz', '光波分析仪', '高速示波器'], tek: 5 },
+                { id: 'pcl-6g', name: '6G太赫兹通信', inst: 'pcl', status: '外场实验', desc: '面向6G的太赫兹无线通信', equip: ['毫米波测试', '信号分析仪'] },
+                { id: 'hkust-labs', name: '港科大中央实验室群', inst: 'hkust_gz', status: '运营中', desc: '15个中央实验室', equip: ['微电子测试', '芯片测试平台'], tek: 5 },
+                { id: 'bio-ierf', name: '生物启发工程实验室', inst: 'hkust_gz', status: '新启动(2026)', desc: '仿生飞行器/潜航器测试', equip: ['高速采集', '传感器'] },
+                { id: 'best-lab', name: '超级能源科技实验室', inst: 'hkust_gz', status: '新启动(2026)', desc: '低碳可持续能源系统', equip: ['电池测试', '电化学分析'] },
+                { id: 'sslab-battery', name: '水系锌基电池', inst: 'sslab', status: 'Nature子刊2026', desc: 'PH=7中性水系电池', equip: ['电化学工作站'] },
+                { id: 'sslab-gaox', name: '超薄GaOx隧穿接触', inst: 'sslab', status: '研究进展', desc: '二维晶体管接触工程', equip: ['半导体参数分析仪', '探针台'] },
+                { id: 'sslab-thermal', name: '航空发动机热障涂层', inst: 'sslab', status: '重大进展2026', desc: '热防护材料' }
+            ],
+            directions: [
+                { id: 'integrated-photonics', name: '集成光子学', insts: ['pcl', 'pku_shenzhen', 'hkust_gz'], equip: '光波分析、高速示波器>70GHz', tek: 5 },
+                { id: 'optical-communication', name: '光通信', insts: ['pcl', 'pku_shenzhen', 'hkust_gz', 'hku', 'sysu'], equip: '光波分析仪、高速示波器', tek: 5 },
+                { id: '6g', name: '6G通信', insts: ['pcl'], equip: '太赫兹测试、毫米波器件', tek: 5 },
+                { id: 'computing-network', name: '算力网络', insts: ['pcl'], equip: '算力基础设施测试' },
+                { id: 'ai', name: '人工智能', insts: ['pcl', 'hkust_gz', 'hku', 'cuhk'] },
+                { id: 'microelectronics', name: '微电子/芯片', insts: ['hkust_gz', 'hku', 'cuhk'], equip: '半导体参数分析、IC测试', tek: 4 },
+                { id: 'low-altitude', name: '低空经济', insts: ['hkust_gz'], equip: '风洞测试、高速采集', tek: 4 },
+                { id: 'power-semiconductor', name: '功率半导体', insts: ['scut'], equip: '参数分析仪、高压探头', tek: 4 },
+                { id: 'new-materials', name: '新材料', insts: ['sslab', 'scut', 'sustech'] },
+                { id: 'battery', name: '电池/储能', insts: ['sslab'], equip: '电化学工作站' },
+                { id: 'robotics', name: '机器人/伺服', insts: ['hitu_shenzhen', 'hkust_gz'] }
+            ]
+        };
+
+        // ==================== BUILD GRAPH ====================
+        function tekStars(n) {
+            if (!n) return '';
+            return '🔴'.repeat(n) + '⚪'.repeat(5 - n);
+        }
+
+        // Node color by type
+        const COLORS = {
+            institution: { bg: '#4fc3f7', border: '#0288d1', highlight: { bg: '#81d4fa', border: '#0277bd' } },
+            researcher: { bg: '#ffb74d', border: '#f57c00', highlight: { bg: '#ffcc80', border: '#ef6c00' } },
+            project: { bg: '#81c784', border: '#388e3c', highlight: { bg: '#a5d6a7', border: '#2e7d32' } },
+            direction: { bg: '#ce93d8', border: '#7b1fa2', highlight: { bg: '#e1bee7', border: '#6a1b9a' } }
+        };
+
+        function buildGraph() {
+            const nodes = [];
+            const edges = [];
+            const nodeMap = {};
+
+            // Add institution nodes
+            DATA.institutions.forEach(inst => {
+                const tek = inst.tek || 0;
+                const size = 20 + tek * 4;
+                const node = {
+                    id: 'inst-' + inst.id,
+                    label: inst.name + '\n' + tekStars(tek),
+                    title: `<b>${inst.name}</b><br/>${inst.type} · ${inst.location}<br/>机会: ${tekStars(tek)}`,
+                    shape: 'box',
+                    color: COLORS.institution,
+                    font: { color: '#fff', size: 11, face: 'sans-serif' },
+                    size: size,
+                    group: 'institution',
+                    dataType: 'institution'
+                };
+                nodes.push(node);
+                nodeMap['inst-' + inst.id] = inst;
+            });
+
+            // Add researcher nodes
+            DATA.researchers.forEach(r => {
+                const node = {
+                    id: 'res-' + r.id,
+                    label: r.name,
+                    title: `<b>${r.name}</b><br/>${r.title || ''}<br/>研究方向: ${(r.research || []).join(', ')}`,
+                    shape: 'ellipse',
+                    color: COLORS.researcher,
+                    font: { color: '#fff', size: 10, face: 'sans-serif' },
+                    group: 'researcher',
+                    dataType: 'researcher'
+                };
+                nodes.push(node);
+                nodeMap['res-' + r.id] = r;
+
+                // Edge: researcher -> institution
+                if (r.inst) {
+                    edges.push({
+                        from: 'res-' + r.id,
+                        to: 'inst-' + r.inst,
+                        color: { color: '#ffb74d', opacity: 0.6 },
+                        width: 1.5,
+                        title: `从属: ${r.name} → ${nodeMap['inst-' + r.inst]?.name || r.inst}`
+                    });
+                }
+            });
+
+            // Add project nodes
+            DATA.projects.forEach(p => {
+                const node = {
+                    id: 'proj-' + p.id,
+                    label: p.name,
+                    title: `<b>${p.name}</b><br/>${p.desc || ''}<br/>状态: ${p.status || ''}` +
+                           (p.equip ? `<br/>测试需求: ${p.equip.join(', ')}` : ''),
+                    shape: 'diamond',
+                    color: COLORS.project,
+                    font: { color: '#fff', size: 9, face: 'sans-serif' },
+                    group: 'project',
+                    dataType: 'project'
+                };
+                nodes.push(node);
+                nodeMap['proj-' + p.id] = p;
+
+                // Edge: project -> institution
+                if (p.inst) {
+                    edges.push({
+                        from: 'proj-' + p.id,
+                        to: 'inst-' + p.inst,
+                        color: { color: '#81c784', opacity: 0.5 },
+                        width: 1.2,
+                        dashes: [5, 3],
+                        title: `项目: ${p.name} @ ${nodeMap['inst-' + p.inst]?.name || p.inst}`
+                    });
+                }
+            });
+
+            // Add direction nodes
+            DATA.directions.forEach(d => {
+                const node = {
+                    id: 'dir-' + d.id,
+                    label: d.name,
+                    title: `<b>${d.name}</b>` + (d.equip ? `<br/>测试需求: ${d.equip}` : '') +
+                           (d.tek ? `<br/>机会: ${tekStars(d.tek)}` : ''),
+                    shape: 'star',
+                    color: COLORS.direction,
+                    font: { color: '#fff', size: 9, face: 'sans-serif' },
+                    group: 'direction',
+                    dataType: 'direction'
+                };
+                nodes.push(node);
+                nodeMap['dir-' + d.id] = d;
+
+                // Edge: direction -> institutions
+                if (d.insts) {
+                    d.insts.forEach(instId => {
+                        edges.push({
+                            from: 'dir-' + d.id,
+                            to: 'inst-' + instId,
+                            color: { color: '#ce93d8', opacity: 0.35 },
+                            width: 0.8,
+                            dashes: [2, 4],
+                            title: `研究方向: ${d.name}`
+                        });
+                    });
+                }
+            });
+
+            return { nodes, edges, nodeMap };
+        }
+
+        // ==================== NETWORK ====================
+        let network;
+        let currentNodes;
+        let currentEdges;
+        const container = document.getElementById('graph-container');
+
+        function getOptions() {
+            return {
+                physics: {
+                    solver: 'forceAtlas2Based',
+                    forceAtlas2Based: {
+                        gravitationalConstant: -40,
+                        centralGravity: 0.008,
+                        springLength: 180,
+                        springConstant: 0.04,
+                        damping: 0.5
+                    },
+                    stabilization: { iterations: 200 }
+                },
+                layout: {
+                    improvedLayout: true
+                },
+                edges: {
+                    smooth: { type: 'continuous' }
+                },
+                groups: {
+                    institution: { shape: 'box', color: COLORS.institution },
+                    researcher: { shape: 'ellipse', color: COLORS.researcher },
+                    project: { shape: 'diamond', color: COLORS.project },
+                    direction: { shape: 'star', color: COLORS.direction }
+                },
+                interaction: {
+                    hover: true,
+                    tooltipDelay: 200,
+                    navigationButtons: true,
+                    keyboard: true
+                },
+                manipulation: { enabled: true }
+            };
+        }
+
+        function initGraph() {
+            const data = buildGraph();
+            currentNodes = new vis.DataSet(data.nodes);
+            currentEdges = new vis.DataSet(data.edges);
+            network = new vis.Network(container,
+                { nodes: currentNodes, edges: currentEdges },
+                getOptions()
+            );
+
+            // Click handler
+            network.on('click', function(params) {
+                if (params.nodes.length > 0) {
+                    const nodeId = params.nodes[0];
+                    showDetail(nodeId);
+                } else {
+                    document.getElementById('detail-panel').classList.remove('visible');
+                }
+            });
+
+            updateStats(data.nodes);
+        }
+
+        function updateStats(nodes) {
+            const instCount = nodes.filter(n => /^inst-/.test(n.id)).length;
+            const resCount = nodes.filter(n => /^res-/.test(n.id)).length;
+            const projCount = nodes.filter(n => /^proj-/.test(n.id)).length;
+            const dirCount = nodes.filter(n => /^dir-/.test(n.id)).length;
+            const tek5Count = DATA.institutions.filter(i => i.tek >= 4).length;
+
+            document.getElementById('stats').innerHTML = `
+                <div class='stat-card'><div class='num'>${instCount}</div><div class='label'>🏛️ 机构</div></div>
+                <div class='stat-card'><div class='num'>${resCount}</div><div class='label'>👤 研究者</div></div>
+                <div class='stat-card'><div class='num'>${projCount}</div><div class='label'>🚀 项目</div></div>
+                <div class='stat-card'><div class='num'>${dirCount}</div><div class='label'>📐 研究方向</div></div>
+                <div class='stat-card'><div class='num'>${tek5Count}</div><div class='label'>🔴 高机会(4-5分)</div></div>
+            `;
+        }
+
+        // ==================== DETAIL PANEL ====================
+        function showDetail(nodeId) {
+            const panel = document.getElementById('detail-panel');
+            const title = document.getElementById('detail-title');
+            const body = document.getElementById('detail-body');
+            panel.classList.add('visible');
+
+            if (nodeId.startsWith('inst-')) {
+                const id = nodeId.replace('inst-', '');
+                const inst = DATA.institutions.find(i => i.id === id);
+                if (!inst) return;
+                title.textContent = '🏛️ ' + inst.name;
+                const researchers = DATA.researchers.filter(r => r.inst === id);
+                const projects = DATA.projects.filter(p => p.inst === id);
+                const directions = DATA.directions.filter(d => d.insts && d.insts.includes(id));
+                body.innerHTML = `
+                    <div class='info-row'><span class='info-label'>类型</span><span class='info-value'>${inst.type}</span></div>
+                    <div class='info-row'><span class='info-label'>地点</span><span class='info-value'>${inst.location}</span></div>
+                    <div class='info-row'><span class='info-label'>泰克机会</span><span class='info-value tek-stars'>${tekStars(inst.tek)}</span></div>
+                    ${inst.desc ? `<div class='info-row'><span class='info-label'>简介</span><span class='info-value'>${inst.desc}</span></div>` : ''}
+                    ${researchers.length ? `<div class='info-row'><span class='info-label'>研究者</span><span class='info-value'>${researchers.map(r => `<span class='tag'>${r.name}</span>`).join(' ')}</span></div>` : ''}
+                    ${projects.length ? `<div class='info-row'><span class='info-label'>项目</span><span class='info-value'>${projects.map(p => `<span class='tag'>${p.name}</span>`).join(' ')}</span></div>` : ''}
+                    ${directions.length ? `<div class='info-row'><span class='info-label'>研究方向</span><span class='info-value'>${directions.map(d => `<span class='tag'>${d.name}</span>`).join(' ')}</span></div>` : ''}
+                `;
+            } else if (nodeId.startsWith('res-')) {
+                const id = nodeId.replace('res-', '');
+                const r = DATA.researchers.find(r => r.id === id);
+                if (!r) return;
+                title.textContent = '👤 ' + r.name;
+                const inst = DATA.institutions.find(i => i.id === r.inst);
+                body.innerHTML = `
+                    <div class='info-row'><span class='info-label'>职称</span><span class='info-value'>${r.title || '—'}</span></div>
+                    ${inst ? `<div class='info-row'><span class='info-label'>机构</span><span class='info-value'>${inst.name} (${inst.location})</span></div>` : ''}
+                    <div class='info-row'><span class='info-label'>研究方向</span><span class='info-value'>${(r.research || []).join('、')}</span></div>
+                    ${r.paper ? `<div class='info-row'><span class='info-label'>代表性论文</span><span class='info-value'>${r.paper}</span></div>` : ''}
+                `;
+            } else if (nodeId.startsWith('proj-')) {
+                const id = nodeId.replace('proj-', '');
+                const p = DATA.projects.find(p => p.id === id);
+                if (!p) return;
+                title.textContent = '🚀 ' + p.name;
+                const inst = DATA.institutions.find(i => i.id === p.inst);
+                body.innerHTML = `
+                    ${inst ? `<div class='info-row'><span class='info-label'>机构</span><span class='info-value'>${inst.name}</span></div>` : ''}
+                    <div class='info-row'><span class='info-label'>状态</span><span class='info-value'>${p.status || '—'}</span></div>
+                    <div class='info-row'><span class='info-label'>描述</span><span class='info-value'>${p.desc || '—'}</span></div>
+                    ${p.equip ? `<div class='info-row'><span class='info-label'>测试需求</span><span class='info-value'>${p.equip.join('、')}</span></div>` : ''}
+                    ${p.tek ? `<div class='info-row'><span class='info-label'>泰克机会</span><span class='info-value tek-stars'>${tekStars(p.tek)}</span></div>` : ''}
+                `;
+            } else if (nodeId.startsWith('dir-')) {
+                const id = nodeId.replace('dir-', '');
+                const d = DATA.directions.find(d => d.id === id);
+                if (!d) return;
+                title.textContent = '📐 ' + d.name;
+                const instNames = (d.insts || []).map(iid => {
+                    const inst = DATA.institutions.find(i => i.id === iid);
+                    return inst ? inst.name : iid;
+                });
+                body.innerHTML = `
+                    <div class='info-row'><span class='info-label'>相关机构</span><span class='info-value'>${instNames.join('、')}</span></div>
+                    ${d.equip ? `<div class='info-row'><span class='info-label'>测试需求</span><span class='info-value'>${d.equip}</span></div>` : ''}
+                    ${d.tek ? `<div class='info-row'><span class='info-label'>泰克机会</span><span class='info-value tek-stars'>${tekStars(d.tek)}</span></div>` : ''}
+                `;
+            }
+        }
+
+        // ==================== FILTERS ====================
+        function applyFilters() {
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const filterType = document.getElementById('filter-type').value;
+            const filterTek = parseInt(document.getElementById('filter-tek').value);
+
+            const data = buildGraph();
+            let filteredNodes = data.nodes;
+
+            // Filter by type
+            if (filterType !== 'all') {
+                const prefix = filterType === 'institution' ? 'inst-' :
+                    filterType === 'researcher' ? 'res-' :
+                    filterType === 'project' ? 'proj-' : 'dir-';
+                filteredNodes = filteredNodes.filter(n => n.id.startsWith(prefix));
+            }
+
+            // Filter by search text
+            if (search) {
+                filteredNodes = filteredNodes.filter(n => n.label.toLowerCase().includes(search));
+            }
+
+            // Filter by tek opportunity (for institutions)
+            if (filterTek > 0) {
+                filteredNodes = filteredNodes.filter(n => {
+                    if (n.id.startsWith('inst-')) {
+                        const id = n.id.replace('inst-', '');
+                        const inst = DATA.institutions.find(i => i.id === id);
+                        return inst && inst.tek === filterTek;
+                    }
+                    return true;
+                });
+            }
+
+            const filteredIds = new Set(filteredNodes.map(n => n.id));
+            const filteredEdges = data.edges.filter(e =>
+                filteredIds.has(e.from) && filteredIds.has(e.to)
+            );
+
+            currentNodes.clear();
+            currentEdges.clear();
+            currentNodes.add(filteredNodes);
+            currentEdges.add(filteredEdges);
+            network.setData({ nodes: currentNodes, edges: currentEdges });
+            updateStats(filteredNodesphins);
+        }
+
+        function resetGraph() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('filter-type').value = 'all';
+            document.getElementById('filter-tek').value = '0';
+            const data = buildGraph();
+            currentNodes.clear();
+            currentEdges.clear();
+            currentNodes.add(data.nodes);
+            currentEdges.add(data.edges);
+            network.setData({ nodes: currentNodes, edges: currentEdges });
+            updateStats(data.nodes);
+            document.getElementById('detail-panel').classList.remove('visible');
+        }
+
+        // ==================== INIT ====================
+        window.onload = initGraph;
+    </script>
+</body>
+</html>
