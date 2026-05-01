@@ -13,7 +13,7 @@
             min-height: 100vh;
             padding: 20px;
         }
-        .container { max-width: 1000px; margin: 0 auto; }
+        .container { max-width: 1100px; margin: 0 auto; }
         header {
             text-align: center;
             margin-bottom: 30px;
@@ -27,292 +27,233 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .back-link {
-            display: inline-block;
-            margin-top: 10px;
-            color: #00d4ff;
-            text-decoration: none;
-        }
+        .back-link { display: inline-block; margin-top: 10px; color: #00d4ff; text-decoration: none; }
         .back-link:hover { text-decoration: underline; }
-        
+        .update-time { color: #888; font-size: 0.85em; margin-top: 8px; }
+
+        /* Category badges */
+        .cat-nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 16px 0; }
+        .cat-btn {
+            padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 0.85em;
+            cursor: pointer; border: 1px solid rgba(255,255,255,0.15); color: #e0e0e0;
+            background: rgba(255,255,255,0.05); transition: all 0.2s;
+        }
+        .cat-btn:hover { background: rgba(255,255,255,0.12); }
+        .cat-btn.ai { border-color: #00d4ff; color: #00d4ff; }
+        .cat-btn.low-alt { border-color: #4CAF50; color: #4CAF50; }
+        .cat-btn.robot { border-color: #FF9800; color: #FF9800; }
+        .cat-btn.cpo { border-color: #CE93D8; color: #CE93D8; }
+        .cat-btn.arxiv { border-color: #F06292; color: #F06292; }
+        .cat-btn.gba { border-color: #4DD0E1; color: #4DD0E1; }
+
         .card {
             background: rgba(255,255,255,0.08);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 16px; padding: 20px; margin-bottom: 20px;
             border: 1px solid rgba(255,255,255,0.1);
         }
-        .card h2 { 
-            font-size: 1.2em; 
-            margin-bottom: 16px; 
-            color: #00d4ff;
-            padding-bottom: 8px;
-            border-bottom: 2px solid rgba(0,212,255,0.3);
-        }
-        
+        .card h2 { font-size: 1.2em; margin-bottom: 16px; color: #00d4ff; padding-bottom: 8px; border-bottom: 2px solid rgba(0,212,255,0.3); }
+
         .archive-item {
-            padding: 16px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 12px;
-            margin-bottom: 16px;
-            border-left: 4px solid #00d4ff;
+            padding: 16px; background: rgba(0,0,0,0.2); border-radius: 12px;
+            margin-bottom: 16px; border-left: 4px solid #00d4ff;
         }
-        .archive-item:nth-child(even) { border-left-color: #7b2cbf; }
-        
-        .archive-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
+        .archive-item.category-low-altitude { border-left-color: #4CAF50; }
+        .archive-item.category-robotics { border-left-color: #FF9800; }
+        .archive-item.category-cpo { border-left-color: #CE93D8; }
+        .archive-item.category-arxiv { border-left-color: #F06292; }
+        .archive-item.category-gba { border-left-color: #4DD0E1; }
+
+        .archive-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .archive-date {
-            font-size: 0.85em;
-            color: #888;
-            background: rgba(255,255,255,0.1);
-            padding: 4px 12px;
-            border-radius: 20px;
+            font-size: 0.85em; color: #888;
+            background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 20px;
         }
         .archive-category {
-            font-size: 0.75em;
-            padding: 4px 10px;
-            border-radius: 20px;
-            background: rgba(0,212,255,0.2);
-            color: #00d4ff;
+            font-size: 0.75em; padding: 4px 10px; border-radius: 20px;
+            background: rgba(0,212,255,0.2); color: #00d4ff;
         }
         .archive-category.low-altitude { background: rgba(76,175,80,0.2); color: #4CAF50; }
         .archive-category.robotics { background: rgba(255,152,0,0.2); color: #FF9800; }
         .archive-category.cpo { background: rgba(156,39,176,0.2); color: #CE93D8; }
-        
+        .archive-category.arxiv { background: rgba(244,143,177,0.2); color: #F06292; }
+        .archive-category.gba { background: rgba(77,208,225,0.2); color: #4DD0E1; }
+
         .news-list { margin-top: 12px; }
-        .news-item {
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
+        .news-item { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .news-item:last-child { border-bottom: none; }
         .news-number {
-            display: inline-block;
-            width: 22px;
-            height: 22px;
-            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
-            border-radius: 50%;
-            text-align: center;
-            line-height: 22px;
-            font-size: 0.75em;
-            font-weight: bold;
-            margin-right: 8px;
+            display: inline-block; width: 22px; height: 22px;
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf); border-radius: 50%;
+            text-align: center; line-height: 22px; font-size: 0.75em; font-weight: bold; margin-right: 8px;
         }
-        
-        .section-title {
-            font-size: 1.1em;
-            color: #b794d4;
-            margin: 16px 0 8px 0;
-        }
-        .test-needs {
-            margin-top: 12px;
-            padding: 10px;
-            background: rgba(123,44,191,0.1);
-            border-radius: 8px;
-            font-size: 0.9em;
-        }
+        .test-needs { margin-top: 12px; padding: 10px; background: rgba(123,44,191,0.1); border-radius: 8px; font-size: 0.9em; }
         .test-needs ul { margin-left: 20px; margin-top: 6px; }
         .test-needs li { margin-bottom: 4px; color: #ccc; }
-        
-        .target-customers {
-            margin-top: 10px;
-            padding: 8px 12px;
-            background: rgba(0,212,255,0.1);
-            border-radius: 8px;
-            font-size: 0.85em;
-        }
+        .target-customers { margin-top: 10px; padding: 8px 12px; background: rgba(0,212,255,0.1); border-radius: 8px; font-size: 0.85em; }
         .target-customers span { color: #00d4ff; }
-        
+
+        .empty-state { text-align: center; padding: 40px; color: #666; }
+
         footer { text-align: center; padding: 20px; color: #666; font-size: 0.8em; }
+
+        @media (max-width: 600px) {
+            .archive-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+        }
     </style>
 </head>
 <body>
     <div class='container'>
         <header>
-            <h1>📚 新闻存档</h1>
+            <h1>📚 所有存档</h1>
+            <div class='update-time'>最后更新：2026/5/1 09:32</div>
             <a href='index.html' class='back-link'>← 返回 Dashboard</a>
+            <div class='cat-nav'>
+                <a href="#ai-hardware" class="cat-btn ai">🤖 AI硬件</a>
+                <a href="#low-altitude" class="cat-btn low-alt">🚁 低空经济</a>
+                <a href="#robotics" class="cat-btn robot">🦾 具身机器人</a>
+                <a href="#cpo" class="cat-btn cpo">💡 CPO/NPO/LPO</a>
+                <a href="#arxiv" class="cat-btn arxiv">📄 学术论文</a>
+                <a href="#gba" class="cat-btn gba">🧪 大湾区科研</a>
+            </div>
         </header>
-        
-        <!-- 2026-04-20 新闻 -->
-        <div class='card'>
-            <h2>📅 2026年4月20日（周一）</h2>
-            
-            <!-- AI 硬件 -->
+
+        <!-- ===== AI硬件 ===== -->
+        <div class='card' id="ai-hardware">
+            <h2>🤖 AI 硬件 · 存档</h2>
+            <p style="color:#888;font-size:0.85em;margin-bottom:16px;">每周一 8:00 更新 · 存入 IMA 知识库「AI xPU芯片相关硬件产品及测试」</p>
+
             <div class='archive-item'>
                 <div class='archive-header'>
-                    <span class='archive-category'>🤖 AI 硬件</span>
-                    <span class='archive-date'>W16 周推送</span>
+                    <span class='archive-date'>2026-04-20（W16）</span>
+                    <span class='archive-category'>AI 硬件</span>
                 </div>
                 <div class='news-list'>
-                    <div class='news-item'>
-                        <span class='news-number'>1</span>
-                        英伟达发布 LPU 芯片：AI 推理专用加速器，斥资 200 亿美元收购 Groq
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>2</span>
-                        AMD 计划推出独立 NPU 加速卡，利用赛灵思技术
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>3</span>
-                        Arm GPU 2026 年加装神经加速器，NSS 技术节省 50% GPU 负载
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>4</span>
-                        谷歌 TPU 产量目标下调至 300 万颗，CoWoS 产能成瓶颈
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>5</span>
-                        华为 CloudMatrix 384 算力集群发布，性能接近 GB200 两倍
-                    </div>
+                    <div class='news-item'><span class='news-number'>1</span>英伟达发布 LPU 芯片：AI 推理专用加速器，斥资 200 亿美元收购 Groq</div>
+                    <div class='news-item'><span class='news-number'>2</span>AMD 计划推出独立 NPU 加速卡，利用赛灵思技术</div>
+                    <div class='news-item'><span class='news-number'>3</span>Arm GPU 2026 年加装神经加速器，NSS 技术节省 50% GPU 负载</div>
+                    <div class='news-item'><span class='news-number'>4</span>谷歌 TPU 产量目标下调至 300 万颗，CoWoS 产能成瓶颈</div>
+                    <div class='news-item'><span class='news-number'>5</span>华为 CloudMatrix 384 算力集群发布，性能接近 GB200 两倍</div>
                 </div>
                 <div class='test-needs'>
-                    <strong>🔬 测试需求：</strong>
-                    <ul>
-                        <li>LPU/NPU 芯片：高速 SerDes 信号完整性、电源完整性</li>
-                        <li>AI 加速器：DDR5/LPDDR5X 内存接口测试</li>
-                        <li>算力集群：高速互连（NVLink/以太网）测试</li>
-                    </ul>
+                    <strong>🔬 测试需求：</strong> LPU/NPU 芯片高速 SerDes 信号完整性、DDR5/LPDDR5X 内存接口测试、AI 加速器电源完整性
                 </div>
-                <div class='target-customers'>
-                    🎯 目标客户：<span>英伟达、AMD、华为海思、寒武纪、浪潮、曙光、阿里云</span>
-                </div>
+                <div class='target-customers'>🎯 目标客户：英伟达、AMD、华为海思、寒武纪、浪潮、曙光</div>
             </div>
-            
-            <!-- 低空经济 -->
-            <div class='archive-item'>
+        </div>
+
+        <!-- ===== 低空经济 ===== -->
+        <div class='card' id="low-altitude">
+            <h2>🚁 低空经济 · 存档</h2>
+            <p style="color:#888;font-size:0.85em;margin-bottom:16px;">每周一 8:00 更新 · 存入 IMA 知识库「AI xPU芯片相关硬件产品及测试」</p>
+
+            <div class='archive-item category-low-altitude'>
                 <div class='archive-header'>
-                    <span class='archive-category low-altitude'>🚁 低空经济</span>
-                    <span class='archive-date'>W16 周推送</span>
+                    <span class='archive-date'>2026-04-20（W16）</span>
+                    <span class='archive-category low-altitude'>低空经济</span>
                 </div>
                 <div class='news-list'>
-                    <div class='news-item'>
-                        <span class='news-number'>1</span>
-                        低空经济迈向"吨级"时代：铂影 T1400 载重 650kg，续航 8h+
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>2</span>
-                        eVTOL 商业化"临门一脚"：广汽 GOVY 收获 2000 架订单，金额超 33 亿元
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>3</span>
-                        中航光电新增低空经济概念，产品覆盖 eVTOL/无人机/飞行汽车
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>4</span>
-                        RortiX 发布 AI+具身智能飞行器，2026 年成为"常态运营"元年
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>5</span>
-                        市场规模：2023 年超 5000 亿元，2030 年有望达 2 万亿元
-                    </div>
+                    <div class='news-item'><span class='news-number'>1</span>低空经济迈向"吨级"时代：铂影 T1400 载重 650kg，续航 8h+</div>
+                    <div class='news-item'><span class='news-number'>2</span>eVTOL 商业化"临门一脚"：广汽 GOVY 收获 2000 架订单，金额超 33 亿元</div>
+                    <div class='news-item'><span class='news-number'>3</span>中航光电新增低空经济概念，产品覆盖 eVTOL/无人机/飞行汽车</div>
+                    <div class='news-item'><span class='news-number'>4</span>RortiX 发布 AI+具身智能飞行器，2026 年成为"常态运营"元年</div>
+                    <div class='news-item'><span class='news-number'>5</span>市场规模：2023 年超 5000 亿元，2030 年有望达 2 万亿元</div>
                 </div>
                 <div class='test-needs'>
-                    <strong>🔬 测试需求：</strong>
-                    <ul>
-                        <li>eVTOL 电驱系统：电机控制器 PWM 分析、功率分析</li>
-                        <li>电池管理系统：BMS 信号测试、充放电特性</li>
-                        <li>飞控系统：传感器信号采集、通信总线测试</li>
-                    </ul>
+                    <strong>🔬 测试需求：</strong> eVTOL 电驱系统 PWM 分析、BMS 信号测试、飞控传感器信号采集
                 </div>
-                <div class='target-customers'>
-                    🎯 目标客户：<span>亿航智能、小鹏汇天、峰飞航空、广汽 GOVY、大疆、中航光电</span>
-                </div>
+                <div class='target-customers'>🎯 目标客户：亿航智能、小鹏汇天、峰飞航空、广汽 GOVY、大疆</div>
             </div>
-            
-            <!-- 具身机器人 -->
-            <div class='archive-item'>
+        </div>
+
+        <!-- ===== 具身机器人 ===== -->
+        <div class='card' id="robotics">
+            <h2>🦾 具身机器人 · 存档</h2>
+            <p style="color:#888;font-size:0.85em;margin-bottom:16px;">每周一 8:00 更新 · 存入 IMA 知识库「AI xPU芯片相关硬件产品及测试」</p>
+
+            <div class='archive-item category-robotics'>
                 <div class='archive-header'>
-                    <span class='archive-category robotics'>🤖 具身机器人</span>
-                    <span class='archive-date'>W16 周推送</span>
+                    <span class='archive-date'>2026-04-20（W16）</span>
+                    <span class='archive-category robotics'>具身机器人</span>
                 </div>
                 <div class='news-list'>
-                    <div class='news-item'>
-                        <span class='news-number'>1</span>
-                        GEIA Asia 2026 定档上海（4.14-17），1500+ 产业精英齐聚
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>2</span>
-                        2026 年具身智能"破壁之年"：从"会动"到"会想"，工业渗透率破 15%
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>3</span>
-                        智元机器人全球率先量产，出货量超 5100 台，位居全球第一
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>4</span>
-                        传感器市场 40.1% 年复合增长，2032 年达 54.9 亿美元
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>5</span>
-                        具身智能纳入国家战略，2025 年中国市场规模超 50 亿元
-                    </div>
+                    <div class='news-item'><span class='news-number'>1</span>GEIA Asia 2026 定档上海（4.14-17），1500+ 产业精英齐聚</div>
+                    <div class='news-item'><span class='news-number'>2</span>2026 年具身智能"破壁之年"：从"会动"到"会想"，工业渗透率破 15%</div>
+                    <div class='news-item'><span class='news-number'>3</span>智元机器人全球率先量产，出货量超 5100 台，位居全球第一</div>
+                    <div class='news-item'><span class='news-number'>4</span>传感器市场 40.1% 年复合增长，2032 年达 54.9 亿美元</div>
+                    <div class='news-item'><span class='news-number'>5</span>具身智能纳入国家战略，2025 年中国市场规模超 50 亿元</div>
                 </div>
                 <div class='test-needs'>
-                    <strong>🔬 测试需求：</strong>
-                    <ul>
-                        <li>伺服驱动系统：电机控制 PWM 分析、扭矩传感器信号</li>
-                        <li>传感器融合：六维力传感器、触觉传感器信号采集</li>
-                        <li>电池管理系统：锂电池充放电特性、BMS 通信测试</li>
-                    </ul>
+                    <strong>🔬 测试需求：</strong> 伺服驱动 PWM 分析、六维力传感器信号采集、锂电池 BMS 通信测试
                 </div>
-                <div class='target-customers'>
-                    🎯 目标客户：<span>智元机器人、优必选、傅利叶智能、帕西尼感知、因时机器人</span>
+                <div class='target-customers'>🎯 目标客户：智元机器人、优必选、傅利叶智能、帕西尼感知</div>
+            </div>
+        </div>
+
+        <!-- ===== CPO/NPO/LPO ===== -->
+        <div class='card' id="cpo">
+            <h2>💡 CPO/NPO/LPO · 存档</h2>
+            <p style="color:#888;font-size:0.85em;margin-bottom:16px;">
+                每日 8:00 更新新闻 · 每周一 18:00 更新论文追踪 · 
+                存入 IMA 知识库「AI xPU芯片相关硬件产品及测试」
+            </p>
+
+            <div class='archive-item category-cpo'>
+                <div class='archive-header'>
+                    <span class='archive-date'>2026-04-21（每日追踪）</span>
+                    <span class='archive-category cpo'>CPO/NPO/LPO</span>
+                </div>
+                <div class='news-list'>
+                    <div class='news-item'><span class='news-number'>1</span>CPO量产引爆AI算力底层革命：英伟达与博通双双落地，插入损耗从22dB降至4dB</div>
+                    <div class='news-item'><span class='news-number'>2</span>谷歌下达1200万只NPO光模块订单：中际旭创揽下60%份额</div>
+                    <div class='news-item'><span class='news-number'>3</span>台积电COUPE平台今年量产：SoIC 3D堆叠技术</div>
+                    <div class='news-item'><span class='news-number'>4</span>光迅科技全球首发3.2T硅光单模NPO模块</div>
+                    <div class='news-item'><span class='news-number'>5</span>CPO板块年内涨幅超50%："把电换成光"成关键路径</div>
+                </div>
+                <div class='test-needs'>
+                    <strong>🔬 测试需求：</strong> 硅光芯片高速 SerDes 信号完整性、CPO 交换机光功率/热特性、NPO 模块功耗测试
+                </div>
+                <div class='target-customers'>🎯 目标客户：英伟达、博通、台积电、中际旭创、新易盛、光迅科技</div>
+            </div>
+
+            <div class='archive-item category-cpo'>
+                <div class='archive-header'>
+                    <span class='archive-date'>2026-04-11（周追踪 W15）</span>
+                    <span class='archive-category cpo'>CPO/NPO/LPO 论文</span>
+                </div>
+                <div class='news-list'>
+                    <div class='news-item'><span class='news-number'>1</span>学术论文追踪（详见知识库周报）</div>
                 </div>
             </div>
         </div>
-        
-        <!-- 2026-04-21 新闻 -->
-        <div class='card'>
-            <h2>📅 2026年4月21日（周二）</h2>
-            
-            <!-- CPO/NPO/LPO -->
-            <div class='archive-item'>
+
+        <!-- ===== 学术论文 ===== -->
+        <div class='card' id="arxiv">
+            <h2>📄 学术论文（arXiv） · 存档</h2>
+            <p style="color:#888;font-size:0.85em;margin-bottom:16px;">每天 8:00 更新 · 存入 IMA 知识库「AI xPU芯片相关硬件产品及测试」</p>
+            <div class='empty-state'>📭 首次运行后将在这里展示论文追踪记录</div>
+        </div>
+
+        <!-- ===== 大湾区科研 ===== -->
+        <div class='card' id="gba">
+            <h2>🧪 大湾区科研教育 · 存档</h2>
+            <p style="color:#888;font-size:0.85em;margin-bottom:16px;">每周二 18:00 更新 · 存入 IMA 知识库「泰克高速串行链路设计与测试」「AI xPU芯片相关硬件产品及测试」</p>
+            <div class='archive-item category-gba'>
                 <div class='archive-header'>
-                    <span class='archive-category cpo'>💡 CPO/NPO/LPO</span>
-                    <span class='archive-date'>每日追踪</span>
+                    <span class='archive-date'>知识图谱（持续维护）</span>
+                    <span class='archive-category gba'>大湾区</span>
                 </div>
                 <div class='news-list'>
-                    <div class='news-item'>
-                        <span class='news-number'>1</span>
-                        CPO量产引爆AI算力底层革命：英伟达与博通双双落地，插入损耗从22dB降至4dB
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>2</span>
-                        谷歌下达1200万只NPO光模块订单：中际旭创揽下60%份额
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>3</span>
-                        台积电COUPE平台今年量产：SoIC 3D堆叠技术
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>4</span>
-                        光迅科技全球首发3.2T硅光单模NPO模块
-                    </div>
-                    <div class='news-item'>
-                        <span class='news-number'>5</span>
-                        CPO板块年内涨幅超50%："把电换成光"成关键路径
-                    </div>
+                    <div class='news-item'><span class='news-number'>→</span> 机构地图：15+ 机构已收录（港科大广州、鹏城实验室、松山湖材料实验室等）</div>
+                    <div class='news-item'><span class='news-number'>→</span> 知识图谱数据模型：15+ 机构、15+ 研究者、15+ 项目</div>
+                    <div class='news-item'><span class='news-number'>→</span> 可视化页面：<a href="gba-research.html" style="color:#00d4ff;">查看大湾区科研教育图谱</a></div>
                 </div>
-                <div class='test-needs'>
-                    <strong>🔬 测试需求：</strong>
-                    <ul>
-                        <li>硅光芯片：高速SerDes信号完整性、眼图分析</li>
-                        <li>CPO交换机：光功率效率、热特性测试</li>
-                        <li>NPO模块：功耗测试、信号损耗测量</li>
-                    </ul>
-                </div>
-                <div class='target-customers'>
-                    🎯 目标客户：<span>英伟达、博通、台积电、中际旭创、新易盛、光迅科技、华工科技</span>
-                </div>
+                <div class='target-customers'>🎯 目标客户：港科大广州、港大、港中文、中大、华工、南科大、深大</div>
             </div>
         </div>
-        
+
         <footer>
-            <p>小七仔 Dashboard · 新闻存档</p>
-            <p style='margin-top: 8px;'>Powered by OpenClaw</p>
+            <p>小七仔 Dashboard · 新闻存档 · 每天自动更新</p>
+            <p style='margin-top: 8px;'>📌 定时任务执行后自动更新本页 · 数据同步存入 IMA 知识库</p>
         </footer>
     </div>
 </body>
