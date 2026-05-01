@@ -139,293 +139,389 @@
 <body>
     <div class='container'>
         <header>
-            <h1>🏢 AE 拜访记录</h1>
-            <a href='index.html' class='back-link'>← 返回 Dashboard</a>
+            <h1>🎯 AE 拜访记录</h1>
+            <div class='update-time'>最后更新：2026/4/30 22:37</div>
+        <div class='nav-links' style='text-align: center; margin: 10px 0 18px; display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;'>
+            <a href='index.html' style='padding: 7px 14px; background: linear-gradient(90deg, #00d4ff, #7b2cbf); border-radius: 8px; color: #fff; text-decoration: none; font-size: 0.82em;'>🔧 Dashboard首页</a>
+            <a href='gba-research.html' style='padding: 7px 14px; background: rgba(255,255,255,0.1); border-radius: 8px; color: #e0e0e0; text-decoration: none; font-size: 0.82em; border: 1px solid rgba(255,255,255,0.08);'>🧪 图谱</a>
+        </div>
         </header>
-        
-        <!-- 统计概览 -->
-        <div class='stats'>
-            <div class='stat-card'>
-                <div class='stat-number'>15+</div>
-                <div class='stat-label'>总拜访次数</div>
-            </div>
-            <div class='stat-card'>
-                <div class='stat-number'>12</div>
-                <div class='stat-label'>客户数量</div>
-            </div>
-            <div class='stat-card'>
-                <div class='stat-number'>3</div>
-                <div class='stat-label'>周次覆盖</div>
-            </div>
-            <div class='stat-card'>
-                <div class='stat-number'>8</div>
-                <div class='stat-label'>产品领域</div>
-            </div>
-        </div>
-        
-        <!-- 第17周 -->
+        <div class='stats-row' style='display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px;'>
+            <div class='stat-card' style='padding: 14px; background: rgba(0,0,0,0.2); border-radius: 10px; text-align: center;'>
+                <div class='num' style='font-size: 1.6em; color: #00d4ff; font-weight: bold;'>26</div>
+                <div class='label' style='font-size: 0.75em; color: #888; margin-top: 4px;'>总拜访次数</div>
+        <!-- 第18周 -->
         <div class='week-section'>
-            <div class='week-header'>
-                <span class='week-title'>📅 2026年第17周（4/20 - 4/26）</span>
-                <span class='week-count'>5 次拜访</span>
+            <div class='week-header' style='display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(0,0,0,0.25); border-radius: 8px; margin-bottom: 10px;'>
+                <span class='week-title' style='color: #00d4ff; font-weight: bold;'>📅 2026年第18周（4/27 - 5/3）</span>
+                <span class='week-count' style='color: #888; font-size: 0.85em;'>3 次拜访</span>
             </div>
-            <table class='visit-table'>
+            <table class='visit-table' style='width: 100%%; border-collapse: collapse; margin-bottom: 20px;'>
                 <thead>
-                    <tr>
-                        <th>日期</th>
-                        <th>客户</th>
-                        <th>类型</th>
-                        <th>产品</th>
-                        <th>目的/机会</th>
+                    <tr style='background: rgba(0,0,0,0.15);'>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>日期</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>客户</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>类型</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>产品</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>目的/机会</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class='visit-date'>04-20</td>
-                        <td class='visit-customer'>中兴微电子</td>
-                        <td><span class='visit-type'>技术支持</span></td>
-                        <td><span class='visit-product'>MIPI D-PHY</span></td>
-                        <td>
-                            <div class='visit-purpose'>MIPI D-PHY 时钟的 ULPS 测试问题</div>
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-30</td>
+                        <td style='padding: 8px 10px;'><strong>北京车展（出差）</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #e5737322; color: #e57373;'>展会推广</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>综合（DPO7系列、MIPI等）</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>北京车展白皮书发布会及品牌推广</div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class='visit-date'>04-21</td>
-                        <td class='visit-customer'>微步科技</td>
-                        <td><span class='visit-type'>技术支持</span></td>
-                        <td><span class='visit-product'>USB测试</span></td>
-                        <td>
-                            <div class='visit-purpose'>USB4 测试问题</div>
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-30</td>
+                        <td style='padding: 8px 10px;'><strong>深爱半导体</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #ce93d822; color: #ce93d8;'>客户拜访</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>功率器件</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>功率半导体测试方案交流</div>
+                            <div style='font-size: 0.75em; color: #888; margin-top: 2px;'>机会点：功率器件参数测试方案</div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class='visit-date'>04-21</td>
-                        <td class='visit-customer'>爱立信</td>
-                        <td><span class='visit-type'>技术支持</span></td>
-                        <td><span class='visit-product'>DDR测试</span></td>
-                        <td>
-                            <div class='visit-purpose'>DDR 测试技术支持</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='visit-date'>04-21</td>
-                        <td class='visit-customer'>CVTE（视源股份）</td>
-                        <td><span class='visit-type'>技术答疑</span></td>
-                        <td><span class='visit-product'>USB3 Type-B</span></td>
-                        <td>
-                            <div class='visit-purpose'>USB3 Type-B 测试答疑</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class='visit-date'>04-21</td>
-                        <td class='visit-customer'>中兴微电子</td>
-                        <td><span class='visit-type'>技术支持</span></td>
-                        <td><span class='visit-product'>MIPI D-PHY</span></td>
-                        <td>
-                            <div class='visit-purpose'>ULPS 测试问题跟进</div>
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-29</td>
+                        <td style='padding: 8px 10px;'><strong>SAE（东莞）</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #ce93d822; color: #ce93d8;'>客户拜访/推广</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>DPO7系列示波器</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>示波器推广</div>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        
-        <!-- 第16周 -->
-        <div class='week-section'>
-            <div class='week-header'>
-                <span class='week-title'>📅 2026年第16周（4/13 - 4/19）</span>
-                <span class='week-count'>4 次拜访</span>
+
             </div>
-            <table class='visit-table'>
+            <div class='stat-card' style='padding: 14px; background: rgba(0,0,0,0.2); border-radius: 10px; text-align: center;'>
+                <div class='num' style='font-size: 1.6em; color: #00d4ff; font-weight: bold;'>19</div>
+                <div class='label' style='font-size: 0.75em; color: #888; margin-top: 4px;'>拜访客户数</div>
+            </div>
+            <div class='stat-card' style='padding: 14px; background: rgba(0,0,0,0.2); border-radius: 10px; text-align: center;'>
+                <div class='num' style='font-size: 1.6em; color: #00d4ff; font-weight: bold;'>5</div>
+                <div class='label' style='font-size: 0.75em; color: #888; margin-top: 4px;'>覆盖周数</div>
+            </div>
+        </div>
+
+        <div class='week-section'>
+            <div class='week-header' style='display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(0,0,0,0.25); border-radius: 8px; margin-bottom: 10px;'>
+                <span class='week-title' style='color: #00d4ff; font-weight: bold;'>📅 2026年第17周（4/20 - 4/26）</span>
+                <span class='week-count' style='color: #888; font-size: 0.85em;'>9 次拜访</span>
+            </div>
+            <table class='visit-table' style='width: 100%; border-collapse: collapse; margin-bottom: 20px;'>
                 <thead>
-                    <tr>
-                        <th>日期</th>
-                        <th>客户</th>
-                        <th>类型</th>
-                        <th>产品</th>
-                        <th>目的/机会</th>
+                    <tr style='background: rgba(0,0,0,0.15);'>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>日期</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>客户</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>类型</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>产品</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>目的/机会</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class='visit-date'>04-13</td>
-                        <td class='visit-customer'>秋田微</td>
-                        <td><span class='visit-type'>技术支持</span></td>
-                        <td><span class='visit-product'>MIPI 测试</span></td>
-                        <td>
-                            <div class='visit-purpose'>MIPI 测试技术交流</div>
-                            <div class='customer-detail'>
-                                <strong>公司背景：</strong>液晶显示及触控产品（股票代码：300939）<br>
-                                <strong>机会点：</strong>MIPI D-PHY/C-PHY 测试方案、车载显示测试、示波器采购
-                            </div>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-20</td>
+                        <td style='padding: 8px 10px;'><strong>中兴微电子</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #4fc3f722; color: #4fc3f7;'>技术支持</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>MIPI D-PHY</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>ULPS 测试问题</div>
+                            <div style='font-size: 0.75em; color: #888; margin-top: 2px;'>机会点：MIPI D-PHY/C-PHY 测试方案</div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class='visit-date'>04-14</td>
-                        <td class='visit-customer'>安世半导体</td>
-                        <td><span class='visit-type'>技术交流</span></td>
-                        <td><span class='visit-product'>CMTI/THD</span></td>
-                        <td>
-                            <div class='visit-purpose'>三代半功率器件测试</div>
-                            <div class='customer-detail'>
-                                <strong>关注领域：</strong>第三代半导体（SiC/GaN）测试<br>
-                                <strong>机会点：</strong>CMTI 测试方案、THD 测试、频谱分析/EMI 预扫描
-                            </div>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-21</td>
+                        <td style='padding: 8px 10px;'><strong>微步科技</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #4fc3f722; color: #4fc3f7;'>技术支持</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>USB测试</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>USB4 测试问题</div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class='visit-date'>04-14</td>
-                        <td class='visit-customer'>待确认</td>
-                        <td><span class='visit-type'>售前支持</span></td>
-                        <td><span class='visit-product'>光隔离探头</span></td>
-                        <td>
-                            <div class='visit-purpose'>实测演示/售前支持（同行：胡敏）</div>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-21</td>
+                        <td style='padding: 8px 10px;'><strong>爱立信</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #4fc3f722; color: #4fc3f7;'>技术支持</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>DDR测试</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>DDR 测试技术支持</div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class='visit-date'>04-17</td>
-                        <td class='visit-customer'>信必通</td>
-                        <td><span class='visit-type'>活动支持</span></td>
-                        <td><span class='visit-product'>综合</span></td>
-                        <td>
-                            <div class='visit-purpose'>深圳 Open Day 活动搭建</div>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-21</td>
+                        <td style='padding: 8px 10px;'><strong>CVTE（视源股份）</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #88822; color: #888;'>技术答疑</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>USB3 Type-B</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>USB3 Type-B 测试答疑</div>
                         </td>
                     </tr>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-21</td>
+                        <td style='padding: 8px 10px;'><strong>中兴微电子</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #4fc3f722; color: #4fc3f7;'>技术支持</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>MIPI D-PHY</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>ULPS 测试问题跟进</div>
+                        </td>
+                    </tr>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-22</td>
+                        <td style='padding: 8px 10px;'><strong>皇虎科技</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #ce93d822; color: #ce93d8;'>客户拜访</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>DDR5内存SI</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>DPO70000SX/DPOJET/TMT4</div>
+                            <div style='font-size: 0.75em; color: #888; margin-top: 2px;'>内存SI测试、服务器主板验证</div>
+                        </td>
+                    </tr>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-23</td>
+                        <td style='padding: 8px 10px;'><strong>泰克高速论坛（青岛）</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #e5737322; color: #e57373;'>论坛/研讨会</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>高速测试技术</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>品牌推广/市场拓展</div>
+                        </td>
+                    </tr>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-23</td>
+                        <td style='padding: 8px 10px;'><strong>青岛海尔</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #ce93d822; color: #ce93d8;'>客户拜访</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>综合</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>论坛期间拜访</div>
+                            <div style='font-size: 0.75em; color: #888; margin-top: 2px;'>新接触，待跟进</div>
+                        </td>
+                    </tr>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-24</td>
+                        <td style='padding: 8px 10px;'><strong>青岛瑟为思</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #ce93d822; color: #ce93d8;'>客户拜访</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>综合</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>论坛期间拜访</div>
+                            <div style='font-size: 0.75em; color: #888; margin-top: 2px;'>新接触，待跟进</div>
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
-        
-        <!-- 第15周 -->
+
         <div class='week-section'>
-            <div class='week-header'>
-                <span class='week-title'>📅 2026年第15周（4/6 - 4/12）</span>
-                <span class='week-count'>6 次拜访</span>
+            <div class='week-header' style='display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(0,0,0,0.25); border-radius: 8px; margin-bottom: 10px;'>
+                <span class='week-title' style='color: #00d4ff; font-weight: bold;'>📅 2026年第16周（4/13 - 4/19）</span>
+                <span class='week-count' style='color: #888; font-size: 0.85em;'>6 次拜访</span>
             </div>
-            <table class='visit-table'>
+            <table class='visit-table' style='width: 100%; border-collapse: collapse; margin-bottom: 20px;'>
                 <thead>
-                    <tr>
-                        <th>日期</th>
-                        <th>客户</th>
-                        <th>类型</th>
-                        <th>产品</th>
-                        <th>目的/机会</th>
+                    <tr style='background: rgba(0,0,0,0.15);'>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>日期</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>客户</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>类型</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>产品</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>目的/机会</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class='visit-date'>04-07</td>
-                        <td class='visit-customer'>车载白皮书工作组</td>
-                        <td><span class='visit-type'>技术贡献</span></td>
-                        <td><span class='visit-product'>高速总线</span></td>
-                        <td>
-                            <div class='visit-purpose'>高速总线测试章节编写</div>
-                            <div class='visit-opportunity'>机会：车载测试方案推广、培训机会</div>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-13</td>
+                        <td style='padding: 8px 10px;'><strong>秋田微</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #4fc3f722; color: #4fc3f7;'>技术支持</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>MIPI 测试</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>MIPI 测试技术交流</div>
+                            <div style='font-size: 0.75em; color: #888; margin-top: 2px;'>液晶显示及触控产品，MIPI D-PHY/C-PHY 测试方案、车载显示测试、示波器采购</div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class='visit-date'>04-07</td>
-                        <td class='visit-customer'>产线高速论坛团队</td>
-                        <td><span class='visit-type'>内部协调</span></td>
-                        <td><span class='visit-product'>openGMSL</span></td>
-                        <td>
-                            <div class='visit-purpose'>第57期高速论坛主题确认</div>
-                            <div class='visit-opportunity'>机会：openGMSL 测试方案推广</div>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-14</td>
+                        <td style='padding: 8px 10px;'><strong>安世半导体</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #81c78422; color: #81c784;'>技术交流</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>CMTI/THD</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>三代半功率器件测试</div>
+                            <div style='font-size: 0.75em; color: #888; margin-top: 2px;'>第三代半导体（SiC/GaN）测试，CMTI 测试方案、THD 测试、频谱分析/EMI 预扫描</div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class='visit-date'>04-07</td>
-                        <td class='visit-customer'>联想</td>
-                        <td><span class='visit-type'>客户拜访</span></td>
-                        <td><span class='visit-product'>LPDDR5X</span></td>
-                        <td>
-                            <div class='visit-purpose'>LPDDR5X @ 9600 Mbps 技术确认</div>
-                            <div class='visit-opportunity'>机会：高速测试方案、设备采购需求</div>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-14</td>
+                        <td style='padding: 8px 10px;'><strong>松下电机</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #ce93d822; color: #ce93d8;'>客户拜访</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>电机/编码器测试</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>伺服电机硬件测试方案</div>
+                            <div style='font-size: 0.75em; color: #888; margin-top: 2px;'>USB/以太网/高压高流/电机/编码器全方位测试需求</div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class='visit-date'>04-08</td>
-                        <td class='visit-customer'>超聚变</td>
-                        <td><span class='visit-type'>技术支持</span></td>
-                        <td><span class='visit-product'>PCIe 6</span></td>
-                        <td>
-                            <div class='visit-purpose'>PCIe 6 更新和安装</div>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-15</td>
+                        <td style='padding: 8px 10px;'><strong>待确认（同行：胡敏）</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #ffb74d22; color: #ffb74d;'>售前支持</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>光隔离探头</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>实测演示/售前支持</div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class='visit-date'>04-09</td>
-                        <td class='visit-customer'>华阳</td>
-                        <td><span class='visit-type'>售前支持</span></td>
-                        <td><span class='visit-product'>DPO714AX</span></td>
-                        <td>
-                            <div class='visit-purpose'>售前演示/技术交流</div>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-17</td>
+                        <td style='padding: 8px 10px;'><strong>中兴微电子</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #ce93d822; color: #ce93d8;'>客户拜访</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>MIPI D-PHY/C-PHY</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>MIPI 测试方案推进</div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class='visit-date'>04-03</td>
-                        <td class='visit-customer'>德明利</td>
-                        <td><span class='visit-type'>技术支持</span></td>
-                        <td><span class='visit-product'>PCIe5/LPDDR4</span></td>
-                        <td>
-                            <div class='visit-purpose'>存储厂家测试支持</div>
-                            <div class='visit-opportunity'>机会：PCIe5/LPDDR4（年底/明年初）</div>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-17</td>
+                        <td style='padding: 8px 10px;'><strong>信必通</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #90a4ae22; color: #90a4ae;'>活动支持</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>综合</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>深圳 Open Day 活动搭建</div>
                         </td>
                     </tr>
+
                 </tbody>
             </table>
         </div>
-        
-        <!-- 客户汇总 -->
+
         <div class='week-section'>
-            <div class='week-header'>
-                <span class='week-title'>🎯 客户汇总（按领域）</span>
+            <div class='week-header' style='display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(0,0,0,0.25); border-radius: 8px; margin-bottom: 10px;'>
+                <span class='week-title' style='color: #00d4ff; font-weight: bold;'>📅 2026年第15周（4/6 - 4/12）</span>
+                <span class='week-count' style='color: #888; font-size: 0.85em;'>6 次拜访</span>
             </div>
-            <table class='visit-table'>
+            <table class='visit-table' style='width: 100%; border-collapse: collapse; margin-bottom: 20px;'>
                 <thead>
-                    <tr>
-                        <th>领域</th>
-                        <th>客户</th>
-                        <th>产品方向</th>
-                        <th>机会状态</th>
+                    <tr style='background: rgba(0,0,0,0.15);'>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>日期</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>客户</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>类型</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>产品</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>目的/机会</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><span class='visit-product'>半导体</span></td>
-                        <td class='visit-customer'>安世半导体</td>
-                        <td>三代半测试、CMTI、THD</td>
-                        <td style='color: #4CAF50;'>🔥 高潜力</td>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-07</td>
+                        <td style='padding: 8px 10px;'><strong>车载白皮书工作组</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #a1887f22; color: #a1887f;'>技术贡献</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>高速总线</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>高速总线测试章节编写</div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><span class='visit-product'>存储</span></td>
-                        <td class='visit-customer'>德明利</td>
-                        <td>PCIe5、LPDDR4</td>
-                        <td style='color: #FFC107;'>⏳ 跟进中</td>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-07</td>
+                        <td style='padding: 8px 10px;'><strong>产线高速论坛团队</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #7986cb22; color: #7986cb;'>内部协调</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>openGMSL</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>第57届高速论坛主题确认</div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><span class='visit-product'>服务器</span></td>
-                        <td class='visit-customer'>联想、超聚变</td>
-                        <td>LPDDR5X、PCIe 6</td>
-                        <td style='color: #4CAF50;'>🔥 高潜力</td>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-07</td>
+                        <td style='padding: 8px 10px;'><strong>联想</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #ce93d822; color: #ce93d8;'>客户拜访</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>LPDDR5X</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>LPDDR5X @ 9600 Mbps 技术确认</div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><span class='visit-product'>通信</span></td>
-                        <td class='visit-customer'>中兴微电子、爱立信</td>
-                        <td>MIPI、DDR</td>
-                        <td style='color: #00d4ff;'>📞 活跃</td>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-08</td>
+                        <td style='padding: 8px 10px;'><strong>超聚变</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #4fc3f722; color: #4fc3f7;'>技术支持</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>PCIe 6</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>PCIe 6 更新和安装</div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td><span class='visit-product'>显示</span></td>
-                        <td class='visit-customer'>秋田微、CVTE</td>
-                        <td>MIPI、USB</td>
-                        <td style='color: #00d4ff;'>📞 活跃</td>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-09</td>
+                        <td style='padding: 8px 10px;'><strong>华阳</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #ffb74d22; color: #ffb74d;'>售前支持</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>DPO714AX</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>售前演示/技术交流</div>
+                        </td>
                     </tr>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-10</td>
+                        <td style='padding: 8px 10px;'><strong>港科大（广州）</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #4dd0e122; color: #4dd0e1;'>远程交流</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>测试方案</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>远程测试技术交流</div>
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
-        
-        <footer>
-            <p>小七仔 Dashboard · AE 拜访记录</p>
-            <p style='margin-top: 8px;'>Powered by OpenClaw</p>
-        </footer>
+
+        <div class='week-section'>
+            <div class='week-header' style='display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(0,0,0,0.25); border-radius: 8px; margin-bottom: 10px;'>
+                <span class='week-title' style='color: #00d4ff; font-weight: bold;'>📅 2026年第14周（3/30 - 4/5）</span>
+                <span class='week-count' style='color: #888; font-size: 0.85em;'>1 次拜访</span>
+            </div>
+            <table class='visit-table' style='width: 100%; border-collapse: collapse; margin-bottom: 20px;'>
+                <thead>
+                    <tr style='background: rgba(0,0,0,0.15);'>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>日期</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>客户</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>类型</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>产品</th>
+                        <th style='padding: 8px 10px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); color: #888; font-size: 0.8em;'>目的/机会</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr style='border-bottom: 1px solid rgba(255,255,255,0.04);'>
+                        <td style='padding: 8px 10px; color: #00d4ff; font-size: 0.85em; white-space: nowrap;'>04-03</td>
+                        <td style='padding: 8px 10px;'><strong>德明利</strong></td>
+                        <td style='padding: 8px 10px;'><span style='display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75em; background: #4fc3f722; color: #4fc3f7;'>技术支持</span></td>
+                        <td style='padding: 8px 10px; font-size: 0.85em; color: #b0b0b0;'>PCIe5/LPDDR4</td>
+                        <td style='padding: 8px 10px;'>
+                            <div style='font-size: 0.85em; color: #e0e0e0;'>存储厂家测试支持</div>
+                            <div style='font-size: 0.75em; color: #888; margin-top: 2px;'>存储厂家，PCIe5/LPDDR4 测试需求（年底/明年初）</div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </body>
 </html>
