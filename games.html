@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>小游戏 - 小七仔 Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        header {
+            text-align: center; margin-bottom: 30px; padding: 20px;
+            background: rgba(255,255,255,0.05); border-radius: 16px;
+        }
+        header h1 {
+            font-size: 2em;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .back-link { color: #00d4ff; text-decoration: none; font-size: 0.85em; }
+        .subtitle { color: #888; font-size: 0.9em; margin-top: 6px; }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+        .game-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.25s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+        .game-card:hover {
+            background: rgba(255,255,255,0.12);
+            border-color: rgba(0,212,255,0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .game-icon {
+            font-size: 3em;
+            margin-bottom: 12px;
+        }
+        .game-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 6px;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .game-desc {
+            color: #aaa;
+            font-size: 0.85em;
+            line-height: 1.5;
+            flex: 1;
+        }
+        .game-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 14px;
+        }
+        .game-tag {
+            font-size: 0.75em;
+            padding: 3px 10px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.06);
+            color: #888;
+        }
+        .game-tag.hot { background: rgba(0,212,255,0.15); color: #00d4ff; }
+
+        .stats {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 14px 20px;
+            margin-bottom: 24px;
+            text-align: center;
+            color: #888;
+            font-size: 0.85em;
+        }
+        .stats span { color: #00d4ff; font-weight: bold; }
+
+        footer { text-align: center; padding: 20px; color: #666; font-size: 0.8em; }
+
+        @media (max-width: 600px) {
+            .game-grid { grid-template-columns: 1fr; }
+            header h1 { font-size: 1.5em; }
+        }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <header>
+            <h1>🎮 小游戏</h1>
+            <div class='subtitle'>学习累了？来一局放松一下吧</div>
+            <a href='index.html' class='back-link'>← 返回 Dashboard</a>
+        </header>
+
+        <div class='stats'>
+            🏆 排行榜数据保存在本地，和你的设备绑定。<br>
+            叫上朋友一起玩，看看谁才是真正的王者！
+        </div>
+
+        <div class='game-grid'>
+            <a href='minesweeper.html' class='game-card'>
+                <div class='game-icon'>💣</div>
+                <div class='game-name'>扫雷</div>
+                <div class='game-desc'>
+                    经典扫雷游戏，考验你的逻辑和推理能力。
+                    3个难度级别，右键标记地雷，左键翻开格子。
+                    首次点击不会踩雷，放心开局！
+                </div>
+                <div class='game-meta'>
+                    <span class='game-tag hot'>初级 9×9</span>
+                    <span class='game-tag'>中级 16×16</span>
+                    <span class='game-tag'>高级 30×16</span>
+                </div>
+            </a>
+
+            <a href='sudoku.html' class='game-card'>
+                <div class='game-icon'>🧩</div>
+                <div class='game-name'>数独</div>
+                <div class='game-desc'>
+                    经典数独游戏，随机生成题目，每局都不重样。
+                    填入数字让每行、每列、每宫都包含1-9。
+                    键盘和触屏都支持，数字面板一键输入。
+                </div>
+                <div class='game-meta'>
+                    <span class='game-tag hot'>初级 挖30空</span>
+                    <span class='game-tag'>中级 挖45空</span>
+                    <span class='game-tag'>高级 挖55空</span>
+                </div>
+            </a>
+        </div>
+            <a href="nes.html" class="game-card">
+                <div class="game-icon">🎮</div>
+                <div class="game-name" style="background:linear-gradient(90deg,#ff4444,#ff9800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">任天堂模拟器</div>
+                <div class="game-desc">
+                    NES/Famicom游戏机模拟器，支持 .nes 格式的ROM文件。
+                    加载你的ROM直接开玩！键盘映射：方向键/Enter/WASD。
+                </div>
+                <div class="game-meta">
+                    <span class="game-tag" style="background:rgba(255,68,68,0.15);color:#ff4444;">热点</span>
+                    <span class="game-tag">键盘操控</span>
+                    <span class="game-tag">拖拽加载</span>
+                </div>
+            </a>
+
+        <footer>
+            <p>小七仔 Dashboard · 小游戏</p>
+            <p style='margin-top: 8px;'>Powered by OpenClaw</p>
+        </footer>
+    </div>
+</body>
+</html>

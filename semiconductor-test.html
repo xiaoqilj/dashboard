@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>半导体参数测试 - 小七仔 Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        header {
+            text-align: center; margin-bottom: 20px; padding: 16px;
+            background: rgba(255,255,255,0.05); border-radius: 16px;
+        }
+        header h1 {
+            font-size: 1.5em;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .back-link { color: #00d4ff; text-decoration: none; font-size: 0.85em; }
+
+        .day-card {
+            background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(123,44,191,0.08));
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 14px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .day-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 12px;
+        }
+        .day-header .date { color: #00d4ff; font-weight: bold; font-size: 1.05em; }
+        .day-header .tag {
+            padding: 3px 10px; border-radius: 12px; font-size: 0.75em;
+            background: rgba(0,212,255,0.15); color: #00d4ff;
+        }
+        .day-header .tag.hot { background: rgba(255,68,68,0.15); color: #ff4444; }
+
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .k-item {
+            padding: 12px; border-radius: 10px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .k-item h3 { font-size: 0.85em; color: #00d4ff; margin-bottom: 4px; }
+        .k-item p { font-size: 0.78em; color: #999; line-height: 1.4; }
+
+        .k-level {
+            margin-bottom: 20px;
+        }
+        .k-level h2 {
+            font-size: 1em; color: #7b2cbf; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .k-modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 8px;
+        }
+        .k-mod {
+            padding: 10px 12px; border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            border-left: 3px solid #00d4ff;
+            font-size: 0.82em;
+        }
+        .k-mod .mod-name { color: #e0e0e0; }
+        .k-mod .mod-status {
+            font-size: 0.75em; margin-top: 3px;
+        }
+        .k-mod .mod-status.done { color: #4CAF50; }
+        .k-mod .mod-status.wait { color: #ff9800; }
+        .k-mod .mod-status.todo { color: #666; }
+
+        .info-box {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 16px;
+            text-align: center;
+            font-size: 0.82em;
+            color: #888;
+        }
+        .info-box strong { color: #00d4ff; }
+
+        .daily-tip {
+            background: rgba(123,44,191,0.08);
+            border: 1px solid rgba(123,44,191,0.15);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+        .daily-tip h3 {
+            font-size: 0.9em; color: #7b2cbf; margin-bottom: 8px;
+        }
+        .daily-tip p { font-size: 0.85em; color: #ccc; line-height: 1.6; }
+        .daily-tip .source {
+            font-size: 0.75em; color: #666; margin-top: 8px;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .stat-item {
+            padding: 12px; border-radius: 10px;
+            text-align: center;
+            background: rgba(0,0,0,0.2);
+        }
+        .stat-item .num { font-size: 1.4em; color: #00d4ff; font-weight: bold; }
+        .stat-item .label { font-size: 0.72em; color: #888; margin-top: 4px; }
+
+        @media (max-width: 600px) {
+            .knowledge-grid { grid-template-columns: 1fr; }
+            .k-modules { grid-template-columns: 1fr 1fr; }
+            .stats-row { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <header>
+            <h1>🔬 半导体参数测试专家</h1>
+            <div class='subtitle' style='color:#888;font-size:0.82em;margin-top:4px;'>每日知识推送 · 知识库进度追踪</div>
+            <a href='index.html' class='back-link'>← 返回 Dashboard</a>
+        </header>
+
+        <div class="info-box">
+            配合「<strong>半导体测试专家</strong>」Skill（已安装）使用效果最佳<br>
+            IMA 知识库「<strong>Keithly半导体参数分析</strong>」已关联，12份核心资料已学习
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-item">
+                <div class="num">5</div>
+                <div class="label">知识层级</div>
+            </div>
+            <div class="stat-item">
+                <div class="num">12</div>
+                <div class="label">IMA资料已学</div>
+            </div>
+            <div class="stat-item">
+                <div class="num">16+</div>
+                <div class="label">知识模块</div>
+            </div>
+            <div class="stat-item">
+                <div class="num">20+</div>
+                <div class="label">技术笔记</div>
+            </div>
+            <div class="stat-item">
+                <div class="num">1</div>
+                <div class="label">学习天数</div>
+            </div>
+        </div>
+
+        <!-- Daily Knowledge Card -->
+        <div class="daily-tip">
+            <h3>📖 今日知识点：低电平测量基础</h3>
+            <p>
+                <strong>热噪声</strong>（Johnson-Nyquist Noise）是低电平测量的基本极限，公式 <strong>Vn = √(4kTRB)</strong>，其中k为玻尔兹曼常数，T为温度(K)，R为电阻(Ω)，B为带宽(Hz)。<br><br>
+                <strong>实用经验：</strong>在300K时，100kΩ电阻在1Hz带宽下产生約40nV rms的热噪声。降低噪声的方法是：减小带宽、降低温度、降低源电阻。<br><br>
+                <strong>测量技巧：</strong>当测量信号低于1μV或电流低于1nA时，必须考虑热电势和漏电流的影响。使用<strong>电流反转法</strong>（Offset Compensation）消除热电势误差。
+            </p>
+            <div class="source">📚 来源：Low Level Measurements Handbook 7th Ed, Chapter 3</div>
+        </div>
+
+        <!-- Knowledge Structure -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="date">📚 知识库结构</span>
+                <span class="tag">5层 · 16+模块</span>
+            </div>
+
+            <div class="k-level">
+                <h2>📐 L1 · 基础层</h2>
+                <div class="k-modules">
+                    <div class="k-mod"><div class="mod-name">低电平测量理论</div><div class="mod-status done">✅ 已完成</div></div>
+                    <div class="k-mod"><div class="mod-name">器件物理基础</div><div class="mod-status todo">⏳ 待开始</div></div>
+                    <div class="k-mod"><div class="mod-name">测量误差分析</div><div class="mod-status todo">⏳ 待开始</div></div>
+                    <div class="k-mod"><div class="mod-name">接地与屏蔽技术</div><div class="mod-status todo">⏳ 待开始</div></div>
+                </div>
+            </div>
+
+            <div class="k-level">
+                <h2>⚙️ L2 · 设备层</h2>
+                <div class="k-modules">
+                    <div class="k-mod"><div class="mod-name">SMU 原理与应用</div><div class="mod-status done">✅ 已完成</div></div>
+                    <div class="k-mod"><div class="mod-name">参数分析仪 4200A-SCS</div><div class="mod-status done">✅ 已完成</div></div>
+                    <div class="k-mod"><div class="mod-name">静电计 6517B</div><div class="mod-status done">✅ 已完成</div></div>
+                    <div class="k-mod"><div class="mod-name">DMM6500 万用表</div><div class="mod-status done">✅ 已完成</div></div>
+                </div>
+            </div>
+
+            <div class="k-level">
+                <h2>🔧 L3 · 实战层</h2>
+                <div class="k-modules">
+                    <div class="k-mod"><div class="mod-name">交直流电源测试</div><div class="mod-status done">✅ 已完成</div></div>
+                    <div class="k-mod"><div class="mod-name">WAT 晶圆验收测试</div><div class="mod-status done">✅ 已完成</div></div>
+                    <div class="k-mod"><div class="mod-name">夹具与探针设计</div><div class="mod-status todo">⏳ 待开始</div></div>
+                    <div class="k-mod"><div class="mod-name">自动化测试开发</div><div class="mod-status todo">⏳ 待开始</div></div>
+                </div>
+            </div>
+
+            <div class="k-level">
+                <h2>🚀 L4 · 进阶层</h2>
+                <div class="k-modules">
+                    <div class="k-mod"><div class="mod-name">高功率半导体测试</div><div class="mod-status done">✅ 已完成</div></div>
+                    <div class="k-mod"><div class="mod-name">电流噪声测量</div><div class="mod-status done">✅ 已完成</div></div>
+                    <div class="k-mod"><div class="mod-name">体/表面电阻率</div><div class="mod-status done">✅ 已完成</div></div>
+                    <div class="k-mod"><div class="mod-name">可靠性测试</div><div class="mod-status todo">⏳ 待开始</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Equipment -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="date">🔧 关键设备</span>
+                <span class="tag">Keithley · 泰克</span>
+            </div>
+            <div class="knowledge-grid">
+                <div class="k-item">
+                    <h3>2400 系列 SMU</h3>
+                    <p>通用源测量单元，200V/1A，可编程I-V特性测试</p>
+                </div>
+                <div class="k-item">
+                    <h3>2600 系列 SMU</h3>
+                    <p>多通道SMU，并行测试能力，适合自动化产线</p>
+                </div>
+                <div class="k-item">
+                    <h3>4200A-SCS</h3>
+                    <p>半导体参数分析仪，模块化设计，集成CVU/PMU</p>
+                </div>
+                <div class="k-item">
+                    <h3>6517B 静电计</h3>
+                    <p>高阻/微弱电流测量，1fA分辨率，10¹⁶Ω电阻</p>
+                </div>
+                <div class="k-item">
+                    <h3>2182A 纳伏表</h3>
+                    <p>低电压测量，1nV分辨率，Delta模式消除热电势</p>
+                </div>
+                <div class="k-item">
+                    <h3>DMM6500</h3>
+                    <p>6½位万用表，数据记录，图形显示</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Plan -->
+        <div class="day-card">
+            <div class="day-header">
+                <span class="date">📅 12个月学习计划</span>
+                <span class="tag" style="background:rgba(0,212,255,0.15);color:#00d4ff;">进行中</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;">
+                <div style="padding:10px;border-radius:8px;background:rgba(0,212,255,0.1);border-left:3px solid #00d4ff;">
+                    <div style="font-size:0.82em;font-weight:bold;">Q1 · 基础层</div>
+                    <div style="font-size:0.72em;color:#888;margin-top:3px;">月1-3 · 理论奠基</div>
+                    <div style="font-size:0.72em;color:#4CAF50;margin-top:2px;">低电平测量 ✅</div>
+                </div>
+                <div style="padding:10px;border-radius:8px;background:rgba(0,0,0,0.15);border-left:3px solid #666;">
+                    <div style="font-size:0.82em;font-weight:bold;color:#888;">Q2 · 设备层</div>
+                    <div style="font-size:0.72em;color:#666;margin-top:3px;">月4-6 · 设备精通</div>
+                </div>
+                <div style="padding:10px;border-radius:8px;background:rgba(0,0,0,0.15);border-left:3px solid #666;">
+                    <div style="font-size:0.82em;font-weight:bold;color:#888;">Q3 · 实战层</div>
+                    <div style="font-size:0.72em;color:#666;margin-top:3px;">月7-9 · 经验积累</div>
+                </div>
+                <div style="padding:10px;border-radius:8px;background:rgba(0,0,0,0.15);border-left:3px solid #666;">
+                    <div style="font-size:0.82em;font-weight:bold;color:#888;">Q4 · 进阶层</div>
+                    <div style="font-size:0.72em;color:#666;margin-top:3px;">月10-12 · 专家突破</div>
+                </div>
+            </div>
+        </div>
+
+        <footer style="text-align:center;padding:20px;color:#666;font-size:0.8em;">
+            <p>小七仔 Dashboard · 半导体参数测试知识库</p>
+        </footer>
+    </div>
+</body>
+</html>
