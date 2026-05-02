@@ -439,6 +439,7 @@
             }
 
             function endGame() {
+                stopBGM();
                 gameRunning = false;
                 gamePaused = false;
                 gameOver = true;
@@ -458,6 +459,7 @@
                 if (gameRunning && !gamePaused) return;
                 if (gameOver || !gameRunning) {
                     init();
+                    startBGM();
                     gameRunning = true;
                     gamePaused = false;
                     gameOver = false;
@@ -469,6 +471,7 @@
                     const speed = parseInt(speedSelect.value);
                     gameLoop = setInterval(update, speed);
                 } else if (gamePaused) {
+                    startBGM();
                     gamePaused = false;
                     pauseBtn.textContent = '⏸ 暂停';
                     statusText.textContent = '🎮 游戏中...';
@@ -481,6 +484,7 @@
             function togglePause() {
                 if (!gameRunning || gameOver) return;
                 if (gamePaused) {
+                    startBGM();
                     gamePaused = false;
                     pauseBtn.textContent = '⏸ 暂停';
                     statusText.textContent = '🎮 游戏中...';
@@ -488,6 +492,7 @@
                     if (gameLoop) clearInterval(gameLoop);
                     gameLoop = setInterval(update, speed);
                 } else {
+                    stopBGM();
                     gamePaused = true;
                     pauseBtn.textContent = '▶ 继续';
                     statusText.textContent = '⏸ 已暂停';
@@ -496,6 +501,7 @@
             }
 
             function resetGame() {
+                stopBGM();
                 if (gameLoop) { clearInterval(gameLoop); gameLoop = null; }
                 init();
                 gameRunning = false;
@@ -596,6 +602,190 @@
                     this.quadraticCurveTo(x, y, x + r, y);
                     return this;
                 };
+            }
+
+            // Background music via Web Audio API
+            let bgmNode = null;
+            let bgmGain = null;
+
+            function startBGM() {
+                if (bgmNode) return;
+                try {
+                    ensureAudio();
+                    bgmGain = audioCtx.createGain();
+                    bgmGain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+                    bgmGain.connect(audioCtx.destination);
+                    
+                    // Create a simple looping bass + arpeggio
+                    bgmOsc1 = audioCtx.createOscillator();
+                    bgmOsc1.type = 'triangle';
+                    bgmOsc1.frequency.setValueAtTime(110, audioCtx.currentTime);
+                    bgmOsc1.connect(bgmGain);
+                    bgmOsc1.start();
+                    
+                    bgmOsc2 = audioCtx.createOscillator();
+                    bgmOsc2.type = 'sine';
+                    bgmOsc2.frequency.setValueAtTime(220, audioCtx.currentTime);
+                    const g2 = audioCtx.createGain();
+                    g2.gain.setValueAtTime(0.015, audioCtx.currentTime);
+                    bgmOsc2.connect(g2);
+                    g2.connect(audioCtx.destination);
+                    bgmOsc2.start();
+                    
+                    // Simple arpeggio sequence using a timer
+                    let beatPos = 0;
+                    const notes = [261.6, 329.6, 392.0, 329.6, 293.7, 349.2, 440.0, 349.2]; // Cmaj → Dmaj
+                    function arpeggio() {
+                        try {
+                            if (!bgmNode) return;
+                            const o = audioCtx.createOscillator();
+                            const g = audioCtx.createGain();
+                            o.type = 'sine';
+                            o.frequency.setValueAtTime(notes[beatPos % notes.length], audioCtx.currentTime);
+                            o.frequency.setValueAtTime(notes[(beatPos + 2) % notes.length], audioCtx.currentTime + 0.15);
+                            g.gain.setValueAtTime(0.02, audioCtx.currentTime);
+                            g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+                            o.connect(g);
+                            g.connect(audioCtx.destination);
+                            o.start();
+                            o.stop(audioCtx.currentTime + 0.3);
+                            beatPos++;
+                        } catch(e) {}
+                    }
+                    bgmNode = setInterval(arpeggio, 2005);
+                    
+                    // Kick drum on beats
+                    function kickDrum() {
+                        try {
+                            if (!bgmNode) return;
+                            const o = audioCtx.createOscillator();
+                            const g = audioCtx.createGain();
+                            o.type = 'sine';
+                            o.frequency.setValueAtTime(80, audioCtx.currentTime);
+                            o.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 0.1);
+                            g.gain.setValueAtTime(0.06, audioCtx.currentTime);
+                            g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+                            o.connect(g);
+                            g.connect(audioCtx.destination);
+                            o.start();
+                            o.stop(audioCtx.currentTime + 0.15);
+                        } catch(e) {}
+                    }
+                    const drumInterval = setInterval(() => {
+                        if (!bgmNode) { clearInterval(drumInterval); return; }
+                        kickDrum();
+                    }, 1000);
+                    bgmNode.drumInterval = drumInterval;
+                } catch(e) {}
+            }
+
+            let bgmOsc1 = null, bgmOsc2 = null;
+            function stopBGM() {
+                if (bgmNode) {
+                    clearInterval(bgmNode);
+                    if (bgmNode.drumInterval) clearInterval(bgmNode.drumInterval);
+                    bgmNode = null;
+                }
+                try {
+                    if (bgmOsc1) { bgmOsc1.stop(); bgmOsc1.disconnect(); bgmOsc1 = null; }
+                    if (bgmOsc2) { bgmOsc2.stop(); bgmOsc2.disconnect(); bgmOsc2 = null; }
+                } catch(e) {}
+            }
+
+            // Sound effects via Web Audio API
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            let audioCtx = null;
+            function ensureAudio() {
+                if (!audioCtx) audioCtx = new AudioCtx();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+            }
+            function playEatSound() {
+                try {
+                    ensureAudio();
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.06);
+                    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+                    osc.start(audioCtx.currentTime);
+                    osc.stop(audioCtx.currentTime + 0.12);
+                } catch(e) {}
+            }
+            function playDeathSound() {
+                try {
+                    ensureAudio();
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(60, audioCtx.currentTime + 0.6);
+                    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
+                    osc.start(audioCtx.currentTime);
+                    osc.stop(audioCtx.currentTime + 0.6);
+                } catch(e) {}
+            }
+            function playMoveSound() {
+                try {
+                    ensureAudio();
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+                    osc.frequency.setValueAtTime(220, audioCtx.currentTime + 0.02);
+                    gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.04);
+                    osc.start(audioCtx.currentTime);
+                    osc.stop(audioCtx.currentTime + 0.04);
+                } catch(e) {}
+            }
+
+            // Replace update to add sounds
+            const _origUpdate = update;
+            update = function() {
+                if (gameOver || gamePaused || !gameRunning) return;
+
+                direction = nextDirection;
+                const head = { x: snake[0].x, y: snake[0].y };
+                switch (direction) {
+                    case 'right': head.x++; break;
+                    case 'left': head.x--; break;
+                    case 'up': head.y--; break;
+                    case 'down': head.y++; break;
+                }
+
+                if (head.x < 0 || head.x >= TILE_COUNT || head.y < 0 || head.y >= TILE_COUNT) {
+                    playDeathSound();
+                    endGame();
+                    return;
+                }
+
+                if (snake.some(s => s.x === head.x && s.y === head.y)) {
+                    playDeathSound();
+                    endGame();
+                    return;
+                }
+
+                snake.unshift(head);
+                if (head.x === food.x && head.y === food.y) {
+                    score++;
+                    updateUI();
+                    playEatSound();
+                    spawnFood();
+                } else {
+                    snake.pop();
+                    playMoveSound();
+                }
+                updateUI();
+                draw();
             }
 
             // Init
