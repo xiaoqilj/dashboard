@@ -111,7 +111,19 @@
             .stats-row { grid-template-columns: repeat(3, 1fr); }
             #graph-container { height: 500px; }
         }
-    </style>
+    
+        .view-toggle { display: flex; gap: 100px; justify-content: center; margin: 10px 0; }
+        .list-view { display: block; }
+        .list-view table { width: 100%; border-collapse: collapse; margin: 0; }
+        .list-view th { background: rgba(0,0,0,0.2); padding: 6px 10px; text-align: left; font-size: 0.78em; color: #999; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .list-view td { padding: 6px 10px; font-size: 0.82em; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: top; }
+        .list-view .inst-section { background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 9px; overflow: hidden; }
+        .list-view .inst-header { background: linear-gradient(90deg, rgba(0,212,255,0.15), rgba(123,44,191,0.15)); padding: 8px 14px; font-size: 0.95em; font-weight: bold; border-left: 4px solid #00d4ff; cursor: pointer; }
+        .list-view .inst-header .arrow { float: right; }
+        .list-view .no-data { text-align: center; color: #666; padding: 20px; }
+        .btn-switch { padding: 4px 16px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #e0e0e0; border-radius: 6px; cursor: pointer; font-size: 0.85em; }
+        .btn-switch.active { background: linear-gradient(90deg, #00d4ff, #7b2cbf); border-color: transparent; color: #fff; }
+</style>
 </head>
 <body>
     <div class='container'>
@@ -188,7 +200,9 @@
                 { id: 'huawei', name: '华为2012实验室', type: '企业研究院', location: '深圳', tek: 5, desc: '2011年成立，诺亚方舟/玻普/高斯/香农实验室，海思' },
                 { id: 'byd', name: '比亚迪', type: '企业研究院', location: '深圳', tek: 4, desc: '11个研究院，3.5万技术人员，弗迪电池/半导体/汽车工程' },
                 { id: 'dji', name: '大疆创新', type: '企业研究院', location: '深圳南山区', tek: 3, desc: '深圳总部3000+工程师，无人机全球第一' },
-                { id: 'tencent', name: '腾讯', type: '企业研究院', location: '深圳南山区', tek: 2, desc: 'AI Lab已调整至混元大模型部' }
+                { id: 'tencent', name: '腾讯', type: '企业研究院', location: '深圳南山区', tek: 2, desc: 'AI Lab已调整至混元大模型部' },
+        { id: 'sztu', name: '深圳技术大学', type: '高校', location: '深圳坪山区', tek: 4, desc: '2018年设立，应用型公办本科，对标德国FH模式。17个学院40个专业，在校本科生14500+人。2025年12月揭牌四大研究院' },
+        { id: 'szpu', name: '深圳职业技术大学', type: '高校', location: '深圳南山区西丽', tek: 3, desc: '1993年建校，2023年升格职业本科。19个教学单位，26个本科专业。2025年招生10568人。与华为共建人工智能根技术产业学院' }
             ],
             researchers: [
             { id: 'yu_shaohua', name: '余少华', inst: 'pcl', research: ['光通信', '集成光子学'], notes: '鹏城实验室光通信方向领军人物', directions: ['6G通信', '人工智能', '光通信', '算力网络', '集成光子学'] },
@@ -238,6 +252,10 @@
             { id: 'pang_tianyu', name: '庞天宇', inst: 'tencent', research: ['多模态强化学习', '生成式模型'], notes: '清华博士，前Sea AI Lab，2026年1月加入腾讯混元', directions: ['人工智能'] },
             { id: 'jiang_jie', name: '蒋杰', inst: 'tencent', research: ['AI平台', '机器学习'], directions: ['人工智能'] },
             { id: 'zhang_tong', name: '张潼', inst: 'tencent', research: ['机器学习', '深度学习'], notes: 'AI Lab首任主任，前百度研究院副院长', directions: ['人工智能'] },
+        { id: 'chen_qiuming', name: '陈秋明', inst: 'sztu', research: ['高校管理'], notes: '深圳技术大学党委书记', directions: ['高校管理'] },
+        { id: 'fu_jiyang', name: '傅继阳', inst: 'sztu', research: ['高校管理'], notes: '深圳技术大学校长', directions: ['高校管理'] },
+        { id: 'zhou_cangtao', name: '周沧涛', inst: 'sztu', research: ['超强激光','先进材料'], notes: '工程物理学院院长。牵头深圳市超强激光与先进材料重点实验室', directions: ['超强激光','先进材料'] },
+        { id: 'xu_jianling', name: '许建领', inst: 'szpu', research: ['职业教育','教育管理'], notes: '深圳职业技术大学校长', directions: ['职业教育','教育管理'] },
             ],
             projects: [
                 { id: 'pcl-cloud3', name: '鹏城云脑Ⅲ', inst: 'pcl', status: '建设中', desc: '首期4500P通电调试', equip: ['算力基础设施测试', '高速互连测试'] },
@@ -252,6 +270,11 @@
                 { id: 'hitsz-perovskite-led', name: '钙钛矿自旋发光二极管', inst: 'hitu_shenzhen', status: 'Nature Comms 2025', desc: '高不对称度圆偏振发光', equip: ['光电测试', '光谱分析'] },
                 { id: 'hitsz-2d-ic', name: '二维集成电路', inst: 'hitu_shenzhen', status: 'Nature Electronics 2024', desc: '二维半导体集成电路', equip: ['半导体参数分析仪', '探针台'] },
                 { id: 'hkust-ioe-key-lab', name: '通感算交叉融合物联网', inst: 'hkust_gz', status: '省重点实验室', desc: '泛在物联网重点实验室', equip: ['IoT测试', '通信测试'], tek: 4 },
+        { id: 'sztu-ai', name: '人工智能技术研究院', inst: 'sztu', notes: '2025-12揭牌', equip: ['AI算力'] },
+        { id: 'sztu-low-alt', name: '低空智能技术研究院', inst: 'sztu', notes: '2025-12揭牌', equip: ['传感测试'] },
+        { id: 'sztu-med', name: '医工交叉创新研究院', inst: 'sztu', notes: '2025-05成立，10位院士' },
+        { id: 'szpu-hw-ai', name: '华为人工智能根技术产业学院', inst: 'szpu', notes: '2025-08与华为共建', equip: ['ICT测试'] },
+        { id: 'szpu-semi-test', name: '半导体宽频域综合测试', inst: 'szpu', notes: '2026-03采购，预算200+万', equip: ['网络分析仪','频谱仪'] },
             ],
             directions: [
                 { id: 'integrated-photonics', name: '集成光子学', insts: ['pcl', 'pku_shenzhen', 'hkust_gz'], equip: '光波分析、高速示波器>70GHz', tek: 5 },
@@ -288,6 +311,9 @@
             { id: 'cuhk-engineering', name: '港中深理工学院', inst: 'cuhk' },
             { id: 'jnu-science', name: '暨南大学理工学院', inst: 'jnu' },
             { id: 'gba_quantum', name: '大湾区量子科学中心', inst: 'gba_quantum' },
+        { id: 'optical-precision', name: '光学精密制造', test_needs: '光学测试设备', insts: ['sztu'] },
+        { id: 'semiconductor-test', name: '半导体测试', test_needs: '半导体参数分析/射频/微波毫米波', insts: ['szpu','sslab'] },
+        { id: 'low-altitude', name: '低空经济', test_needs: '高速采集/传感器校准', insts: ['sztu','hkust_gz'] },
             ],
         };
 
@@ -645,7 +671,67 @@
         }
 
         // ==================== INIT ====================
+        
+        function switchView(view) {
+            if (view === 'graph') {
+                document.querySelectorAll('.btn-switch')[0].classList.add('active');
+                document.querySelectorAll('.btn-switch')[1].classList.remove('active');
+                document.getElementById('graph-container').style.display = 'block';
+                document.getElementById('detail-panel').style.display = 'block';
+                document.getElementById('list-view').style.display = 'none';
+            } else {
+                document.querySelectorAll('.btn-switch')[0].classList.remove('active');
+                document.querySelectorAll('.btn-switch')[1].classList.add('active');
+                document.getElementById('graph-container').style.display = 'none';
+                document.getElementById('detail-panel').style.display = 'none';
+                document.getElementById('list-view').style.display = 'block';
+                renderList();
+            }
+        }
+        function toggleInst(el) {
+            var a = el.querySelector('.arrow');
+            var c = el.nextElementSibling;
+            if (c.style.display === 'none') {
+                c.style.display = 'block';
+                a.innerText = '▼';
+            } else {
+                c.style.display = 'none';
+                a.innerText = '▶';
+            }
+        }
+        function renderList() {
+            var con = document.getElementById('list-content');
+            var sis = DATA.institutions.slice().sort(function(a,b){return (b.tek||0)-(a.tek||0);});
+            var htmlStr = '';
+            sis.forEach(function(inst) {
+                var rs = DATA.researchers.filter(function(r){return r.inst===inst.id;});
+                htmlStr += '<div class="inst-section"><div class="inst-header" onclick="toggleInst(this)"><span>' + inst.name + '</span><span class="arrow">▼</span></div><div>';
+                if (rs.length > 0) {
+                    htmlStr += '<table><tr><th style="width:22%">研究者</th><th style="width:38%">研究方向</th><th style="width:40%">所属方向</th></tr>';
+                    rs.forEach(function(r) {
+                        var dirs = (r.directions||[]).map(function(d){return '<span class="tag" style="background:rgba(206,147,216,0.15);color:#ce93d8;">'+d+'</span>';}).join(' ');
+                        htmlStr += '<tr><td>' + r.name + '</td><td>' + (r.research||[]).join('、') + '</td><td>' + dirs + '</td></tr>';
+                    });
+                    htmlStr += '</table>';
+                } else {
+                    htmlStr += '<div style="padding:12px;color:#666;text-align:center;">暂无研究者</div>';
+                }
+                htmlStr += '</div></div>';
+            });
+            con.innerHTML = htmlStr;
+    }
+
         window.onload = initGraph;
     </script>
+
+        <div class="view-toggle">
+            <button class="btn-switch active" onclick="switchView('graph')">📊 图谱视图</button>
+            <button class="btn-switch" onclick="switchView('list')">📋 列表视图</button>
+        </div>
+        <div id="list-view" class="list-view">
+            <div id="list-content">
+                <div class="no-data">点击"列表视图"查看</div>
+            </div>
+        </div>
 </body>
 </html>
