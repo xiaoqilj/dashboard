@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>技术方向看板 - 小七仔 Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header {
+            text-align: center; margin-bottom: 30px; padding: 20px;
+            background: rgba(255,255,255,0.05); border-radius: 16px;
+        }
+        header h1 {
+            font-size: 2em;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: #888; font-size: 0.85em; margin-top: 6px; }
+        .back-link { color: #00d4ff; text-decoration: none; font-size: 0.85em; }
+
+        .stats-row {
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            padding: 16px; background: rgba(255,255,255,0.08);
+            border-radius: 12px; text-align: center;
+        }
+        .stat-num { font-size: 1.8em; font-weight: bold; background: linear-gradient(90deg, #00d4ff, #7b2cbf); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stat-label { font-size: 0.7em; color: #888; margin-top: 2px; }
+
+        .dir-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px;
+            margin-bottom: 24px;
+        }
+        .dir-card {
+            background: rgba(255,255,255,0.06);
+            border-radius: 16px; padding: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.2s;
+        }
+        .dir-card:hover { border-color: rgba(0,212,255,0.3); }
+
+        .dir-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 12px; padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .dir-name { font-size: 1.1em; font-weight: bold; color: #00d4ff; }
+        .dir-meta { display: flex; gap: 6px; align-items: center; }
+        .dir-status {
+            font-size: 0.7em; padding: 2px 10px; border-radius: 10px;
+        }
+        .status-active { background: rgba(0,200,80,0.2); color: #4CAF50; }
+        .status-warm { background: rgba(255,152,0,0.2); color: #FF9800; }
+        .status-cold { background: rgba(255,255,255,0.05); color: #888; }
+
+        .dots { display: flex; gap: 4px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.on { background: #00d4ff; box-shadow: 0 0 8px rgba(0,212,255,0.5); }
+        .dot.off { background: rgba(255,255,255,0.1); }
+
+        .dir-body { font-size: 0.85em; line-height: 1.6; }
+        .dir-body .section { margin-bottom: 10px; }
+        .dir-body .label { color: #888; font-size: 0.8em; margin-bottom: 4px; }
+        .dir-body .value { color: #ccc; }
+        .dir-body .value a { color: #00d4ff; text-decoration: none; }
+        .dir-body .value a:hover { text-decoration: underline; }
+        .tag {
+            display: inline-block; font-size: 0.75em; padding: 1px 8px;
+            border-radius: 6px; margin: 2px;
+        }
+        .tag-need { background: rgba(0,212,255,0.15); color: #00d4ff; }
+        .tag-client { background: rgba(123,44,191,0.2); color: #b794d4; }
+        .tag-news { background: rgba(255,152,0,0.15); color: #FF9800; }
+
+        .footer-edit {
+            margin-top: 14px; padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex; justify-content: space-between;
+            font-size: 0.78em; color: #666;
+        }
+        .update-btn { color: #00d4ff; cursor: pointer; }
+
+        footer { text-align: center; padding: 20px; color: #666; font-size: 0.78em; }
+
+        @media (max-width: 768px) {
+            .stats-row { grid-template-columns: repeat(3, 1fr); }
+            .dir-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔬 技术方向看板</h1>
+            <div class="subtitle">技术树 × 方案库 · 每条记录最终存入 IMA 知识库</div>
+            <a href="index.html" class="back-link">← 返回 Dashboard</a>
+        </header>
+
+        <div class="stats-row">
+            <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">技术方向</div></div>
+            <div class="stat-card"><div class="stat-num">12</div><div class="stat-label">当前客户</div></div>
+            <div class="stat-card"><div class="stat-num">18</div><div class="stat-label">测试需求</div></div>
+            <div class="stat-card"><div class="stat-num">8</div><div class="stat-label">活跃跟进</div></div>
+            <div class="stat-card"><div class="stat-num">5/10</div><div class="stat-label">最后更新</div></div>
+        </div>
+
+        <div class="dir-grid" id="dir-grid"></div>
+        <footer>
+            <p>小七仔 Dashboard · 技术方向看板</p>
+            <p style="margin-top:6px;">数据最终来源于 IMA 知识库 · 告诉我更新即可</p>
+        </footer>
+    </div>
+
+    <script>
+        const directions = [
+            {
+                id: 'high-speed-digital',
+                name: '高速数字测试',
+                status: 'active',
+                statusLabel: '跟进中',
+                dots: 4,
+                clients: ['联想（服务器）', '皇虎科技（内存方案）', '德明利（存储）', '微步科技（USB4）'],
+                needs: ['PCIe5 RX/TX测试', 'DDR5信号完整性', 'USB4 Preset测试', '59G示波器招标'],
+                news: ['AI服务器出货量Q2同比+35%', 'DDR5渗透率突破60%', 'PCIe6.0标准草案发布'],
+                recentVisit: '联想(5/6) · 皇虎(4/22) · 微步(4/21)',
+                nextStep: '联想59G示波器招标确认 · 皇虎DDR5 SI测试方案',
+                updated: '2026-05-10',
+                solutions: 'DPO70000SX / DPOJET / TMT4'
+            },
+            {
+                id: 'automotive-electronic',
+                name: '车载电子测试',
+                status: 'warm',
+                statusLabel: '方案沟通中',
+                dots: 3,
+                clients: ['秋田微（车载显示）', '中兴微电子（MIPI）', '海尔（家电控制器）'],
+                needs: ['MIPI D-PHY/C-PHY', '车载以太网', 'CAN/LIN解码', 'MIPI ULPS测试'],
+                news: ['车载MIPI渗透率加速', '中国智驾方案出海热潮', '多车企自研域控制器'],
+                recentVisit: '秋田微(4/13) · 中兴微(4/17·4/20) · 青岛海尔(4/23)',
+                nextStep: '中兴微MIPI ULPS测试方案交付 · 跟进海尔测试需求',
+                updated: '2026-05-09',
+                solutions: 'MSO6B / DPO7系列 / MIPI解码软件'
+            },
+            {
+                id: 'power-semiconductor',
+                name: '功率半导体测试',
+                status: 'active',
+                statusLabel: '方案沟通中',
+                dots: 3,
+                clients: ['安世半导体（功率器件）'],
+                needs: ['CMTI测试', 'THD分析', '多通道脉冲源', 'SiC/GaN动态参数'],
+                news: ['SiC车型渗透率突破15%', 'GaN快充市场年增40%', '国产SiC衬底产能翻倍'],
+                recentVisit: '安世半导体(4/14)',
+                nextStep: '多通道脉冲源方案定制 · CMTI测试方案对比验证',
+                updated: '2026-05-08',
+                solutions: '2600系列SMU / 4210-CVU / 脉冲源'
+            },
+            {
+                id: 'servo-motor',
+                name: '伺服电机测试',
+                status: 'warm',
+                statusLabel: '需求明确',
+                dots: 2,
+                clients: ['松下电机（伺服驱动）', '大疆（无人机电机）'],
+                needs: ['高压高流(1000V/100A)', '电机驱动波形', '编码器信号(10M)', '以太网/USB通信'],
+                news: ['具身机器人伺服驱动需求激增', '人形机器人量产前夜', '国产伺服品牌份额提升'],
+                recentVisit: '松下电机(4/15)',
+                nextStep: '松下10项测试需求出综合方案',
+                updated: '2026-05-06',
+                solutions: 'MSO6B / 高压差分探头 / 电流探头'
+            },
+            {
+                id: 'ai-data-center',
+                name: 'AI数据中心测试',
+                status: 'active',
+                statusLabel: '市场热点',
+                dots: 5,
+                clients: ['光模块厂商（待触达）', '交换机厂商（待触达）'],
+                needs: ['800G/1.6T光模块测试', 'CPO封装测试', '高速SerDes测试', '硅光芯片测试'],
+                news: ['NPO/LPO技术路线分化', '台积电COUPE 2026量产', '英伟达Spectrum-X CPO交换机', '1.6T光模块2026下半年上量'],
+                recentVisit: '— 尚未拜访',
+                nextStep: '确定光模块目标客户清单 · 准备800G测试方案',
+                updated: '2026-05-10',
+                solutions: 'DPO70000SX / DSA8300 / 光采样模块'
+            }
+        ];
+
+        function render() {
+            const grid = document.getElementById('dir-grid');
+            grid.innerHTML = directions.map(d => {
+                const statusClass = d.status === 'active' ? 'status-active' : d.status === 'warm' ? 'status-warm' : 'status-cold';
+                const dotsHtml = Array.from({length: 5}, (_, i) => `<span class="dot ${i < d.dots ? 'on' : 'off'}"></span>`).join('');
+                const needsHtml = d.needs.map(n => `<span class="tag tag-need">${n}</span>`).join('');
+                const clientsHtml = d.clients.map(c => `<span class="tag tag-client">${c}</span>`).join('');
+                const newsHtml = d.news.map(n => `<span class="tag tag-news">${n}</span>`).join('');
+                return `<div class="dir-card">
+                    <div class="dir-header">
+                        <div class="dir-name">${d.name}</div>
+                        <div class="dir-meta">
+                            <span class="dir-status ${statusClass}">${d.statusLabel}</span>
+                            <div class="dots">${dotsHtml}</div>
+                        </div>
+                    </div>
+                    <div class="dir-body">
+                        <div class="section">
+                            <div class="label">关联客户</div>
+                            <div class="value">${clientsHtml}</div>
+                        </div>
+                        <div class="section">
+                            <div class="label">当前测试需求</div>
+                            <div class="value">${needsHtml}</div>
+                        </div>
+                        <div class="section">
+                            <div class="label">相关新闻热度</div>
+                            <div class="value">${newsHtml}</div>
+                        </div>
+                        <div class="section">
+                            <div class="label">最近拜访</div>
+                            <div class="value">${d.recentVisit}</div>
+                        </div>
+                        <div class="section">
+                            <div class="label">下一步</div>
+                            <div class="value" style="color:#ffc800;">👉 ${d.nextStep}</div>
+                        </div>
+                        <div class="footer-edit">
+                            <span>方案: ${d.solutions.substring(0, 35)}...</span>
+                            <span class="update-btn" onclick="updateDirection('${d.id}')">📝 更新于 ${d.updated}</span>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function updateDirection(id) {
+            alert('📝 告诉我更新内容，我会同步到 IMA 知识库并更新看板');
+        }
+
+        render();
+    </script>
+</body>
+</html>

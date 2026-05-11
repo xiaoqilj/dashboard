@@ -1,0 +1,372 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "xiaoyi-claw",
+  "elements": [
+    {
+      "id": "title",
+      "type": "text",
+      "x": 120,
+      "y": 20,
+      "width": 600,
+      "height": 40,
+      "text": "🔧 小七仔双线工作流总览",
+      "fontSize": 28,
+      "textAlign": "center",
+      "strokeColor": "#00d4ff"
+    },
+    {
+      "id": "left-bg",
+      "type": "rectangle",
+      "x": 30,
+      "y": 80,
+      "width": 370,
+      "height": 500,
+      "backgroundColor": "rgba(0,212,255,0.05)",
+      "strokeColor": "rgba(0,212,255,0.3)",
+      "strokeStyle": "dashed",
+      "borderRadius": 16
+    },
+    {
+      "id": "left-title",
+      "type": "text",
+      "x": 80,
+      "y": 95,
+      "width": 280,
+      "height": 30,
+      "text": "📚 路线A：大湾区科研教育图谱",
+      "fontSize": 16,
+      "strokeColor": "#4fc3f7"
+    },
+    {
+      "id": "right-bg",
+      "type": "rectangle",
+      "x": 440,
+      "y": 80,
+      "width": 370,
+      "height": 500,
+      "backgroundColor": "rgba(255,183,77,0.05)",
+      "strokeColor": "rgba(255,183,77,0.3)",
+      "strokeStyle": "dashed",
+      "borderRadius": 16
+    },
+    {
+      "id": "right-title",
+      "type": "text",
+      "x": 490,
+      "y": 95,
+      "width": 280,
+      "height": 30,
+      "text": "🎯 路线B：工业拜访技术方向看板",
+      "fontSize": 16,
+      "strokeColor": "#ffb74d"
+    },
+    {
+      "id": "step-a1",
+      "type": "rectangle",
+      "x": 60,
+      "y": 140,
+      "width": 310,
+      "height": 60,
+      "backgroundColor": "rgba(0,212,255,0.1)",
+      "strokeColor": "#00d4ff",
+      "borderRadius": 8
+    },
+    {
+      "id": "step-a1-text",
+      "type": "text",
+      "x": 75,
+      "y": 148,
+      "width": 280,
+      "height": 45,
+      "text": "1️⃣ 每周搜索新闻/论文\n   AI硬件·低空经济·具身机器人·NPO/CPO",
+      "fontSize": 12,
+      "strokeColor": "#e0e0e0"
+    },
+    {
+      "id": "arrow-a1-a2",
+      "type": "arrow",
+      "x": 215,
+      "y": 200,
+      "width": 0,
+      "height": 30,
+      "strokeColor": "#00d4ff"
+    },
+    {
+      "id": "step-a2",
+      "type": "rectangle",
+      "x": 60,
+      "y": 235,
+      "width": 310,
+      "height": 55,
+      "backgroundColor": "rgba(0,212,255,0.1)",
+      "strokeColor": "#00d4ff",
+      "borderRadius": 8
+    },
+    {
+      "id": "step-a2-text",
+      "type": "text",
+      "x": 75,
+      "y": 243,
+      "width": 280,
+      "height": 40,
+      "text": "2️⃣ 整理 3-5 条关键信息\n   标注来源链接·识别测试需求",
+      "fontSize": 12,
+      "strokeColor": "#e0e0e0"
+    },
+    {
+      "id": "arrow-a2-a3",
+      "type": "arrow",
+      "x": 215,
+      "y": 290,
+      "width": 0,
+      "height": 30,
+      "strokeColor": "#00d4ff"
+    },
+    {
+      "id": "step-a3",
+      "type": "rectangle",
+      "x": 60,
+      "y": 325,
+      "width": 310,
+      "height": 55,
+      "backgroundColor": "rgba(0,212,255,0.1)",
+      "strokeColor": "#00d4ff",
+      "borderRadius": 8
+    },
+    {
+      "id": "step-a3-text",
+      "type": "text",
+      "x": 75,
+      "y": 333,
+      "width": 280,
+      "height": 40,
+      "text": "3️⃣ 更新图谱 & Dashboard\n   gba-research-data.js → archive.html",
+      "fontSize": 12,
+      "strokeColor": "#e0e0e0"
+    },
+    {
+      "id": "arrow-a3-a4",
+      "type": "arrow",
+      "x": 215,
+      "y": 380,
+      "width": 0,
+      "height": 45,
+      "strokeColor": "#00d4ff"
+    },
+    {
+      "id": "step-a4",
+      "type": "rectangle",
+      "x": 60,
+      "y": 430,
+      "width": 310,
+      "height": 60,
+      "backgroundColor": "rgba(0,212,255,0.15)",
+      "strokeColor": "#4fc3f7",
+      "borderRadius": 8
+    },
+    {
+      "id": "step-a4-text",
+      "type": "text",
+      "x": 75,
+      "y": 438,
+      "width": 280,
+      "height": 45,
+      "text": "4️⃣ scp → VPS部署\n   · Nginx刷新\n   · GitHub同步（手动push）",
+      "fontSize": 12,
+      "strokeColor": "#e0e0e0"
+    },
+    {
+      "id": "arrow-a4-ima",
+      "type": "arrow",
+      "x": 215,
+      "y": 494,
+      "width": 210,
+      "height": 60,
+      "strokeColor": "rgba(0,212,255,0.3)",
+      "strokeStyle": "dashed"
+    },
+    {
+      "id": "ima-center",
+      "type": "rectangle",
+      "x": 250,
+      "y": 555,
+      "width": 340,
+      "height": 45,
+      "backgroundColor": "rgba(123,44,191,0.15)",
+      "strokeColor": "#7b2cbf",
+      "borderRadius": 10
+    },
+    {
+      "id": "ima-text",
+      "type": "text",
+      "x": 290,
+      "y": 562,
+      "width": 260,
+      "height": 32,
+      "text": "🗄️ IMA 数据仓库\n（后台存储·等你凭证调通）",
+      "fontSize": 12,
+      "strokeColor": "#b794d4",
+      "textAlign": "center"
+    },
+    {
+      "id": "arrow-b4-ima",
+      "type": "arrow",
+      "x": 630,
+      "y": 494,
+      "width": 210,
+      "height": 60,
+      "strokeColor": "rgba(255,183,77,0.3)",
+      "strokeStyle": "dashed"
+    },
+    {
+      "id": "step-b1",
+      "type": "rectangle",
+      "x": 470,
+      "y": 140,
+      "width": 310,
+      "height": 55,
+      "backgroundColor": "rgba(255,183,77,0.1)",
+      "strokeColor": "#ffb74d",
+      "borderRadius": 8
+    },
+    {
+      "id": "step-b1-text",
+      "type": "text",
+      "x": 485,
+      "y": 148,
+      "width": 280,
+      "height": 40,
+      "text": "1️⃣ 每次拜访/答疑后\n   记录客户·需求·产品·下一步",
+      "fontSize": 12,
+      "strokeColor": "#e0e0e0"
+    },
+    {
+      "id": "arrow-b1-b2",
+      "type": "arrow",
+      "x": 625,
+      "y": 195,
+      "width": 0,
+      "height": 27,
+      "strokeColor": "#ffb74d"
+    },
+    {
+      "id": "step-b2",
+      "type": "rectangle",
+      "x": 470,
+      "y": 227,
+      "width": 310,
+      "height": 55,
+      "backgroundColor": "rgba(255,183,77,0.1)",
+      "strokeColor": "#ffb74d",
+      "borderRadius": 8
+    },
+    {
+      "id": "step-b2-text",
+      "type": "text",
+      "x": 485,
+      "y": 235,
+      "width": 280,
+      "height": 40,
+      "text": "2️⃣ 每周五 AE 总结\n   从 IMA 拉数据→汇总→推送微信",
+      "fontSize": 12,
+      "strokeColor": "#e0e0e0"
+    },
+    {
+      "id": "arrow-b2-b3",
+      "type": "arrow",
+      "x": 625,
+      "y": 282,
+      "width": 0,
+      "height": 30,
+      "strokeColor": "#ffb74d"
+    },
+    {
+      "id": "step-b3",
+      "type": "rectangle",
+      "x": 470,
+      "y": 317,
+      "width": 310,
+      "height": 55,
+      "backgroundColor": "rgba(255,183,77,0.1)",
+      "strokeColor": "#ffb74d",
+      "borderRadius": 8
+    },
+    {
+      "id": "step-b3-text",
+      "type": "text",
+      "x": 485,
+      "y": 325,
+      "width": 280,
+      "height": 40,
+      "text": "3️⃣ 更新技术方向看板\n   tech-directions.html · 你随时查看",
+      "fontSize": 12,
+      "strokeColor": "#e0e0e0"
+    },
+    {
+      "id": "arrow-b3-b4",
+      "type": "arrow",
+      "x": 625,
+      "y": 372,
+      "width": 0,
+      "height": 29,
+      "strokeColor": "#ffb74d"
+    },
+    {
+      "id": "step-b4",
+      "type": "rectangle",
+      "x": 470,
+      "y": 406,
+      "width": 310,
+      "height": 85,
+      "backgroundColor": "rgba(255,183,77,0.15)",
+      "strokeColor": "#ff9800",
+      "borderRadius": 8
+    },
+    {
+      "id": "step-b4-text",
+      "type": "text",
+      "x": 485,
+      "y": 414,
+      "width": 280,
+      "height": 70,
+      "text": "4️⃣ 双路输出\n   · scp → VPS（看板即时更新）\n   · 整理内容→IMA知识库\n   （调通前：你复制粘贴到IMA笔记）",
+      "fontSize": 11,
+      "strokeColor": "#e0e0e0"
+    },
+    {
+      "id": "connect-label",
+      "type": "text",
+      "x": 135,
+      "y": 530,
+      "width": 200,
+      "height": 25,
+      "text": "📎 周新闻信号→匹配客户",
+      "fontSize": 11,
+      "strokeColor": "rgba(255,255,255,0.5)",
+      "textAlign": "center"
+    },
+    {
+      "id": "connect-arrow",
+      "type": "arrow",
+      "x": 380,
+      "y": 220,
+      "width": 85,
+      "height": 10,
+      "strokeColor": "rgba(255,255,255,0.15)",
+      "strokeStyle": "dashed"
+    },
+    {
+      "id": "connect-text",
+      "type": "text",
+      "x": 310,
+      "y": 197,
+      "width": 230,
+      "height": 20,
+      "text": "↔ 新闻信号→客户需求匹配",
+      "fontSize": 10,
+      "strokeColor": "rgba(255,255,255,0.3)",
+      "textAlign": "center"
+    }
+  ]
+}

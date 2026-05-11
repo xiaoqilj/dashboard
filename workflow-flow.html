@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>工作流概览 - 小七仔 Dashboard</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #e0e0e0;
+    min-height: 100vh;
+    padding: 20px;
+}
+.container { max-width: 900px; margin: 0 auto; }
+header { text-align: center; margin-bottom: 30px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 16px; }
+header h1 { font-size: 1.6em; background: linear-gradient(90deg,#00d4ff,#7b2cbf); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { color: #888; font-size: 0.8em; margin-top: 6px; }
+.back-link { color: #00d4ff; text-decoration: none; font-size: 0.82em; }
+
+.flow-section { display: flex; gap: 20px; margin-bottom: 20px; }
+.column { flex: 1; border-radius: 16px; padding: 16px; }
+.col-left { background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.2); }
+.col-right { background: rgba(255,183,77,0.05); border: 1px solid rgba(255,183,77,0.2); }
+.col-title { font-size: 1.05em; font-weight: bold; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid; }
+.col-left .col-title { color: #4fc3f7; border-color: rgba(0,212,255,0.2); }
+.col-right .col-title { color: #ffb74d; border-color: rgba(255,183,77,0.2); }
+
+.step { background: rgba(255,255,255,0.04); border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+.step:last-child { margin-bottom: 0; }
+.step-num { font-size: 0.7em; color: #888; margin-bottom: 3px; }
+.step-title { font-size: 0.92em; font-weight: bold; margin-bottom: 4px; }
+.step-desc { font-size: 0.78em; color: #aaa; line-height: 1.4; }
+.col-left .step-title { color: #00d4ff; }
+.col-right .step-title { color: #ffb74d; }
+.step-connect { text-align: center; color: rgba(255,255,255,0.2); font-size: 0.9em; padding: 2px 0; }
+
+.arrow-down {
+    text-align: center; color: rgba(255,255,255,0.15); font-size: 1.2em;
+    padding: 3px 0;
+}
+
+.ima-box {
+    background: rgba(123,44,191,0.1);
+    border: 1px dashed rgba(123,44,191,0.4);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 20px 0;
+    text-align: center;
+}
+.ima-box .title { color: #b794d4; font-weight: bold; font-size: 0.95em; margin-bottom: 6px; }
+.ima-box .desc { font-size: 0.78em; color: #999; }
+
+.connect-arrow {
+    text-align: center; color: rgba(255,255,255,0.1); font-size: 0.8em;
+    padding: 0 0 16px;
+}
+.arrow-line {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.arrow-line .line {
+    height: 1px; flex: 1;
+}
+.col-left .arrow-line .line { background: linear-gradient(90deg, transparent, rgba(0,212,255,0.15), transparent); }
+.col-right .arrow-line .line { background: linear-gradient(90deg, transparent, rgba(255,183,77,0.15), transparent); }
+
+footer { text-align: center; padding: 20px; color: #666; font-size: 0.75em; }
+
+@media (max-width: 640px) {
+    .flow-section { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🔧 小七仔工作流总览</h1>
+        <div class="subtitle">路线A：科研教育图谱 · 路线B：工业拜访看板 · IMA 数据仓库（后台）</div>
+        <a href="index.html" class="back-link">← 返回 Dashboard</a>
+    </header>
+
+    <!-- 横向连接说明 -->
+    <div class="connect-arrow">
+        <div class="arrow-line">
+            <span class="line"></span>
+            <span style="color:rgba(255,255,255,0.2);font-size:0.85em;">每周新闻信号 → 客户需求匹配</span>
+            <span class="line"></span>
+        </div>
+    </div>
+
+    <!-- 双流程 -->
+    <div class="flow-section">
+        <!-- A：科研教育图谱 -->
+        <div class="column col-left">
+            <div class="col-title">📚 路线A：大湾区科研教育图谱</div>
+            <div class="step">
+                <div class="step-num">STEP 1</div>
+                <div class="step-title">每周搜索新闻/论文</div>
+                <div class="step-desc">AI硬件 · 低空经济 · 具身机器人 · NPO/LPO/CPO · arXiv</div>
+            </div>
+            <div class="arrow-down">↓</div>
+            <div class="step">
+                <div class="step-num">STEP 2</div>
+                <div class="step-title">整理3-5条关键信息</div>
+                <div class="step-desc">标注来源链接 · 识别测试需求 · 分类归档</div>
+            </div>
+            <div class="arrow-down">↓</div>
+            <div class="step">
+                <div class="step-num">STEP 3</div>
+                <div class="step-title">更新图谱 & Dashboard</div>
+                <div class="step-desc">gba-research.html · gba-research-data.js · archive.html</div>
+            </div>
+            <div class="arrow-down">↓</div>
+            <div class="step">
+                <div class="step-num">STEP 4</div>
+                <div class="step-title">部署到 VPS</div>
+                <div class="step-desc">scp → Nginx刷新<br>GitHub同步（手动 push）</div>
+            </div>
+            <div class="arrow-down">↕</div>
+            <div class="step" style="background:rgba(123,44,191,0.1);border:1px dashed rgba(123,44,191,0.3);">
+                <div class="step-title" style="color:#b794d4;">🔄 同步到 IMA 知识库</div>
+                <div class="step-desc">（等你凭证调通）<br>按研究方向索引 · 结构化沉淀</div>
+            </div>
+        </div>
+
+        <!-- B：工业拜访看板 -->
+        <div class="column col-right">
+            <div class="col-title">🎯 路线B：工业拜访技术方向看板</div>
+            <div class="step">
+                <div class="step-num">STEP 1</div>
+                <div class="step-title">每次拜访/答疑后记录</div>
+                <div class="step-desc">客户 · 联系人 · 测试需求 · 产品方案 · 下一步</div>
+            </div>
+            <div class="arrow-down">↓</div>
+            <div class="step">
+                <div class="step-num">STEP 2</div>
+                <div class="step-title">每周五 AE 总结</div>
+                <div class="step-desc">从 IMA 拉数据 → 汇总分析 → 推送微信</div>
+            </div>
+            <div class="arrow-down">↓</div>
+            <div class="step">
+                <div class="step-num">STEP 3</div>
+                <div class="step-title">更新技术方向看板</div>
+                <div class="step-desc">tech-directions.html · 你随时查看</div>
+            </div>
+            <div class="arrow-down">↓</div>
+            <div class="step">
+                <div class="step-num">STEP 4</div>
+                <div class="step-title">双路输出</div>
+                <div class="step-desc">scp → VPS（看板即时更新）<br>整理内容 → IMA 知识库</div>
+            </div>
+            <div class="arrow-down">↕</div>
+            <div class="step" style="background:rgba(123,44,191,0.1);border:1px dashed rgba(123,44,191,0.3);">
+                <div class="step-title" style="color:#b794d4;">🔄 同步到 IMA 笔记</div>
+                <div class="step-desc">（暂未调通：你复制粘贴到 IMA）<br>按技术方向索引 · 结构化记录</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- IMA 枢纽 -->
+    <div class="ima-box">
+        <div class="title">🗄️ IMA 数据仓库（后台存储）</div>
+        <div class="desc" style="margin-top: 3px; color: #b794d4; font-size: 0.82em;">
+            📚 大湾区科研教育知识库（按研究方向索引）&nbsp;&nbsp;|&nbsp;&nbsp;
+            📝 AE客户拜访笔记（按技术方向索引）
+        </div>
+        <div class="desc" style="margin-top: 6px; color: #888;">
+            💡 搜索「光子学」→ 同时命中图谱研究者 + 相关项目 + 对应测试需求
+        </div>
+    </div>
+
+<!-- 快速索引 -->
+<div style="background:rgba(255,255,255,0.03); border-radius: 12px; padding: 16px; margin: 20px 0;">
+    <div style="font-size: 0.9em; font-weight: bold; color: #00d4ff; margin-bottom: 10px;">🗺️ 快速索引</div>
+    <table style="width:100%; font-size: 0.78em; border-collapse: collapse;">
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+            <td style="padding: 4px 0; width: 50%;">
+                <span style="color:#4fc3f7;">📊</span>
+                <a href="gba-research.html" style="color:#e0e0e0; text-decoration:none;">大湾区科研教育图谱</a>
+                <span style="color:#888;"> — 图谱 + 列表</span>
+            </td>
+            <td style="padding: 4px 0; width: 50%;">
+                <span style="color:#ffb74d;">🔬</span>
+                <a href="tech-directions.html" style="color:#e0e0e0; text-decoration:none;">技术方向看板</a>
+                <span style="color:#888;"> — 5大方向卡片</span>
+            </td>
+        </tr>
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+            <td style="padding: 4px 0;">
+                <span style="color:#4fc3f7;">📦</span>
+                <a href="archive.html" style="color:#e0e0e0; text-decoration:none;">新闻归档</a>
+                <span style="color:#888;"> — 历史存档</span>
+            </td>
+            <td style="padding: 4px 0;">
+                <span style="color:#ffb74d;">🎯</span>
+                <a href="visits.html" style="color:#e0e0e0; text-decoration:none;">AE拜访记录</a>
+                <span style="color:#888;"> — 拜访历史</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 4px 0;">
+                <span style="color:#7b2cbf;">🗄️</span>
+                <span style="color:#b794d4;">IMA 大湾区教育科研知识库</span>
+                <span style="color:#888;"> （待调通）</span>
+            </td>
+            <td style="padding: 4px 0;">
+                <span style="color:#7b2cbf;">📝</span>
+                <span style="color:#b794d4;">IMA 客户拜访笔记</span>
+                <span style="color:#888;"> （待调通）</span>
+            </td>
+        </tr>
+    </table>
+</div>
+
+    <footer>
+        <p>小七仔 Dashboard · 工作流概览</p>
+        <p style="margin-top:6px;">2026-05-10 · 每次告诉我更新什么，我按流程走</p>
+    </footer>
+</div>
+</body>
+</html>
