@@ -28,6 +28,12 @@
             -webkit-text-fill-color: transparent;
         }
         .update-time { color: #888; font-size: 0.85em; margin-top: 8px; }
+        .nav-links { text-align: center; margin: 10px 0 18px; display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+        .nav-links a {
+            padding: 7px 14px; border-radius: 8px; text-decoration: none; font-size: 0.82em;
+        }
+        .nav-link-primary { background: linear-gradient(90deg, #00d4ff, #7b2cbf); color: #fff; }
+        .nav-link-secondary { background: rgba(255,255,255,0.1); color: #e0e0e0; border: 1px solid rgba(255,255,255,0.08); }
         .card {
             background: rgba(255,255,255,0.08);
             border-radius: 16px;
@@ -83,10 +89,33 @@
         .kb-item { padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; }
         .kb-name { color: #00d4ff; margin-bottom: 4px; }
         .kb-count { font-size: 0.75em; color: #666; }
+        .visit-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 12px; background: rgba(0,0,0,0.15); border-radius: 8px; margin-bottom: 6px;
+            font-size: 0.88em;
+        }
+        .visit-item .highlight { color: #00d4ff; }
+        .archive-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px;
+        }
+        .archive-card {
+            padding: 14px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); text-decoration: none; display: block;
+        }
+        .archive-card:hover { border-color: #00d4ff; }
+        .archive-card .icon { font-size: 1.5em; margin-bottom: 6px; }
+        .archive-card .label { color: #e0e0e0; font-weight: bold; }
+        .archive-card .meta { font-size: 0.75em; color: #888; margin-top: 4px; }
+        .status-badge {
+            display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.72em; font-weight: bold;
+        }
+        .badge-ok { background: rgba(0,200,83,0.2); color: #00c853; }
+        .badge-running { background: rgba(0,212,255,0.2); color: #00d4ff; }
+        .badge-warn { background: rgba(255,193,7,0.2); color: #ffc107; }
         footer { text-align: center; padding: 20px; color: #666; font-size: 0.8em; }
         @media (max-width: 600px) {
             .kb-grid { grid-template-columns: 1fr; }
             header h1 { font-size: 1.5em; }
+            .archive-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
@@ -94,20 +123,19 @@
     <div class='container'>
         <header>
             <h1>🔧 小七仔 Dashboard</h1>
-            <div class='update-time'>最后更新：2026/5/15 08:00:00</div>
-        
-        <div class="nav-links" style="text-align: center; margin: 10px 0 18px; display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;">
-            <a href="gba-research.html" style="padding: 7px 14px; background: linear-gradient(90deg, #00d4ff, #7b2cbf); border-radius: 8px; color: #fff; text-decoration: none; font-size: 0.82em;">🧪 大湾区科研教育图谱</a>
-            <a href="visits.html" style="padding: 7px 14px; background: rgba(255,255,255,0.1); border-radius: 8px; color: #e0e0e0; text-decoration: none; font-size: 0.82em; border: 1px solid rgba(255,255,255,0.08);">🎯 AE拜访记录</a>
-            <a href="tech-directions.html" style="padding: 7px 14px; background: rgba(255,255,255,0.1); border-radius: 8px; color: #e0e0e0; text-decoration: none; font-size: 0.82em; border: 1px solid rgba(255,255,255,0.08);">🔬 技术方向看板</a>
-            <a href="workflow-flow.html" style="padding: 7px 14px; background: rgba(255,255,255,0.1); border-radius: 8px; color: #e0e0e0; text-decoration: none; font-size: 0.82em; border: 1px solid rgba(255,255,255,0.08);">🔧 工作流概览</a>
-            <a href="designcon2026.html" style="padding: 7px 14px; background: rgba(255,255,255,0.1); border-radius: 8px; color: #e0e0e0; text-decoration: none; font-size: 0.82em; border: 1px solid rgba(255,255,255,0.08);">🎓 DesignCon 2026</a>
-            <a href="games.html" style="padding: 7px 14px; background: linear-gradient(90deg, #00d4ff, #7b2cbf); border-radius: 8px; color: #fff; text-decoration: none; font-size: 0.82em; font-weight: bold;">🎮 小游戏</a>
-            <a href="designcon2026-papers.html" style="padding: 7px 14px; background: rgba(255,255,255,0.1); border-radius: 8px; color: #e0e0e0; text-decoration: none; font-size: 0.82em; border: 1px solid rgba(255,255,255,0.08);">📄 DesignCon论文列表</a>
-            <a href="memory.html" style="padding: 7px 14px; background: rgba(255,255,255,0.1); border-radius: 8px; color: #e0e0e0; text-decoration: none; font-size: 0.82em; border: 1px solid rgba(255,255,255,0.08);">📝 备忘录归档</a>
-            <a href="archive.html" style="padding: 7px 14px; background: rgba(255,255,255,0.1); border-radius: 8px; color: #e0e0e0; text-decoration: none; font-size: 0.82em; border: 1px solid rgba(255,255,255,0.08);">📦 归档</a>
-            <a href="whitepapers/" style="padding: 7px 14px; background: rgba(255,255,255,0.1); border-radius: 8px; color: #e0e0e0; text-decoration: none; font-size: 0.82em; border: 1px solid rgba(255,255,255,0.08);">📄 技术白皮书</a>
-        </div>
+            <div class='update-time'>最后更新：2026/5/16 08:00:00</div>
+            <div class='nav-links'>
+                <a href='gba-research.html' class='nav-link-primary'>🧪 大湾区科研教育图谱</a>
+                <a href='visits.html' class='nav-link-secondary'>🎯 AE拜访记录</a>
+                <a href='tech-directions.html' class='nav-link-secondary'>🔬 技术方向看板</a>
+                <a href='workflow-flow.html' class='nav-link-secondary'>🔧 工作流概览</a>
+                <a href='designcon2026.html' class='nav-link-secondary'>🎓 DesignCon 2026</a>
+                <a href='games.html' class='nav-link-primary' style='font-weight:bold;'>🎮 小游戏</a>
+                <a href='designcon2026-papers.html' class='nav-link-secondary'>📄 DesignCon论文</a>
+                <a href='memory.html' class='nav-link-secondary'>📝 备忘录归档</a>
+                <a href='archive.html' class='nav-link-secondary'>📦 归档</a>
+                <a href='whitepapers/' class='nav-link-secondary'>📄 技术白皮书</a>
+            </div>
         </header>
         
         <div class='card'>
@@ -125,12 +153,36 @@
         </div>
         
         <div class='card'>
-            <h2><span>⏰</span> 定时任务</h2>
+            <h2><span>⏰</span> 定时任务 <span class='status-badge badge-ok' style='margin-left:auto;'>6个活跃</span></h2>
             <div class='task-list'>
                 
+                <div class='task-item'>
+                    <div class='task-time'>每日 8:00</div>
+                    <div class='task-name'>Dashboard刷新</div>
+                    <div class='task-tag'>每日</div>
+                </div>
+                
+                <div class='task-item'>
+                    <div class='task-time'>每日 20:00</div>
+                    <div class='task-name'>半导体参数测试每日知识点</div>
+                    <div class='task-tag'>每日</div>
+                </div>
+                
                 <div class='task-item weekly'>
-                    <div class='task-time'>待定</div>
-                    <div class='task-name'>具身机器人新闻周推送</div>
+                    <div class='task-time'>每周日 18:00</div>
+                    <div class='task-name'>每周新闻一条龙（AI硬件/低空经济/机器人/NPO论文/大湾区）</div>
+                    <div class='task-tag'>每周</div>
+                </div>
+                
+                <div class='task-item weekly'>
+                    <div class='task-time'>每周一 9:00</div>
+                    <div class='task-name'>MP5000工作流追踪器周更新</div>
+                    <div class='task-tag'>每周</div>
+                </div>
+                
+                <div class='task-item weekly'>
+                    <div class='task-time'>每周五 17:00</div>
+                    <div class='task-name'>AE拜访周总结</div>
                     <div class='task-tag'>每周</div>
                 </div>
                 
@@ -149,7 +201,7 @@
                         <div class='progress-fill' style='width: 15%'></div>
                     </div>
                 </div>
-                
+            
                 <div class='project-item'>
                     <div class='project-header'>
                         <div>AE 日常拜访管理</div>
@@ -159,11 +211,54 @@
                         <div class='progress-fill' style='width: 100%'></div>
                     </div>
                 </div>
-                
+            
+                <div class='project-item'>
+                    <div class='project-header'>
+                        <div>大湾区科研教育跟踪体系</div>
+                        <div class='project-status'>Phase 1 完成</div>
+                    </div>
+                    <div class='progress-bar'>
+                        <div class='progress-fill' style='width: 55%'></div>
+                    </div>
+                </div>
+            
+        </div>
+
+        <div class='card'>
+            <h2><span>🎯</span> 近期AE拜访</h2>
+            
+                <div class='visit-item'>
+                    <span style='color:#00d4ff;font-size:0.9em;'>▸</span>
+                    <span>5/14 北京机器人创新中心 - 新接触</span>
+                </div>
+            
+                <div class='visit-item'>
+                    <span style='color:#00d4ff;font-size:0.9em;'>▸</span>
+                    <span>5/11 西部数据(WD) DPO714AX培训 ✅</span>
+                </div>
+            
+                <div class='visit-item'>
+                    <span style='color:#00d4ff;font-size:0.9em;'>▸</span>
+                    <span>5/7 通瑞微 6-SIM答疑 - 待跟进</span>
+                </div>
+            
+                <div class='visit-item'>
+                    <span style='color:#00d4ff;font-size:0.9em;'>▸</span>
+                    <span>5/7 北京Open Day筹备(5/13) - 进行中</span>
+                </div>
+            
+                <div class='visit-item'>
+                    <span style='color:#00d4ff;font-size:0.9em;'>▸</span>
+                    <span>5/6 联想 SATA答疑+59G招标确认</span>
+                </div>
+            
+            <div style='text-align:right;margin-top:10px;'>
+                <a href='visits.html' style='color:#888;font-size:0.82em;text-decoration:none;'>查看全部 →</a>
+            </div>
         </div>
         
         <div class='card'>
-            <h2><span>📋</span> 本周待办</h2>
+            <h2><span>📋</span> 待办事项</h2>
             <div class='todo-list'>
                 
                 <div class='todo-item'>
@@ -206,6 +301,8 @@
                 <div class='kb-item'><div class='kb-name'>泰克高速串行链路设计与测试</div><div class='kb-count'>32 条内容</div></div>
                 <div class='kb-item'><div class='kb-name'>个人知识库</div><div class='kb-count'>45 条内容</div></div>
                 <div class='kb-item'><div class='kb-name'>车载高速总线</div><div class='kb-count'>9 条内容</div></div>
+                <div class='kb-item'><div class='kb-name'>Keithly半导体参数分析</div><div class='kb-count'>12 个文件</div></div>
+                <div class='kb-item'><div class='kb-name'>大湾区教育与科研</div><div class='kb-count'>持续维护</div></div>
             </div>
         </div>
         
@@ -213,64 +310,81 @@
             <h2><span>🧠</span> 最近记忆</h2>
             <div class='timeline'>
                 
+                <div class='timeline-item'>
+                    <div class='timeline-date'>2026-05-15</div>
+                    <div># 2026-05-15 日志
+
+## AE 拜访记录
+- **日期**：2026-05-14
+- **客户**：北京机器人创新中心
+- **类型**：客户拜访
+- **简介**：拜访北京机器人创新中心
+- **详细信息**：（待补充）
+- **状态**：新接触，待跟进
+</div>
+                </div>
+                
+                <div class='timeline-item'>
+                    <div class='timeline-date'>2026-05-14</div>
+                    <div># 2026-05-14 日志
+
+## AE 拜访记录
+- **日期**：2026-05-13
+- **客户/活动**：北京 Open Day 测试论坛
+- **类型**：展会/论坛
+- **简介**：北京 Open Day 活动，AE 团队参与拜访和推广
+- **状态**：完成
+
+## 新客户线索
+- **日期**：2026-05-14
+- **客户**：滴滴（DiDi）
+- **来源**：北京...</div>
+                </div>
+                
             </div>
         </div>
 
         <div class='card'>
             <h2><span>📦</span> 历史存档</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px;">
-                <a href="archive.html#ai-hardware" style="text-decoration: none;">
-                    <div style="padding: 14px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
-                        <div style="font-size: 1.5em; margin-bottom: 6px;">🤖</div>
-                        <div style="color: #e0e0e0; font-weight: bold;">AI 硬件</div>
-                        <div style="font-size: 0.75em; color: #888; margin-top: 4px;">每周一 · 3条记录</div>
-                    </div>
+            <div class='archive-grid'>
+                <a href='archive.html#ai-hardware' class='archive-card'>
+                    <div class='icon'>🤖</div>
+                    <div class='label'>AI 硬件</div>
+                    <div class='meta'>每周一 · 持续追踪</div>
                 </a>
-                <a href="archive.html#low-altitude" style="text-decoration: none;">
-                    <div style="padding: 14px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
-                        <div style="font-size: 1.5em; margin-bottom: 6px;">🚁</div>
-                        <div style="color: #e0e0e0; font-weight: bold;">低空经济</div>
-                        <div style="font-size: 0.75em; color: #888; margin-top: 4px;">每周一 · 3条记录</div>
-                    </div>
+                <a href='archive.html#low-altitude' class='archive-card'>
+                    <div class='icon'>🚁</div>
+                    <div class='label'>低空经济</div>
+                    <div class='meta'>每周一 · 持续追踪</div>
                 </a>
-                <a href="archive.html#robotics" style="text-decoration: none;">
-                    <div style="padding: 14px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
-                        <div style="font-size: 1.5em; margin-bottom: 6px;">🦾</div>
-                        <div style="color: #e0e0e0; font-weight: bold;">具身机器人</div>
-                        <div style="font-size: 0.75em; color: #888; margin-top: 4px;">每周一 · 3条记录</div>
-                    </div>
+                <a href='archive.html#robotics' class='archive-card'>
+                    <div class='icon'>🦾</div>
+                    <div class='label'>具身机器人</div>
+                    <div class='meta'>每周一 · 持续追踪</div>
                 </a>
-                <a href="archive.html#cpo" style="text-decoration: none;">
-                    <div style="padding: 14px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
-                        <div style="font-size: 1.5em; margin-bottom: 6px;">💡</div>
-                        <div style="color: #e0e0e0; font-weight: bold;">CPO/NPO/LPO</div>
-                        <div style="font-size: 0.75em; color: #888; margin-top: 4px;">每日+每周 · 2条记录</div>
-                    </div>
+                <a href='archive.html#cpo' class='archive-card'>
+                    <div class='icon'>💡</div>
+                    <div class='label'>CPO/NPO/LPO</div>
+                    <div class='meta'>每日+每周追踪</div>
                 </a>
-                <a href="archive.html#arxiv" style="text-decoration: none;">
-                    <div style="padding: 14px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
-                        <div style="font-size: 1.5em; margin-bottom: 6px;">📄</div>
-                        <div style="color: #e0e0e0; font-weight: bold;">学术论文</div>
-                        <div style="font-size: 0.75em; color: #888; margin-top: 4px;">每日 · 即将开始</div>
-                    </div>
+                <a href='archive.html#arxiv' class='archive-card'>
+                    <div class='icon'>📄</div>
+                    <div class='label'>学术论文</div>
+                    <div class='meta'>每日 · arXiv</div>
                 </a>
-                <a href="archive.html#gba" style="text-decoration: none;">
-                    <div style="padding: 14px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
-                        <div style="font-size: 1.5em; margin-bottom: 6px;">🧪</div>
-                        <div style="color: #e0e0e0; font-weight: bold;">大湾区科研</div>
-                        <div style="font-size: 0.75em; color: #888; margin-top: 4px;">每周二 · 持续维护</div>
-                    </div>
+                <a href='archive.html#gba' class='archive-card'>
+                    <div class='icon'>🧪</div>
+                    <div class='label'>大湾区科研</div>
+                    <div class='meta'>每周 · 持续维护</div>
                 </a>
-                <a href="semiconductor-test.html" style="text-decoration: none;">
-                    <div style="padding: 14px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
-                        <div style="font-size: 1.5em; margin-bottom: 6px;">🔬</div>
-                        <div style="color: #e0e0e0; font-weight: bold;">半导体测试</div>
-                        <div style="font-size: 0.75em; color: #888; margin-top: 4px;">每日 · 知识卡片</div>
-                    </div>
+                <a href='semiconductor-test.html' class='archive-card'>
+                    <div class='icon'>🔬</div>
+                    <div class='label'>半导体测试</div>
+                    <div class='meta'>知识卡片</div>
                 </a>
             </div>
-            <div style="margin-top: 14px; text-align: right;">
-                <a href="archive.html" style="color: #00d4ff; text-decoration: none; font-size: 0.85em;">查看所有存档 →</a>
+            <div style='margin-top: 14px; text-align: right;'>
+                <a href='archive.html' style='color: #00d4ff; text-decoration: none; font-size: 0.85em;'>查看所有存档 →</a>
             </div>
         </div>
         
