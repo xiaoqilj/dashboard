@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>国内SerDes公司图谱 - 小七仔 Dashboard</title>
+    <script src='vis-network.min.js'>
+    </script>
+    <link rel='stylesheet' href='vis-network.min.css' />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            position: relative;
+        }
+        header h1 {
+            font-size: 1.8em;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        header .subtitle { color: #888; font-size: 0.85em; margin-top: 6px; }
+        header .update-time { color: #666; font-size: 0.75em; margin-top: 4px; }
+        .back-link {
+            display: inline-block; margin-top: 10px; color: #00d4ff; text-decoration: none;
+            font-size: 0.85em;
+        }
+        .back-link:hover { text-decoration: underline; }
+
+        .stats-row {
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
+            margin-bottom: 16px;
+        }
+        .stat-card {
+            padding: 14px; background: rgba(255,255,255,0.06);
+            border-radius: 10px; text-align: center;
+        }
+        .stat-card .num { font-size: 1.6em; color: #00d4ff; font-weight: bold; }
+        .stat-card .label { font-size: 0.75em; color: #888; margin-top: 4px; }
+
+        .legend {
+            display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;
+            padding: 10px 14px; background: rgba(0,0,0,0.2);
+            border-radius: 8px; font-size: 0.8em;
+        }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-dot {
+            width: 12px; height: 12px; border-radius: 50%;
+            display: inline-block;
+        }
+
+        .controls {
+            display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px;
+            align-items: center;
+        }
+        .controls input, .controls select {
+            padding: 10px 14px; border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(0,0,0,0.3); color: #e0e0e0; border-radius: 8px;
+            font-size: 0.9em;
+        }
+        .controls input { flex: 1; min-width: 200px; }
+        .controls input::placeholder { color: #666; }
+        .controls select { min-width: 140px; }
+        .controls button {
+            padding: 10px 18px; border: none; border-radius: 8px;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf); color: #fff;
+            cursor: pointer; font-size: 0.9em;
+        }
+        .controls button:hover { opacity: 0.9; }
+
+        #graph-container {
+            background: rgba(0,0,0,0.2); border-radius: 16px;
+            height: 700px; border: 1px solid rgba(255,255,255,0.08);
+            position: relative; overflow: hidden;
+        }
+        #graph-container .vis-network:focus { outline: none; }
+
+        .detail-panel {
+            display: none; background: rgba(255,255,255,0.05);
+            border-radius: 12px; padding: 20px; margin-top: 16px;
+            border-left: 3px solid #00d4ff;
+        }
+        .detail-panel.visible { display: block; }
+        .detail-panel h3 { color: #00d4ff; margin-bottom: 12px; font-size: 1.1em; }
+        .detail-panel .info-row {
+            display: flex; gap: 12px; margin-bottom: 8px; align-items: flex-start;
+        }
+        .detail-panel .info-label {
+            color: #888; min-width: 80px; font-size: 0.85em;
+        }
+        .detail-panel .info-value { color: #e0e0e0; flex: 1; }
+        .detail-panel .tag {
+            display: inline-block; padding: 2px 8px; border-radius: 4px;
+            font-size: 0.75em; margin-right: 4px; margin-bottom: 3px;
+            background: rgba(0,212,255,0.2); color: #00d4ff;
+        }
+        .tek-stars { color: #ff4444; }
+
+        .view-toggle { display: flex; gap: 100px; justify-content: center; margin: 10px 0; }
+        .btn-switch { padding: 4px 16px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); color: #e0e0e0; border-radius: 6px; cursor: pointer; font-size: 0.85em; }
+        .btn-switch.active { background: linear-gradient(90deg, #00d4ff, #7b2cbf); border-color: transparent; color: #fff; }
+
+        .list-view { display: block; overflow-x: auto; }
+        .list-view table { width: 100%; border-collapse: collapse; margin: 0; min-width: 800px; }
+        .list-view th { background: rgba(0,0,0,0.2); padding: 6px 10px; text-align: left; font-size: 0.78em; color: #999; border-bottom: 1px solid rgba(255,255,255,0.1); white-space: nowrap; }
+        .list-view td { padding: 6px 10px; font-size: 0.82em; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: top; }
+        .list-view .cat-section { background: rgba(255,255,255,0.03); border-radius: 12px; margin-bottom: 9px; overflow: hidden; }
+        .list-view .cat-header { background: linear-gradient(90deg, rgba(0,212,255,0.15), rgba(0,212,255,0.05)); padding: 8px 14px; font-size: 0.95em; font-weight: bold; border-left: 4px solid #00d4ff; cursor: pointer; }
+        .list-view .cat-header .arrow { float: right; }
+        .list-view .cat-desc { padding: 4px 14px 8px; font-size: 0.78em; color: #888; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .list-view .no-data { text-align: center; color: #666; padding: 20px; }
+
+        .source-note {
+            text-align: center; padding: 16px; color: #555; font-size: 0.75em; margin-top: 16px;
+            background: rgba(0,0,0,0.15); border-radius: 8px;
+        }
+
+        @media (max-width: 800px) {
+            .stats-row { grid-template-columns: repeat(3, 1fr); }
+            #graph-container { height: 500px; }
+        }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <header>
+            <h1>🔌 国内SerDes相关公司图谱</h1>
+            <div class='subtitle'>企业 · 团队 · 产品 · 技术方向 · 泰克机会</div>
+            <div class='update-time'>数据来源：CTRL创拓人力公众号 · 小七仔整理</div>
+            <div><a href='index.html' class='back-link'>← 返回 Dashboard</a></div>
+        </header>
+
+        <div class='stats-row' id='stats'></div>
+
+        <div class='legend'>
+            <span class='legend-item'><span class='legend-dot' style='background:#4fc3f7'></span> 公司</span>
+            <span class='legend-item'><span class='legend-dot' style='background:#ffb74d'></span> 团队</span>
+            <span class='legend-item'><span class='legend-dot' style='background:#81c784'></span> 产品</span>
+            <span class='legend-item'><span class='legend-dot' style='background:#ce93d8'></span> 技术方向</span>
+            <span class='legend-item'>🔴 泰克机会 1-5</span>
+        </div>
+
+        <div class='controls'>
+            <input type='text' id='search-input' placeholder='搜索公司、团队、产品、技术方向...' />
+            <select id='filter-type'>
+                <option value='all'>全部类型</option>
+                <option value='company'>公司</option>
+                <option value='team'>团队/创始人</option>
+                <option value='product'>产品</option>
+                <option value='direction'>技术方向</option>
+            </select>
+            <select id='filter-tek'>
+                <option value='0'>泰克机会</option>
+                <option value='5'>⭐⭐⭐⭐⭐</option>
+                <option value='4'>⭐⭐⭐⭐</option>
+                <option value='3'>⭐⭐⭐</option>
+                <option value='2'>⭐⭐</option>
+                <option value='1'>⭐</option>
+            </select>
+            <button onclick='applyFilters()'>🔍 筛选</button>
+            <button onclick='resetGraph()'>🔄 重置</button>
+        </div>
+
+        <div id='graph-container'></div>
+
+        <div class='detail-panel' id='detail-panel'>
+            <h3 id='detail-title'></h3>
+            <div id='detail-body'></div>
+        </div>
+
+        <div class='view-toggle'>
+            <button class='btn-switch active' id='view-graph-btn' onclick='showView("graph")'>🕸️ 图谱视图</button>
+            <button class='btn-switch' id='view-list-btn' onclick='showView("list")'>📊 列表视图</button>
+        </div>
+        <div id='list-container' style='display:none;'></div>
+
+        <footer style='text-align:center; padding:20px; color:#666; font-size:0.8em; margin-top:20px;'>
+            <p>数据来源：CTRL创拓人力公众号《国内serdes相关产品公司汇总》 · 小七仔 Dashboard</p>
+            <p style='margin-top:6px;'>节点可拖拽 · 滚轮缩放 · 点击查看详情</p>
+        </footer>
+    </div>
+
+    <script>
+        // ==================== BUILD GRAPH ====================
+        function tekStars(n) {
+            if (!n) return '';
+            return '🔴'.repeat(n) + '⚪'.repeat(5 - n);
+        }
+
+        const COLORS = {
+            company: { bg: '#4fc3f7', border: '#0288d1', highlight: { bg: '#81d4fa', border: '#0277bd' } },
+            team: { bg: '#ffb74d', border: '#f57c00', highlight: { bg: '#ffcc80', border: '#ef6c00' } },
+            product: { bg: '#81c784', border: '#388e3c', highlight: { bg: '#a5d6a7', border: '#2e7d32' } },
+            direction: { bg: '#ce93d8', border: '#7b1fa2', highlight: { bg: '#e1bee7', border: '#6a1b9a' } }
+        };
+
+        function buildGraph() {
+            const nodes = [];
+            const edges = [];
+            const nodeMap = {};
+
+            // Company nodes
+            DATA.institutions.forEach(c => {
+                const tek = c.tek || 0;
+                const node = {
+                    id: 'comp-' + c.id,
+                    label: c.name + '\n' + tekStars(tek),
+                    title: `<b>${c.name}</b><br/>${c.type} · ${c.location}<br/>机会: ${tekStars(tek)}`,
+                    shape: 'box',
+                    color: COLORS.company,
+                    font: { color: '#fff', size: 11, face: 'sans-serif' },
+                    group: 'company',
+                    dataType: 'company'
+                };
+                nodes.push(node);
+                nodeMap['comp-' + c.id] = c;
+            });
+
+            // Team nodes
+            DATA.teams.forEach(t => {
+                const node = {
+                    id: 'team-' + t.id,
+                    label: t.name,
+                    title: `<b>${t.name}</b><br/>${t.role}<br/>产品: ${t.product}<br/>技术: ${(t.tech || []).join(', ')}`,
+                    shape: 'ellipse',
+                    color: COLORS.team,
+                    font: { color: '#fff', size: 9, face: 'sans-serif' },
+                    group: 'team',
+                    dataType: 'team'
+                };
+                nodes.push(node);
+                nodeMap['team-' + t.id] = t;
+
+                // Edge: team -> company
+                if (t.comp) {
+                    edges.push({
+                        from: 'team-' + t.id,
+                        to: 'comp-' + t.comp,
+                        color: { color: '#ffb74d', opacity: 0.5 },
+                        width: 1.2,
+                        title: `${t.name} → ${nodeMap['comp-' + t.comp]?.name || t.comp}`
+                    });
+                }
+            });
+
+            // Product nodes
+            DATA.products.forEach(p => {
+                const tek = p.tek || 0;
+                const node = {
+                    id: 'prod-' + p.id,
+                    label: p.name,
+                    title: `<b>${p.name}</b><br/>${p.desc || ''}<br/>状态: ${p.status || ''}<br/>机会: ${tekStars(tek)}`,
+                    shape: 'diamond',
+                    color: COLORS.product,
+                    font: { color: '#fff', size: 9, face: 'sans-serif' },
+                    group: 'product',
+                    dataType: 'product'
+                };
+                nodes.push(node);
+                nodeMap['prod-' + p.id] = p;
+
+                // Edge: product -> company
+                if (p.comp) {
+                    edges.push({
+                        from: 'prod-' + p.id,
+                        to: 'comp-' + p.comp,
+                        color: { color: '#81c784', opacity: 0.5 },
+                        width: 1.2,
+                        dashes: [5, 3],
+                        title: `产品: ${p.name} @ ${nodeMap['comp-' + p.comp]?.name || p.comp}`
+                    });
+                }
+            });
+
+            // Direction nodes
+            DATA.directions.forEach(d => {
+                const tek = d.tek || 0;
+                const node = {
+                    id: 'dir-' + d.id,
+                    label: d.name,
+                    title: `<b>${d.name}</b><br/>${d.desc || ''}<br/>测试需求: ${d.equip || '—'}<br/>机会: ${tekStars(tek)}`,
+                    shape: 'star',
+                    color: COLORS.direction,
+                    font: { color: '#fff', size: 9, face: 'sans-serif' },
+                    group: 'direction',
+                    dataType: 'direction'
+                };
+                nodes.push(node);
+                nodeMap['dir-' + d.id] = d;
+
+                // Edge: direction -> companies
+                if (d.companies) {
+                    d.companies.forEach(cid => {
+                        edges.push({
+                            from: 'dir-' + d.id,
+                            to: 'comp-' + cid,
+                            color: { color: '#ce93d8', opacity: 0.3 },
+                            width: 0.8,
+                            dashes: [2, 4],
+                            title: `方向: ${d.name}`
+                        });
+                    });
+                }
+            });
+
+            return { nodes, edges, nodeMap };
+        }
+
+        // ==================== NETWORK ====================
+        let network;
+        let currentNodes;
+        let currentEdges;
+        const container = document.getElementById('graph-container');
+
+        function getOptions() {
+            return {
+                physics: {
+                    solver: 'forceAtlas2Based',
+                    forceAtlas2Based: {
+                        gravitationalConstant: -40,
+                        centralGravity: 0.008,
+                        springLength: 200,
+                        springConstant: 0.04,
+                        damping: 0.5
+                    },
+                    stabilization: { iterations: 200 }
+                },
+                layout: {
+                    improvedLayout: true
+                },
+                edges: {
+                    smooth: { type: 'continuous' }
+                },
+                groups: {
+                    company: { shape: 'box', color: COLORS.company },
+                    team: { shape: 'ellipse', color: COLORS.team },
+                    product: { shape: 'diamond', color: COLORS.product },
+                    direction: { shape: 'star', color: COLORS.direction }
+                },
+                interaction: {
+                    hover: true,
+                    tooltipDelay: 200,
+                    navigationButtons: true,
+                    keyboard: true
+                },
+                manipulation: { enabled: true }
+            };
+        }
+
+        function initGraph() {
+            const data = buildGraph();
+            currentNodes = new vis.DataSet(data.nodes);
+            currentEdges = new vis.DataSet(data.edges);
+            network = new vis.Network(container,
+                { nodes: currentNodes, edges: currentEdges },
+                getOptions()
+            );
+
+            network.on('click', function(params) {
+                if (params.nodes.length > 0) {
+                    showDetail(params.nodes[0]);
+                } else {
+                    document.getElementById('detail-panel').classList.remove('visible');
+                }
+            });
+
+            updateStats(data.nodes);
+        }
+
+        function updateStats(nodes) {
+            document.getElementById('stats').innerHTML = `
+                <div class='stat-card'><div class='num'>${DATA.institutions.length}</div><div class='label'>🏢 公司</div></div>
+                <div class='stat-card'><div class='num'>${DATA.teams.length}</div><div class='label'>👤 团队/创始人</div></div>
+                <div class='stat-card'><div class='num'>${DATA.products.length}</div><div class='label'>🚀 产品</div></div>
+                <div class='stat-card'><div class='num'>${DATA.directions.length}</div><div class='label'>📐 技术方向</div></div>
+                <div class='stat-card'><div class='num'>${DATA.institutions.filter(i => i.tek >= 4).length}</div><div class='label'>🔴 高机会(4-5分)</div></div>
+            `;
+        }
+
+        // ==================== DETAIL PANEL ====================
+        function showDetail(nodeId) {
+            const panel = document.getElementById('detail-panel');
+            const title = document.getElementById('detail-title');
+            const body = document.getElementById('detail-body');
+            panel.classList.add('visible');
+
+            if (nodeId.startsWith('comp-')) {
+                const id = nodeId.replace('comp-', '');
+                const comp = DATA.institutions.find(c => c.id === id);
+                if (!comp) return;
+                title.textContent = '🏢 ' + comp.name;
+                const teams = DATA.teams.filter(t => t.comp === id);
+                const products = DATA.products.filter(p => p.comp === id);
+                const dirs = DATA.directions.filter(d => d.companies && d.companies.includes(id));
+                body.innerHTML = `
+                    <div class='info-row'><span class='info-label'>类型</span><span class='info-value'>${comp.type}</span></div>
+                    <div class='info-row'><span class='info-label'>地点</span><span class='info-value'>${comp.location}</span></div>
+                    <div class='info-row'><span class='info-label'>机会</span><span class='info-value tek-stars'>${tekStars(comp.tek)}</span></div>
+                    ${comp.desc ? `<div class='info-row'><span class='info-label'>简介</span><span class='info-value'>${comp.desc}</span></div>` : ''}
+                    ${teams.length ? `<div class='info-row'><span class='info-label'>团队</span><span class='info-value'>${teams.map(t => `<span class='tag'>${t.name}</span>`).join(' ')}</span></div>` : ''}
+                    ${products.length ? `<div class='info-row'><span class='info-label'>产品</span><span class='info-value'>${products.map(p => `<span class='tag'>${p.name}</span>`).join(' ')}</span></div>` : ''}
+                    ${dirs.length ? `<div class='info-row'><span class='info-label'>技术方向</span><span class='info-value'>${dirs.map(d => `<span class='tag'>${d.name}</span>`).join(' ')}</span></div>` : ''}
+                `;
+            } else if (nodeId.startsWith('team-')) {
+                const id = nodeId.replace('team-', '');
+                const t = DATA.teams.find(t => t.id === id);
+                if (!t) return;
+                title.textContent = '👤 ' + t.name;
+                const comp = DATA.institutions.find(c => c.id === t.comp);
+                body.innerHTML = `
+                    <div class='info-row'><span class='info-label'>职位</span><span class='info-value'>${t.role || '—'}</span></div>
+                    ${comp ? `<div class='info-row'><span class='info-label'>公司</span><span class='info-value'>${comp.name} (${comp.location})</span></div>` : ''}
+                    <div class='info-row'><span class='info-label'>主导产品</span><span class='info-value'>${t.product || '—'}</span></div>
+                    <div class='info-row'><span class='info-label'>技术领域</span><span class='info-value'>${(t.tech || []).join('、')}</span></div>
+                    ${t.note ? `<div class='info-row'><span class='info-label'>备注</span><span class='info-value'>${t.note}</span></div>` : ''}
+                `;
+            } else if (nodeId.startsWith('prod-')) {
+                const id = nodeId.replace('prod-', '');
+                const p = DATA.products.find(p => p.id === id);
+                if (!p) return;
+                title.textContent = '🚀 ' + p.name;
+                const comp = DATA.institutions.find(c => c.id === p.comp);
+                body.innerHTML = `
+                    ${comp ? `<div class='info-row'><span class='info-label'>公司</span><span class='info-value'>${comp.name}</span></div>` : ''}
+                    <div class='info-row'><span class='info-label'>状态</span><span class='info-value'>${p.status || '—'}</span></div>
+                    <div class='info-row'><span class='info-label'>描述</span><span class='info-value'>${p.desc || '—'}</span></div>
+                    <div class='info-row'><span class='info-label'>工艺平台</span><span class='info-value'>${p.platform || '—'}</span></div>
+                    ${p.client ? `<div class='info-row'><span class='info-label'>目标客户</span><span class='info-value'>${p.client.map(c => `<span class='tag'>${c}</span>`).join(' ')}</span></div>` : ''}
+                    ${p.tek ? `<div class='info-row'><span class='info-label'>泰克机会</span><span class='info-value tek-stars'>${tekStars(p.tek)}</span></div>` : ''}
+                `;
+            } else if (nodeId.startsWith('dir-')) {
+                const id = nodeId.replace('dir-', '');
+                const d = DATA.directions.find(d => d.id === id);
+                if (!d) return;
+                title.textContent = '📐 ' + d.name;
+                const compNames = (d.companies || []).map(cid => {
+                    const c = DATA.institutions.find(cc => cc.id === cid);
+                    return c ? c.name : cid;
+                });
+                body.innerHTML = `
+                    <div class='info-row'><span class='info-label'>描述</span><span class='info-value'>${d.desc || '—'}</span></div>
+                    <div class='info-row'><span class='info-label'>相关公司</span><span class='info-value'>${compNames.join('、')}</span></div>
+                    <div class='info-row'><span class='info-label'>测试需求</span><span class='info-value'>${d.equip || '—'}</span></div>
+                    ${d.tek ? `<div class='info-row'><span class='info-label'>泰克机会</span><span class='info-value tek-stars'>${tekStars(d.tek)}</span></div>` : ''}
+                `;
+            }
+        }
+
+        // ==================== FILTERS ====================
+        function applyFilters() {
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const filterType = document.getElementById('filter-type').value;
+            const filterTek = parseInt(document.getElementById('filter-tek').value);
+
+            const data = buildGraph();
+            let filteredNodes = data.nodes;
+
+            if (filterType !== 'all') {
+                const prefix = filterType === 'company' ? 'comp-' :
+                    filterType === 'team' ? 'team-' :
+                    filterType === 'product' ? 'prod-' : 'dir-';
+                filteredNodes = filteredNodes.filter(n => n.id.startsWith(prefix));
+            }
+
+            if (search) {
+                filteredNodes = filteredNodes.filter(n => n.label.toLowerCase().includes(search));
+            }
+
+            if (filterTek > 0) {
+                filteredNodes = filteredNodes.filter(n => {
+                    if (n.id.startsWith('comp-')) {
+                        const id = n.id.replace('comp-', '');
+                        const comp = DATA.institutions.find(c => c.id === id);
+                        return comp && comp.tek === filterTek;
+                    }
+                    if (n.id.startsWith('prod-')) {
+                        const id = n.id.replace('prod-', '');
+                        const prod = DATA.products.find(p => p.id === id);
+                        return prod && prod.tek === filterTek;
+                    }
+                    if (n.id.startsWith('dir-')) {
+                        const id = n.id.replace('dir-', '');
+                        const dir = DATA.directions.find(d => d.id === id);
+                        return dir && dir.tek === filterTek;
+                    }
+                    return true;
+                });
+            }
+
+            const filteredIds = new Set(filteredNodes.map(n => n.id));
+            const filteredEdges = data.edges.filter(e =>
+                filteredIds.has(e.from) && filteredIds.has(e.to)
+            );
+
+            currentNodes.clear();
+            currentEdges.clear();
+            currentNodes.add(filteredNodes);
+            currentEdges.add(filteredEdges);
+        }
+
+        function resetGraph() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('filter-type').value = 'all';
+            document.getElementById('filter-tek').value = '0';
+            document.getElementById('detail-panel').classList.remove('visible');
+            const data = buildGraph();
+            currentNodes.clear();
+            currentEdges.clear();
+            currentNodes.add(data.nodes);
+            currentEdges.add(data.edges);
+        }
+
+        // ==================== LIST VIEW ====================
+        function showView(view) {
+            document.getElementById('view-graph-btn').className = 'btn-switch' + (view === 'graph' ? ' active' : '');
+            document.getElementById('view-list-btn').className = 'btn-switch' + (view === 'list' ? ' active' : '');
+            if (view === 'graph') {
+                document.getElementById('graph-container').style.display = 'block';
+                document.getElementById('detail-panel').style.display = 'block';
+                document.getElementById('list-container').style.display = 'none';
+                if (network) network.redraw();
+            } else {
+                document.getElementById('graph-container').style.display = 'none';
+                document.getElementById('detail-panel').style.display = 'none';
+                document.getElementById('list-container').style.display = 'block';
+                buildListView();
+            }
+        }
+
+        function buildListView() {
+            const container = document.getElementById('list-container');
+            let html = '';
+
+            // 按分类展示
+            DATA.categories.forEach(cat => {
+                const comps = cat.companies.map(cid => DATA.institutions.find(c => c.id === cid)).filter(Boolean);
+                html += `<div class='cat-section'>`;
+                html += `<div class='cat-header' onclick='toggleCat(this)'>📂 ${cat.name} <span class='arrow'>▼</span></div>`;
+                html += `<div class='cat-desc'>${cat.desc} · 共 ${comps.length} 家公司</div>`;
+                html += `<div class='cat-content'>`;
+                html += `<table><tr><th>公司</th><th>类型</th><th>地点</th><th>核心产品</th><th>团队</th><th>泰克机会</th></tr>`;
+                comps.forEach(c => {
+                    const teams = DATA.teams.filter(t => t.comp === c.id);
+                    const products = DATA.products.filter(p => p.comp === c.id);
+                    html += `<tr>
+                        <td><b>${c.name}</b></td>
+                        <td>${c.type}</td>
+                        <td>${c.location}</td>
+                        <td>${products.map(p => p.name).join('<br/>')}</td>
+                        <td>${teams.map(t => t.name).join('<br/>')}</td>
+                        <td class='tek-stars'>${tekStars(c.tek)}</td>
+                    </tr>`;
+                });
+                html += `</table></div></div>`;
+            });
+
+            // 技术方向表
+            html += `<div class='cat-section' style='margin-top:16px;'>`;
+            html += `<div class='cat-header' onclick='toggleCat(this)'>📐 技术方向全景 <span class='arrow'>▼</span></div>`;
+            html += `<div class='cat-content'>`;
+            html += `<table><tr><th>技术方向</th><th>测试需求</th><th>泰克机会</th><th>相关公司</th></tr>`;
+            DATA.directions.forEach(d => {
+                const compNames = (d.companies || []).map(cid => {
+                    const c = DATA.institutions.find(cc => cc.id === cid);
+                    return c ? c.name : cid;
+                });
+                html += `<tr>
+                    <td><b>${d.name}</b></td>
+                    <td>${d.equip || '—'}</td>
+                    <td class='tek-stars'>${tekStars(d.tek)}</td>
+                    <td>${compNames.join('、')}</td>
+                </tr>`;
+            });
+            html += `</table></div></div>`;
+
+            // 全部公司总表
+            html += `<div class='cat-section' style='margin-top:16px;'>`;
+            html += `<div class='cat-header' onclick='toggleCat(this)'>🏢 全部公司一览（${DATA.institutions.length}家）<span class='arrow'>▼</span></div>`;
+            html += `<div class='cat-content'>`;
+            html += `<table><tr><th>公司</th><th>类型</th><th>地点</th><th>融资/上市</th><th>核心产品</th><th>创始人/核心团队</th><th>泰克机会</th></tr>`;
+            DATA.institutions.forEach(c => {
+                const teams = DATA.teams.filter(t => t.comp === c.id);
+                const products = DATA.products.filter(p => p.comp === c.id);
+                html += `<tr>
+                    <td><b>${c.name}</b></td>
+                    <td>${c.type}</td>
+                    <td>${c.location}</td>
+                    <td>${c.desc ? c.desc.substring(0, 30) : '—'}</td>
+                    <td>${products.map(p => p.name).join('<br/>')}</td>
+                    <td>${teams.map(t => `${t.name}（${t.role}）`).join('<br/>')}</td>
+                    <td class='tek-stars'>${tekStars(c.tek)}</td>
+                </tr>`;
+            });
+            html += `</table></div></div>`;
+
+            html += `<div class='source-note'>数据来源：CTRL创拓人力公众号《国内serdes相关产品公司汇总》。信息可能存在偏差，仅供参考。小七仔整理于 2026-05-18</div>`;
+
+            container.innerHTML = html;
+        }
+
+        function toggleCat(el) {
+            const content = el.parentElement.querySelector('.cat-content');
+            const arrow = el.querySelector('.arrow');
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                arrow.textContent = '▼';
+            } else {
+                content.style.display = 'none';
+                arrow.textContent = '▶';
+            }
+        }
+
+        // ==================== INIT ====================
+        window.onload = function() {
+            initGraph();
+        };
+    </script>
+    <script src='serdes-china-data.js'></script>
+</body>
+</html>
