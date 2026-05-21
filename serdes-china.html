@@ -129,7 +129,29 @@
 
         @media (max-width: 800px) {
             .stats-row { grid-template-columns: repeat(3, 1fr); }
-            #graph-container { height: 500px; }
+            #graph-container { height: 450px; }
+            .list-view table { min-width: auto; font-size: 0.72em; }
+            .list-view th, .list-view td { padding: 4px 6px; white-space: normal; word-break: break-word; }
+            /* 手机用卡片布局替代表格 */
+            .mobile-card { display: block; }
+            .mobile-card .card-item {
+                background: rgba(255,255,255,0.04); border-radius: 10px;
+                padding: 10px 12px; margin-bottom: 8px;
+                border-left: 3px solid #00d4ff;
+            }
+            .mobile-card .card-item .ci-row {
+                display: flex; gap: 6px; margin-bottom: 4px;
+                font-size: 0.78em;
+            }
+            .mobile-card .card-item .ci-label {
+                color: #888; min-width: 50px; flex-shrink: 0;
+            }
+            .mobile-card .card-item .ci-value { color: #e0e0e0; flex: 1; word-break: break-word; }
+            .mobile-card .card-item .ci-name {
+                font-size: 0.95em; font-weight: bold; color: #00d4ff; margin-bottom: 4px;
+            }
+            .mobile-card .card-item .ci-tek { float: right; font-size: 0.75em; }
+            .view-toggle { gap: 20px; }
         }
     </style>
 </head>
@@ -539,71 +561,124 @@
             }
         }
 
+        function isMobile() {
+            return window.innerWidth < 800;
+        }
+
+        function renderCompanyCards(comps) {
+            let html = '<div class="mobile-card">';
+            comps.forEach(c => {
+                const teams = DATA.teams.filter(t => t.comp === c.id);
+                const products = DATA.products.filter(p => p.comp === c.id);
+                const productStr = products.map(p => p.name).join('<br/>');
+                const teamStr = teams.map(t => t.name).join('<br/>');
+                html += `<div class='card-item'>`;
+                html += `<div class='ci-tek tek-stars'>${tekStars(c.tek)}</div>`;
+                html += `<div class='ci-name'>${c.name}</div>`;
+                html += `<div class='ci-row'><span class='ci-label'>类型</span><span class='ci-value'>${c.type}</span></div>`;
+                html += `<div class='ci-row'><span class='ci-label'>地点</span><span class='ci-value'>${c.location}</span></div>`;
+                if (productStr) html += `<div class='ci-row'><span class='ci-label'>产品</span><span class='ci-value'>${productStr}</span></div>`;
+                if (teamStr) html += `<div class='ci-row'><span class='ci-label'>团队</span><span class='ci-value'>${teamStr}</span></div>`;
+                html += `</div>`;
+            });
+            html += '</div>';
+            return html;
+        }
+
         function buildListView() {
             const container = document.getElementById('list-container');
+            const mobile = isMobile();
             let html = '';
 
-            // 按分类展示
+            // 分类卡片/表格
             DATA.categories.forEach(cat => {
                 const comps = cat.companies.map(cid => DATA.institutions.find(c => c.id === cid)).filter(Boolean);
                 html += `<div class='cat-section'>`;
                 html += `<div class='cat-header' onclick='toggleCat(this)'>📂 ${cat.name} <span class='arrow'>▼</span></div>`;
                 html += `<div class='cat-desc'>${cat.desc} · 共 ${comps.length} 家公司</div>`;
                 html += `<div class='cat-content'>`;
-                html += `<table><tr><th>公司</th><th>类型</th><th>地点</th><th>核心产品</th><th>团队</th><th>泰克机会</th></tr>`;
-                comps.forEach(c => {
+                if (mobile) {
+                    html += renderCompanyCards(comps);
+                } else {
+                    html += `<table><tr><th>公司</th><th>类型</th><th>地点</th><th>核心产品</th><th>团队</th><th>泰克机会</th></tr>`;
+                    comps.forEach(c => {
+                        const teams = DATA.teams.filter(t => t.comp === c.id);
+                        const products = DATA.products.filter(p => p.comp === c.id);
+                        html += `<tr>
+                            <td><b>${c.name}</b></td>
+                            <td>${c.type}</td>
+                            <td>${c.location}</td>
+                            <td>${products.map(p => p.name).join('<br/>')}</td>
+                            <td>${teams.map(t => t.name).join('<br/>')}</td>
+                            <td class='tek-stars'>${tekStars(c.tek)}</td>
+                        </tr>`;
+                    });
+                    html += `</table>`;
+                }
+                html += `</div></div>`;
+            });
+
+            // 技术方向表（手机端也保持表格，但减少列）
+            html += `<div class='cat-section' style='margin-top:16px;'>`;
+            html += `<div class='cat-header' onclick='toggleCat(this)'>📐 技术方向全景 <span class='arrow'>▼</span></div>`;
+            html += `<div class='cat-content'>`;
+            if (mobile) {
+                html += '<div class="mobile-card">';
+                DATA.directions.forEach(d => {
+                    const compNames = (d.companies || []).map(cid => {
+                        const c = DATA.institutions.find(cc => cc.id === cid);
+                        return c ? c.name : cid;
+                    });
+                    html += `<div class='card-item'>`;
+                    html += `<div class='ci-tek tek-stars'>${tekStars(d.tek)}</div>`;
+                    html += `<div class='ci-name'>${d.name}</div>`;
+                    html += `<div class='ci-row'><span class='ci-label'>测试需求</span><span class='ci-value'>${d.equip || '—'}</span></div>`;
+                    html += `<div class='ci-row'><span class='ci-label'>公司</span><span class='ci-value'>${compNames.join('、')}</span></div>`;
+                    html += `</div>`;
+                });
+                html += '</div>';
+            } else {
+                html += `<table><tr><th>技术方向</th><th>测试需求</th><th>泰克机会</th><th>相关公司</th></tr>`;
+                DATA.directions.forEach(d => {
+                    const compNames = (d.companies || []).map(cid => {
+                        const c = DATA.institutions.find(cc => cc.id === cid);
+                        return c ? c.name : cid;
+                    });
+                    html += `<tr>
+                        <td><b>${d.name}</b></td>
+                        <td>${d.equip || '—'}</td>
+                        <td class='tek-stars'>${tekStars(d.tek)}</td>
+                        <td>${compNames.join('、')}</td>
+                    </tr>`;
+                });
+                html += `</table>`;
+            }
+            html += `</div></div>`;
+
+            // 全部公司一览（手机用卡片，桌面用表格）
+            html += `<div class='cat-section' style='margin-top:16px;'>`;
+            html += `<div class='cat-header' onclick='toggleCat(this)'>🏢 全部公司一览（${DATA.institutions.length}家）<span class='arrow'>▼</span></div>`;
+            html += `<div class='cat-content'>`;
+            if (mobile) {
+                html += renderCompanyCards(DATA.institutions);
+            } else {
+                html += `<table><tr><th>公司</th><th>类型</th><th>地点</th><th>融资/上市</th><th>核心产品</th><th>创始人/核心团队</th><th>泰克机会</th></tr>`;
+                DATA.institutions.forEach(c => {
                     const teams = DATA.teams.filter(t => t.comp === c.id);
                     const products = DATA.products.filter(p => p.comp === c.id);
                     html += `<tr>
                         <td><b>${c.name}</b></td>
                         <td>${c.type}</td>
                         <td>${c.location}</td>
+                        <td>${c.desc ? c.desc.substring(0, 30) : '—'}</td>
                         <td>${products.map(p => p.name).join('<br/>')}</td>
-                        <td>${teams.map(t => t.name).join('<br/>')}</td>
+                        <td>${teams.map(t => `${t.name}（${t.role}）`).join('<br/>')}</td>
                         <td class='tek-stars'>${tekStars(c.tek)}</td>
                     </tr>`;
                 });
-                html += `</table></div></div>`;
-            });
-
-            // 技术方向表
-            html += `<div class='cat-section' style='margin-top:16px;'>`;
-            html += `<div class='cat-header' onclick='toggleCat(this)'>📐 技术方向全景 <span class='arrow'>▼</span></div>`;
-            html += `<div class='cat-content'>`;
-            html += `<table><tr><th>技术方向</th><th>测试需求</th><th>泰克机会</th><th>相关公司</th></tr>`;
-            DATA.directions.forEach(d => {
-                const compNames = (d.companies || []).map(cid => {
-                    const c = DATA.institutions.find(cc => cc.id === cid);
-                    return c ? c.name : cid;
-                });
-                html += `<tr>
-                    <td><b>${d.name}</b></td>
-                    <td>${d.equip || '—'}</td>
-                    <td class='tek-stars'>${tekStars(d.tek)}</td>
-                    <td>${compNames.join('、')}</td>
-                </tr>`;
-            });
-            html += `</table></div></div>`;
-
-            // 全部公司总表
-            html += `<div class='cat-section' style='margin-top:16px;'>`;
-            html += `<div class='cat-header' onclick='toggleCat(this)'>🏢 全部公司一览（${DATA.institutions.length}家）<span class='arrow'>▼</span></div>`;
-            html += `<div class='cat-content'>`;
-            html += `<table><tr><th>公司</th><th>类型</th><th>地点</th><th>融资/上市</th><th>核心产品</th><th>创始人/核心团队</th><th>泰克机会</th></tr>`;
-            DATA.institutions.forEach(c => {
-                const teams = DATA.teams.filter(t => t.comp === c.id);
-                const products = DATA.products.filter(p => p.comp === c.id);
-                html += `<tr>
-                    <td><b>${c.name}</b></td>
-                    <td>${c.type}</td>
-                    <td>${c.location}</td>
-                    <td>${c.desc ? c.desc.substring(0, 30) : '—'}</td>
-                    <td>${products.map(p => p.name).join('<br/>')}</td>
-                    <td>${teams.map(t => `${t.name}（${t.role}）`).join('<br/>')}</td>
-                    <td class='tek-stars'>${tekStars(c.tek)}</td>
-                </tr>`;
-            });
-            html += `</table></div></div>`;
+                html += `</table>`;
+            }
+            html += `</div></div>`;
 
             html += `<div class='source-note'>数据来源：CTRL创拓人力公众号《国内serdes相关产品公司汇总》。信息可能存在偏差，仅供参考。小七仔整理于 2026-05-18</div>`;
 

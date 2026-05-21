@@ -109,7 +109,26 @@
 
         @media (max-width: 800px) {
             .stats-row { grid-template-columns: repeat(3, 1fr); }
-            #graph-container { height: 500px; }
+            #graph-container { height: 450px; }
+            /* 手机卡片布局 */
+            .mobile-card { display: block; }
+            .mobile-card .card-item {
+                background: rgba(255,255,255,0.04); border-radius: 10px;
+                padding: 10px 12px; margin-bottom: 8px;
+                border-left: 3px solid #4fc3f7;
+            }
+            .mobile-card .card-item .ci-row {
+                display: flex; gap: 6px; margin-bottom: 4px;
+                font-size: 0.78em;
+            }
+            .mobile-card .card-item .ci-label {
+                color: #888; min-width: 50px; flex-shrink: 0;
+            }
+            .mobile-card .card-item .ci-value { color: #e0e0e0; flex: 1; word-break: break-word; }
+            .mobile-card .card-item .ci-name {
+                font-size: 0.95em; font-weight: bold; color: #4fc3f7; margin-bottom: 4px;
+            }
+            .mobile-card .card-item .ci-tek { float: right; font-size: 0.75em; }
         }
     
         .view-toggle { display: flex; gap: 100px; justify-content: center; margin: 10px 0; }
@@ -728,20 +747,59 @@
                 a.innerText = '▶';
             }
         }
+        function isMobile() {
+            return window.innerWidth < 800;
+        }
+
+        function renderInstCards(insts) {
+            var html = '<div class="mobile-card">';
+            insts.forEach(function(inst) {
+                var rs = DATA.researchers.filter(function(r){return r.inst===inst.id;});
+                var tek = inst.tek || 0;
+                var stars = '';
+                for (var i=0; i<tek; i++) stars += '🔴';
+                for (var i=tek; i<5; i++) stars += '⚪';
+                html += '<div class="card-item">';
+                html += '<div class="ci-tek" style="color:#ff4444;">' + stars + '</div>';
+                html += '<div class="ci-name">' + inst.name + '</div>';
+                html += '<div class="ci-row"><span class="ci-label">类型</span><span class="ci-value">' + (inst.type||'') + ' · ' + (inst.location||'') + '</span></div>';
+                if (rs.length > 0) {
+                    html += '<div class="ci-row"><span class="ci-label">研究者</span><span class="ci-value">' + rs.map(function(r){return r.name;}).join('、') + '</span></div>';
+                }
+                html += '</div>';
+            });
+            html += '</div>';
+            return html;
+        }
+
         function renderList() {
             var con = document.getElementById('list-content');
             var sis = DATA.institutions.slice().sort(function(a,b){return (b.tek||0)-(a.tek||0);});
+            var mobile = isMobile();
             var htmlStr = '';
             sis.forEach(function(inst) {
                 var rs = DATA.researchers.filter(function(r){return r.inst===inst.id;});
                 htmlStr += '<div class="inst-section"><div class="inst-header" onclick="toggleInst(this)"><span>' + inst.name + '</span><span class="arrow">▼</span></div><div>';
                 if (rs.length > 0) {
-                    htmlStr += '<table><tr><th style="width:22%">研究者</th><th style="width:38%">研究方向</th><th style="width:40%">所属方向</th></tr>';
-                    rs.forEach(function(r) {
-                        var dirs = (r.directions||[]).map(function(d){return '<span class="tag" style="background:rgba(206,147,216,0.15);color:#ce93d8;">'+d+'</span>';}).join(' ');
-                        htmlStr += '<tr><td>' + r.name + '</td><td>' + (r.research||[]).join('、') + '</td><td>' + dirs + '</td></tr>';
-                    });
-                    htmlStr += '</table>';
+                    if (mobile) {
+                        htmlStr += '<div class="mobile-card">';
+                        rs.forEach(function(r) {
+                            var dirs = (r.directions||[]).join('、');
+                            htmlStr += '<div class="card-item">';
+                            htmlStr += '<div class="ci-name" style="color:#ffb74d;font-size:0.9em;">' + r.name + '</div>';
+                            htmlStr += '<div class="ci-row"><span class="ci-label">研究</span><span class="ci-value">' + (r.research||[]).join('、') + '</span></div>';
+                            if (dirs) htmlStr += '<div class="ci-row"><span class="ci-label">方向</span><span class="ci-value">' + dirs + '</span></div>';
+                            htmlStr += '</div>';
+                        });
+                        htmlStr += '</div>';
+                    } else {
+                        htmlStr += '<table><tr><th style="width:22%">研究者</th><th style="width:38%">研究方向</th><th style="width:40%">所属方向</th></tr>';
+                        rs.forEach(function(r) {
+                            var dirs = (r.directions||[]).map(function(d){return '<span class="tag" style="background:rgba(206,147,216,0.15);color:#ce93d8;">'+d+'</span>';}).join(' ');
+                            htmlStr += '<tr><td>' + r.name + '</td><td>' + (r.research||[]).join('、') + '</td><td>' + dirs + '</td></tr>';
+                        });
+                        htmlStr += '</table>';
+                    }
                 } else {
                     htmlStr += '<div style="padding:12px;color:#666;text-align:center;">暂无研究者</div>';
                 }
