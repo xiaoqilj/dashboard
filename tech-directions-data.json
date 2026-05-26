@@ -1,0 +1,187 @@
+{
+  "directions": [
+    {
+      "id": "high-speed-digital",
+      "name": "高速数字测试",
+      "status": "active",
+      "statusLabel": "跟进中",
+      "dots": 4,
+      "clients": [
+        "联想（服务器）",
+        "皇虎科技",
+        "德明利",
+        "微步科技",
+        "西部数据",
+        "紫光同创"
+      ],
+      "needs": [
+        "PCIe5 RX/TX测试",
+        "DDR5信号完整性",
+        "USB4 Preset测试",
+        "59G示波器招标"
+      ],
+      "news": [
+        "AI服务器出货量Q2同比+35%",
+        "DDR5渗透率突破60%",
+        "PCIe6.0标准草案发布"
+      ],
+      "recentVisit": "联想(5/22) · 皇虎(4/22) · 微步(4/21) · 西部数据(5/11) · 紫光同创(5/20)",
+      "nextStep": "联想59G示波器招标收尾 · 皇虎DDR5 SI测试方案跟进",
+      "visitCount": 7,
+      "updated": "",
+      "solutions": "DPO70000SX / DPOJET / TMT4"
+    },
+    {
+      "id": "automotive-electronic",
+      "name": "车载电子测试",
+      "status": "active",
+      "statusLabel": "活跃跟进",
+      "dots": 4,
+      "clients": [
+        "秋田微",
+        "中兴微电子",
+        "海尔",
+        "中汽芯/首传微",
+        "许继",
+        "CVTE"
+      ],
+      "needs": [
+        "MIPI D-PHY/C-PHY",
+        "车载以太网(10BASE-T1S)",
+        "MIPI ULPS测试",
+        "电汽协议测试"
+      ],
+      "news": [
+        "车载MIPI渗透率加速",
+        "首传微年出货3000万颗",
+        "矽立杰+首传微协议互通测试"
+      ],
+      "recentVisit": "中兴微(4/20) · 中汽芯(5/25,新) · 秋田微(4/13) · CVTE(4/21)",
+      "nextStep": "中汽芯电汽方案导入 · 中兴微MIPI ULPS方案交付",
+      "visitCount": 9,
+      "updated": "",
+      "solutions": "MSO6B / DPO7系列 / MIPI解码软件"
+    },
+    {
+      "id": "power-semiconductor",
+      "name": "功率半导体测试",
+      "status": "warm",
+      "statusLabel": "方案沟通中",
+      "dots": 3,
+      "clients": [
+        "安世半导体",
+        "先科半导体"
+      ],
+      "needs": [
+        "CMTI测试",
+        "THD分析",
+        "多通道脉冲源",
+        "SiC 1500V双脉冲测试"
+      ],
+      "news": [
+        "SiC车型渗透率突破15%",
+        "GaN快充市场年增40%",
+        "国产SiC衬底产能翻倍"
+      ],
+      "recentVisit": "安世(4/14) · 先科(5/22,SiC双脉冲方案)",
+      "nextStep": "先科1500V双脉冲测试方案交付 · 多通道脉冲源定制",
+      "visitCount": 2,
+      "updated": "",
+      "solutions": "2600系列SMU / 4210-CVU / 脉冲源"
+    },
+    {
+      "id": "servo-motor",
+      "name": "伺服电机测试",
+      "status": "warm",
+      "statusLabel": "需求明确",
+      "dots": 2,
+      "clients": [
+        "松下电机",
+        "固胜"
+      ],
+      "needs": [
+        "高压高流(1000V/100A)",
+        "电机驱动波形",
+        "编码器信号(10M)",
+        "USB1.1调试"
+      ],
+      "news": [
+        "具身机器人伺服驱动需求激增",
+        "人形机器人量产前夜",
+        "国产伺服品牌份额提升"
+      ],
+      "recentVisit": "松下(4/15) · 固胜(5/18,USB调试解决)",
+      "nextStep": "松下10项测试综合方案 · 机器人电机客户拓展",
+      "visitCount": 2,
+      "updated": "",
+      "solutions": "MSO6B / 高压差分探头 / 电流探头"
+    },
+    {
+      "id": "ai-data-center",
+      "name": "AI数据中心测试",
+      "status": "active",
+      "statusLabel": "市场热点",
+      "dots": 5,
+      "clients": [
+        "英特尔",
+        "海信",
+        "长城电源",
+        "锐凌无线",
+        "全志科技",
+        "通瑞微"
+      ],
+      "needs": [
+        "800G/1.6T光模块测试",
+        "CPO封装测试",
+        "高速SerDes测试",
+        "DDR4电源测试"
+      ],
+      "news": [
+        "NPO/LPO技术路线分化",
+        "台积电COUPE 2026量产",
+        "英伟达Spectrum-X CPO交换机",
+        "1.6T光模块2026下半年上量"
+      ],
+      "recentVisit": "英特尔(5/19,相干光) · 海信(5/19,相干光) · 长城电源(5/18,DDR4) · 锐凌无线(5/18,USB3/MPHY)",
+      "nextStep": "相干光测试方案跟进 · 全志MPHY40支持 · 光模块客户触达",
+      "visitCount": 5,
+      "updated": "",
+      "solutions": "DPO70000SX / DSA8300 / 光采样模块"
+    },
+    {
+      "id": "general-tech-support",
+      "name": "综合技术支援",
+      "status": "warm",
+      "statusLabel": "日常支持",
+      "dots": 2,
+      "clients": [
+        "爱立信",
+        "瑟为思",
+        "港科大",
+        "通瑞微",
+        "SAE东莞"
+      ],
+      "needs": [
+        "DDR测试支持",
+        "DPO7系列推广",
+        "MSO6B嵌入去嵌选件",
+        "远程技术支持"
+      ],
+      "news": [
+        "——"
+      ],
+      "recentVisit": "爱立信(4/21,DDR) · 港科大(4/28) · SAE(4/29) · 通瑞微(5/07)",
+      "nextStep": "持续技术支持，挖掘长期需求",
+      "visitCount": 8,
+      "updated": "",
+      "solutions": "全产品线技术支援"
+    }
+  ],
+  "meta": {
+    "lastUpdated": "2026-05-26",
+    "totalDirections": 6,
+    "totalClients": 22,
+    "totalNeeds": 24,
+    "activeFollowups": 12
+  }
+}
