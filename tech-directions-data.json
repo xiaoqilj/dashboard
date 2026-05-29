@@ -27,7 +27,7 @@
       ],
       "recentVisit": "联想(5/22) · 皇虎(4/22) · 微步(4/21) · 西部数据(5/11) · 紫光同创(5/20)",
       "nextStep": "联想59G示波器招标收尾 · 皇虎DDR5 SI测试方案跟进",
-      "visitCount": 7,
+      "visitCount": 2,
       "updated": "",
       "solutions": "DPO70000SX / DPOJET / TMT4"
     },
@@ -58,7 +58,7 @@
       ],
       "recentVisit": "中兴微(4/20) · 中汽芯(5/25,新) · 秋田微(4/13) · CVTE(4/21)",
       "nextStep": "中汽芯电汽方案导入 · 中兴微MIPI ULPS方案交付",
-      "visitCount": 9,
+      "visitCount": 3,
       "updated": "",
       "solutions": "MSO6B / DPO7系列 / MIPI解码软件"
     },
@@ -85,7 +85,7 @@
       ],
       "recentVisit": "安世(4/14) · 先科(5/22,SiC双脉冲方案)",
       "nextStep": "先科1500V双脉冲测试方案交付 · 多通道脉冲源定制",
-      "visitCount": 2,
+      "visitCount": 1,
       "updated": "",
       "solutions": "2600系列SMU / 4210-CVU / 脉冲源"
     },
@@ -112,7 +112,7 @@
       ],
       "recentVisit": "松下(4/15) · 固胜(5/18,USB调试解决)",
       "nextStep": "松下10项测试综合方案 · 机器人电机客户拓展",
-      "visitCount": 2,
+      "visitCount": 1,
       "updated": "",
       "solutions": "MSO6B / 高压差分探头 / 电流探头"
     },
@@ -144,7 +144,7 @@
       ],
       "recentVisit": "英特尔(5/19,相干光) · 海信(5/19,相干光) · 长城电源(5/18,DDR4) · 锐凌无线(5/18,USB3/MPHY)",
       "nextStep": "相干光测试方案跟进 · 全志MPHY40支持 · 光模块客户触达",
-      "visitCount": 5,
+      "visitCount": 4,
       "updated": "",
       "solutions": "DPO70000SX / DSA8300 / 光采样模块"
     },
@@ -172,15 +172,15 @@
       ],
       "recentVisit": "爱立信(4/21,DDR) · 港科大(4/28) · SAE(4/29) · 通瑞微(5/07)",
       "nextStep": "持续技术支持，挖掘长期需求",
-      "visitCount": 8,
+      "visitCount": 2,
       "updated": "",
       "solutions": "全产品线技术支援"
     }
   ],
   "meta": {
-    "lastUpdated": "2026-05-26",
+    "lastUpdated": "2026-05-29",
     "totalDirections": 6,
-    "totalClients": 22,
+    "totalClients": 26,
     "totalNeeds": 24,
     "activeFollowups": 12
   }
